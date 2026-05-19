@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accenture CV Page</title>
+</head>
+<body>
+<app-navbar></app-navbar>
+  <div class="page">
+    
+    <!-- Hero Image -->
+    <div class="hero-section">
+      <img
+        src="assets/images/createacv.png" class="about-img"/>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <h1>CV Reminders</h1>
+
+      <div class="intro">
+            <p>
+            Always keep your CV in MyScheduling up-to-date here:
+            <a href="https://mysched.accenture.com/me" target="_blank">https://mysched.accenture.com/</a>
+            First day in bench and whenever you complete a training.
+          </p>
+       
+
+      <p class="upload-text">
+        Create a one slider CV using the given template and upload your CV here:
+        <a href="https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV%2F%5BNEW%5D%20Manila&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92&csf=1&CID=47b0d141%2Da5b2%2D4c45%2D804d%2D1b3a989e3e8f&FolderCTID=0x012000D6614AA95582D043AA1C56996A7E8156" target="_blank">Manila</a> /
+        <a href="https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV%2F%5BNEW%5D%20Cebu&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92&csf=1&CID=47b0d141%2Da5b2%2D4c45%2D804d%2D1b3a989e3e8f&FolderCTID=0x012000D6614AA95582D043AA1C56996A7E8156" target="_blank">Cebu</a>
+      </p>
+      </div>
+
+
+<section class="section">
+  <h2>CV Guidelines</h2>
+
+  <table class="guidelines-table">
+    <tr>
+
+      <!-- LEFT SIDE (NOW: Skills + Experience) -->
+      <td class="left">
+
+        <ul>
+          <li>Written in <b>third-person point of view</b></li>
+          <li>Experience listed from <b>latest to oldest</b></li>
+
+          <li>Project and Experience Details
+            <ul>
+              <li>Project name / Client name included</li>
+              <li>Project date duration specified</li>
+              <li>Role and technologies used ex:FrontEnd Developers ( ReactJS, VueJS, MySQL )</li>
+              <li>Responsibilities and/or achievements listed</li>
+            </ul>
+          </li>
+
+          <li>Skills and Trainings
+            <ul>
+              <li>All skills listed</li>
+              <li>All trainings completed listed</li>
+              <li>Ongoing and completed <b>SONG Bench trainings/activities</b><br> included in Work Experience</li>
+            </ul>
+          </li>
+
+        </ul>
+
+      </td>
+
+        <td class="right">
+          <ul>
+            <li>
+              CV Format
+              <ul>
+                <li><b>One-Slider CV</b> created</li>
+                <li>Preferred template used</li>
+                <li>File name format: <b>EID_OneSliderCV</b></li>
+                <li>File size does <b>not exceed 200 KB</b></li>
+                <li><b>Professional profile photo inserted</b></li>
+              </ul>
+            </li>
+          </ul>
+        </td>
+
+    </tr>
+  </table>
+</section>
+
+
+      <!-- Button -->
+      <div class="btn-wrapper">
+        <button class="complete-btn" (click)="markCompleted()">Complete task </button>
+        <!-- <button class="finish-btn" (click)="markCompleted()" [disabled]="!canComplete()">COMPLETE</button> -->
+      </div>
+
+
+      <!-- ⬇️ INSERT HERE -->
+<p *ngIf="isWaiting">
+ Updating status... redirecting in 30 seconds
+</p>

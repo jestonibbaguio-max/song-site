@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Create CV",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/my-cv"
+  },
+  {
+    "id": 2,
+    "title": "ATCP Song Skills Matrix",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/my-skills-matrix"
+  },
+  {
+    "id": 3,
+    "title": "myCompentency",
+    "startDate": "2026-05-15",
+    "endDate": "2026-05-15",
+    "status": "Completed",
+    "progress": 100,
+    "url": "/my-mycompetency"
+  },
+  {
+    "id": 4,
+    "title": "Update Contact",
+    "startDate": "2026-05-15",
+    "endDate": "",
+    "status": "In Progress",
+    "progress": 100,
+    "url": "/my-update-contact"
+  },
+  {
+    "id": 5,
+    "title": "Workday",
+    "startDate": "2026-05-15",
+    "endDate": "",
+    "status": "In Progress",
+    "progress": 100,
+    "url": "/my-workday"
+  }
+]

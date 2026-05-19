@@ -1,0 +1,106 @@
+<div class="display1" *ngIf="items && items.length > 0">
+  <div *ngFor="let item of items; let i = index" class="accordion-item" [class.active]="item.isExpanded">
+
+    <button class="toggle-btn"
+      [class.highlight-current]="item.highlightCurrentClick || item.highlightCurrentHover"
+      [class.highlight-top-next]="item.highlightTopDuePrevClick || item.highlightTopDuePrevHover"
+      [class.dimmed]="hasActiveOrHover() &&
+        !(item.highlightCurrentClick || item.highlightCurrentHover ||
+          item.highlightTopDuePrevClick || item.highlightTopDuePrevHover)"
+      (click)="toggle(i)"
+      (mouseenter)="hover(i)"
+      (mouseleave)="leaveHover()">
+
+      <div class="left-group">
+        <span
+          *ngIf="item.route"
+          class="link-btn"
+          (click)="item && goToPage(item); $event.stopPropagation()">
+        </span>
+        <div class="label-meta">
+          <span class="label-clickable"
+            (click)="goToPageOnly(item); $event.stopPropagation()">
+            {{ item.label }}
+          </span>
+          <div class="meta-group">
+            <div class="meta" *ngIf="item.startDate">
+              Start: {{ item.startDate | date:'medium' }}
+            </div>
+            <div class="meta" *ngIf="item.endDate">
+              End: {{ item.endDate | date:'medium' }}
+            </div>
+            <div class="meta" *ngIf="item.startDate && item.endDate">
+              Duration: {{ getDuration(item.startDate, item.endDate) }}
+            </div>
+            <div class="meta" *ngIf="item.lastUpdated">
+              Updated: {{ item.lastUpdated | date:'medium' }}
+            </div>
+          </div>
+        </div>
+        <span class="status-badge"
+              *ngIf="item.status"
+              [ngClass]="{
+                'in-progress': item.status === 'In Progress',
+                'completed': item.status === 'Completed',
+                'blocked': item.status === 'Blocked'
+              }">
+          {{ item.status }}
+        </span>
+      </div>
+      <span class="sign">{{ item.isExpanded ? '-' : '+' }}</span>
+    </button>
+
+    <div class="content" *ngIf="item.isExpanded">
+      <div class="content-wrapper" [ngClass]="{'single-column': item.label === 'Workday'}">
+        <div class="text-container">
+          <p class="text" *ngIf="item.text && item.label !== 'Workday'">{{ item.text }}</p>
+
+          <ng-container *ngIf="item.sections">
+            <div *ngFor="let section of item.sections">
+              <p class="text">{{ section.text }}</p>
+              <ul *ngIf="section.points" class="purple-bullets">
+                <li *ngFor="let point of section.points">{{ point }}</li>
+              </ul>
+            </div>
+          </ng-container>
+
+          <div *ngIf="item.label === 'Workday'" class="workday-subsection">
+            <div class="workday-header-row">
+              <h4>Update your Priorities</h4>
+              <div class="workday-actions">
+                <div *ngIf="item.status" class="workday-title-status">
+                  <span class="status-value" [ngClass]="'status-' + item.status.toLowerCase().replace(' ', '-')">
+                    {{ item.status }}
+                  </span>
+                </div>
+                <button
+                  class="link-btn-below workday-inline-btn"
+                  (click)="openWorkdayGuidelines()">
+                  Start
+                </button>
+              </div>
+            </div>
+            <p>
+              Open the Workday guidelines tab to update your priorities. Once finished, mark the task as complete there and return to Journey.
+            </p>
+            <div class="workday-subsection-status">
+              <div *ngIf="item.startDate && item.endDate" class="date-info">
+                Duration: {{ getDuration(item.startDate, item.endDate) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-container" *ngIf="item.label !== 'Workday'">
+          <img *ngIf="item.image" [src]="item.image" alt="{{ item.label }}" />
+          <button
+            *ngIf="item.route && item.label !== 'Workday'"
+            class="link-btn-below"
+            (click)="goToPage(item)">
+            Start
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

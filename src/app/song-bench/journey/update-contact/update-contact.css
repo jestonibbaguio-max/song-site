@@ -1,0 +1,122 @@
+body {
+    background: #000;
+    color: #fff;
+}
+
+.update-contact-header {
+    display: flex;
+    flex-flow: column;
+    gap: 24px;
+    padding: 32px 0;
+
+    .content {
+        h1 {
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        p {
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+    }
+
+    .btn-back {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        color: white;
+    }
+}
+
+.update-contact-card {
+    display: flex;
+    flex-flow: column;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.card-group {
+    min-height: 150px;
+    width: 100%;
+    border-radius: 8px;
+
+    &.step1 {
+        background: linear-gradient(rgba(70, 0, 115, 0.6)), url(/assets/images/step1.jpg) center / cover no-repeat;
+    }
+
+    &.step2 {
+        background: linear-gradient(rgba(70, 0, 115, 0.6)), url(/assets/images/step2.jpg) center / cover no-repeat;
+    }
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 33px 50px;
+}
+
+.card-title {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.card-text {
+    color: white;
+    font-size: 18px;
+    line-height: 24px;
+
+    a {
+        position: relative;
+        color: #FF00E1;
+        font-weight: 700;
+        text-decoration: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+            height: 2px;
+            background-color: currentColor;
+        
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover::after {
+            transform: scaleX(1);
+        }
+    }
+}
+
+.update-contact-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 32px;
+
+    .btn-complete {
+        background: #7500C0;
+        color: #fff;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .btn-complete:hover {
+        background: #5E00A0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+}

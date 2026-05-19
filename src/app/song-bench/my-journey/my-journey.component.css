@@ -1,0 +1,17 @@
+.header1 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 20px;
+}
+.home-btn1 {
+  text-decoration: none;
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.home-btn1:hover {
+  background: #0056b3;
+}

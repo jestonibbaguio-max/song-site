@@ -1,0 +1,366 @@
+:host {
+  display: block;
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+}
+
+.display1 {
+  width: 90%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  padding-bottom: 100px;
+}
+
+/* Accordion item */
+.accordion-item {
+  width: 100%;
+}
+
+/* BUTTON = ALL LINES COME FROM HERE */
+.toggle-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  /* 🔥 THIS creates the separator line */
+  border-top: 2px solid #a100ff;
+  padding: 25px 0;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  transition: border-color 0.3s ease;
+    color: #fff;
+  font-size: 24px;
+  text-align: left;
+}
+
+/* DIMMED (white/faded lines) */
+.toggle-btn.dimmed {
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.left-group {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.label-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.status-badge {
+  margin-left: auto;
+}
+
+/* ACTIVE / HOVER stays purple */
+.toggle-btn.highlight-current,
+.toggle-btn.highlight-top-next {
+  border-top: 2px solid #a100ff;
+}
+
+/* Remove bottom border from the header when its content is expanded */
+.accordion-item.active .toggle-btn {
+  border-bottom: none;
+}
+
+/* LAST LINE (bottom of accordion) */
+.accordion-item:last-child .toggle-btn {
+  border-bottom: 2px solid #a100ff;
+}
+
+/* Override last-child bottom border for the active item */
+.accordion-item.active:last-child .toggle-btn {
+  border-bottom: none;
+}
+
+/* Keep a final border under the expanded content for the last item */
+.accordion-item.active:last-child .content {
+  border-bottom: 2px solid #a100ff;
+}
+
+/* DIMMED LAST LINE */
+.accordion-item:last-child .toggle-btn.dimmed {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* PLUS / MINUS */
+.sign {
+  font-size: 28px;
+  color: #fff;
+}
+
+/* CONTENT */
+.content {
+  color: #ccc;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TEXT WIDTH */
+.text-container {
+  max-width: 700px;
+}
+
+.text {
+  white-space: pre-line;
+  font-size: 24px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* BULLETS */
+.purple-bullets {
+  list-style-type: square;
+  padding-left: 20px;
+  font-size: 24px;
+}
+
+.purple-bullets li::marker {
+  color: #a100ff;
+}
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.content-wrapper.single-column .text-container {
+  width: 100%;
+}
+
+/* LEFT */
+.text-container {
+  width: 50%;
+}
+
+/* RIGHT */
+.image-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container img {
+  width: 70%;
+  padding-left: 30px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px; /* optional */
+}
+.atcp-link {
+  color: blue;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-btn-below {
+  margin-top: 15px;
+  padding: 8px 14px;
+  background: #a100ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  width: fit-content;
+}
+
+.workday-inline-btn {
+  margin-top: 0;
+}
+
+.link-btn-below:hover {
+  background: #7a00cc;
+}
+
+.workday-subsection {
+  margin-top: 20px;
+  padding: 24px;
+  background: rgba(161, 0, 255, 0.14);
+  border-left: 4px solid #a100ff;
+  border-radius: 18px;
+}
+
+.workday-subsection h4 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  color: #fff;
+  font-size: 20px;
+}
+
+.workday-subsection p {
+  color: #d6d7e0;
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.workday-subsection-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.workday-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.workday-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.workday-header-row h4 {
+  margin: 0;
+}
+
+.workday-title-status .status-value {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-value.status-in-progress {
+  background: #facc15;
+  color: #000;
+}
+
+.status-value.status-completed {
+  background: #16a34a;
+  color: #fff;
+}
+
+.status-value.status-blocked {
+  background: #ef4444;
+  color: #fff;
+}
+
+.status-value.status-not-started {
+  background: rgba(255, 255, 255, 0.12);
+  color: #e5e7eb;
+}
+
+.status-info,
+.date-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+.status-label {
+  opacity: 0.85;
+}
+
+.status-value {
+  font-weight: 700;
+  color: #fff;
+}
+
+.update-priorities-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  padding: 14px 26px;
+  background: #a100ff;
+  color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 14px 30px rgba(161, 0, 255, 0.2);
+}
+
+.update-priorities-btn:hover {
+  background: #8a00d4;
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(161, 0, 255, 0.24);
+}
+
+.update-priorities-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.label-clickable {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.label-clikable:hover {
+  color: #a100ff;
+  text-decoration: underline;
+}
+
+.status-badge {
+  margin-left: auto;
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.in-progress {
+  background: orange;
+  color: #000;
+}
+
+.completed {
+  background: green;
+  color: #fff;
+}
+
+.blocked {
+  background: red;
+  color: #fff;
+}
+
+.start-date {
+  font-size: 14px;
+  color: #ccc;
+  margin-top: 5px;
+}
+
+.meta {
+  font-size: 13px;
+  color: #bbb;
+  margin-top: 4px;
+}

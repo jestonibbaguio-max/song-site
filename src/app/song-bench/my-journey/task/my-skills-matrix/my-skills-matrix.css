@@ -1,0 +1,68 @@
+body {
+  background: black;
+  color: black;
+}
+.finish-btn {
+  /* position: absolute; */
+  margin-left: 20px;
+  right: 300px;
+  bottom: 30px;
+
+
+  border: none;
+  padding: 16px 60px;
+  font-size: 22px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  border-radius: 3px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+
+  transition: all 0.25s ease;
+}
+
+.finish-btn:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+.card-body{
+  background-color: rgba(128, 0, 255, 0.7);
+  width: 100%;
+}
+.card-title{
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+}
+.card-text{
+    color: white;
+   font-size: 30px;
+}
+
+h1 {
+  font-size: 96px;
+  color: white;
+  font-weight: bold;
+}
+
+/* PARAGRAPH */
+p {
+  font-size: 30px;
+  line-height: 1.25;
+  max-width: 1000px;
+  color: #ddd;
+  /*text-indent: 50px;*/
+}
+img {
+  width: 100%;
+  height: auto;
+  margin-top: 5%;
+}
+button {
+  position: relative;
+  left: 50%;  /*Moves button to the middle horizontally */
+  transform: translate(-50%, -50%);  /*Centers the button */
+  padding: 10px 20px;
+}

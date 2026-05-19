@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Contact Page</title>
+
+</head>
+<body>
+    <app-navbar></app-navbar>
+    <div class="container px-4 px-lg-5">
+        <div class="update-contact-header">
+            <div class="back">
+                <button type="button" class="btn-back" (click)="goBack()">
+                    <img src="assets/icons/back.png" alt="Back icon" />
+                    <span>Back</span>
+                </button>
+            </div>
+
+            <div class="hero-section">
+                <img class="img-fluid rounded" src="assets/images/aboutUS.png" />
+            </div>
+
+            <div class="content">
+                <h1 class="font-weight-light">Updating Contact Details Guidelines</h1>
+                <p>This document is for use of Song Bench resources. This contains all the Contact Details of Bench resources. </p>
+            </div>
+        </div>
+        
+        <div class="update-contact-card">
+            <div class="card-group step1">
+                <div class="card-body">
+                    <h2 class="card-title">Step 1</h2>
+                    <p class="card-text">Open the <a href="https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo." target="_blank">Bench Resources Contact Details.xslx</a> and select the current FY sheet.</p>
+                </div>
+            </div>
+
+            <div class="card-group step2">
+                <div class="card-body">
+                    <h2 class="card-title">Step 2</h2>
+                    <p class="card-text">Complete your resource details from columns A to H.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="update-contact-actions">
+            <button class="btn-complete"
+                (click)="markCompleted()"
+                [disabled]="isWaiting">
+                {{ isWaiting ? 'Processing...' : 'Complete task' }}
+            </button>
+        </div>
+    </div>
+        
+    <p *ngIf="isWaiting">
+        Updating status... redirecting in 5 seconds
+    </p>
+</body>

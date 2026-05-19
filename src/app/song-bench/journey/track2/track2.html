@@ -1,0 +1,12 @@
+<div class="header">
+<button class="home-btn" (click)="goHome()">🏠 Home</button>
+
+<button (click)="markCompleted()">
+ Complete Track
+</button></div>
+<img src="assets/images/leadership.png" style="width:100%; height:auto;">
+
+<!-- ⬇️ INSERT HERE -->
+<p *ngIf="isWaiting">
+ Updating status... redirecting in 30 seconds
+</p>

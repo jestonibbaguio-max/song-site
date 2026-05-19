@@ -1,0 +1,121 @@
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  width: 80%;          /* responsive width */
+  margin: 20px auto;
+}
+ 
+.task-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.task-card:hover {
+  transform: translateY(-4px);
+}
+ 
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+ 
+.status-icon rect {
+  stroke: none;
+}
+ 
+.status-icon.completed rect { fill: #63B750; }   /* green */
+.status-icon.inprogress rect { fill: #1582D5; }  /* blue */
+.status-icon.pending rect { fill: #FEC22B; }     /* orange */
+.status-icon.notstarted rect { fill: #F14A48; }  /* red */
+ 
+.task-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-family: 'Graphik', Arial, sans-serif;
+}
+ 
+.dates {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin: 8px 0;
+}
+ 
+.status {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.status.completed { color: #63B750; }
+.status.inprogress { color: #1582D5; }
+.status.pending { color: #FEC22B; }
+.status.notstarted { color: #F14A48; }
+ 
+
+ 
+/* .progress-container {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
+  margin: 10px 0;
+}
+ 
+.progress-bar {
+  height: 100%;
+  background-color: #63B750; 
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  line-height: 20px;
+  transition: width 0.3s ease;
+} */
+ 
+.status-completed { background-color: #63B750; }
+.status-inprogress { background-color: #1582D5; }
+.status-pending { background-color: #FEC22B; }
+.status-notstarted { background-color: #F14A48; }
+ 
+.actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+ 
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  color: #fff;
+}
+ 
+.btn:hover {
+  transform: translateY(-2px);
+}
+ 
+/* Start button theme */
+.start-btn {
+  background-color: #007BFF; /* blue */
+}
+.start-btn:hover {
+  background-color: #0056b3;
+}
+ 
+/* Complete button theme */
+.complete-btn {
+  background-color: #63B750; /* green */
+}
+.complete-btn:hover {
+  background-color: #4a8f3d;
+}
+ 
+ 

@@ -1,0 +1,55 @@
+<div class="task-grid">
+  <div class="task-card" *ngFor="let task of tasks"
+    (click)="goToTask(task.url)">
+    <div class="card-header">
+      <!-- status icon -->
+      <svg class="status-icon"
+           [ngClass]="task.status.toLowerCase().replace(' ', '')"
+           width="25" height="24" viewBox="0 0 25 24">
+        <rect width="25" height="24" rx="4"/>
+        <path d="M6 13.5L10 17L18 9"
+              stroke="white" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round"
+              fill="none"/>
+      </svg>
+      <h3>{{task.title}}</h3>
+    </div>
+ 
+    <div class="dates">
+      <span><strong>Start:</strong> {{task.startDate || '—'}}</span>
+      <span><strong>End:</strong> {{task.endDate || '—'}}</span>
+    </div>
+ 
+    <p class="status">{{task.status}}</p>
+ 
+    <!-- Progress Bar -->
+    <!-- <div class="progress-container">
+      <div class="progress-bar" [style.width.%]="getProgress(task.status)">
+        {{getProgress(task.status)}}%
+      </div>
+    </div> -->
+    <div class="progress-container">
+      <div class="progress-bar"
+          [style.width.%]="getProgress(task.status)"
+          [style.background]="getProgressColor(task.status)">
+        {{ getProgress(task.status) }}%
+      </div>
+    </div>
+ 
+    <!-- Action buttons -->
+    <div class="actions">
+      <button class="btn start-btn"
+              *ngIf="task.status==='Not Started'"
+              (click)="startTask(task, $event)">
+        ▶ Start
+      </button>
+ 
+      <button class="btn complete-btn"
+              *ngIf="task.status==='In Progress'"
+              (click)="completeTask(task, $event)">
+        ✔ Mark as Completed
+      </button>
+    </div>
+ 
+  </div>
+</div>

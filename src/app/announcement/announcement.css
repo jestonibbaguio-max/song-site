@@ -1,0 +1,158 @@
+.announcement-container {
+  display: block;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+}
+
+.bar {
+  background-color: #4b0082;
+  font-size: 70px;
+  font-family: "Playfair Display", serif;
+  margin-top: 20px;
+  padding: 0px 40px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.cong {
+color: #fff;
+display: flex;
+font-size: 30px;
+font-family: "Playfair Display", serif;
+justify-content: center;
+align-items: center;
+text-align: center;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  max-width: 1500px;  
+  margin: 0 auto;   
+  padding:  10px 20px;
+}
+
+.card {
+
+  width: 100%;
+  height: 420px;
+  perspective: 1200px;
+}
+
+.card-inner {
+  transform-origin: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Front */
+.card-front img {
+  width: 100%;
+  height: 100%;
+  object-position: top;
+}
+
+/* Back */
+.card-back {
+  background-color: #4b0082;
+  color: white;
+  transform: rotateY(180deg);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+
+  text-align: center;
+}
+.card-back h3 {
+  margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.card-back p {
+  margin: 5px 0;
+  font-size: 14px;
+  line-height: 1.4;
+
+  max-width: 90%;
+}
+.announcement-board {
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+
+}
+.announcement-board h2 {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-family: "Playfair Display", serif;
+}
+.announcement {
+  background: #1c1c1c;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-left: 5px solid #4b0082;
+  border-radius: 8px;
+}
+.announcement h4 {
+  margin: 0 0 5px 0;
+  font-size: 24px;
+}
+
+.announcement p {
+  margin: 0;
+  font-size: 16px;
+}
+.page {
+  width: 100%;
+  background-color: black;
+  padding-bottom: 20px;
+}
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 20px;
+}
+.home-btn {
+  text-decoration: none;
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.home-btn:hover {
+  background: #0056b3;
+}
+.atcp-link {
+  color: blue;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}

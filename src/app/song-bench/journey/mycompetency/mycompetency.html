@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Competency Page</title>
+
+</head>
+<body>
+    <app-navbar></app-navbar>
+     <div class="page">
+<!-- Back Button -->
+    <div class="back-btn" (click)="goBack()">← Back</div>
+
+    <!-- Hero Image -->
+    <div class="hero-section">
+      <img
+        src="assets/images/createacv.png" class="about-img"/>
+    </div>
+
+
+    <div class="content">
+
+      <h1>My Competency Guidelines</h1>
+
+        <div class="intro">
+        <p>
+        MyCompetency allows you to define and assess your primary and secondary skills.
+        Keeping your profile updated helps ensure accurate role matching, deployment readiness, and aligned learning opportunities. 
+        </p>
+    </div>
+
+    <div class="step-card step1">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 1<br>
+        <span class="sub-title">Identify your Primary Skill</span>
+        </h2>
+
+        <p>
+           Log in to <a href="https://mycompetency.accenture.com/#/home" target="_blank"><span class="highlight">My Competency</span></a> and select your Primary Skill.
+           This represents your main expertise and is used for role matching, deployment readiness, and capability tracking.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step2">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 2<br>
+        <span class="sub-title">
+            Add your Secondary Skill(s)
+        </span></h2>
+
+        <p>
+          Secondary skills show flexibility and support your primary skill for multi‑skilled project demands.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step3">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 3<br>
+        <span class="sub-title">
+            Complete Skill Assessment
+        </span>
+        </h2>
+
+        <p>
+          Assess your proficiency honestly for each skill based on experience.<br>
+          Accurate proficiency helps ensure correct staffing, learning recommendations, and career alignment
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step4">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 4<br>
+            <span class="sub-title">
+            Submit and Keep Your Profile Updated
+        </span>
+        </h2>
+
+        <p>
+          Submit your assessment and update it when you gain new skills or training.<br>
+          An updated profile keeps you deployment‑ready and visible for future opportunities.
+        </p>
+      </div>
+    </div>
+
+
+
+
+
+
+     <!-- Button -->
+      <div class="btn-wrapper">
+        <button class="complete-btn" (click)="markCompleted()">Complete task </button>
+        <!-- <button class="finish-btn" (click)="markCompleted()" [disabled]="!canComplete()">COMPLETE</button> -->
+      </div>
+
+ </div>
+
+<p *ngIf="isWaiting">
+Updating status... redirecting in 5 seconds
+</p>
