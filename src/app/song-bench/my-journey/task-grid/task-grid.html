@@ -1,6 +1,29 @@
 <div class="task-grid">
   <div class="task-card" *ngFor="let task of tasks"
     (click)="goToTask(task.url)">
+
+    <!-- MODAL TEMPLATE -->
+    <ng-template #completeTpl let-modal class="top-center-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('cancel')"></button>
+      </div>
+
+      <div class="modal-body">
+        Are you sure all tasks under <b>{{ selectedTask?.title }}</b> is already completed?
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="modal.dismiss('cancel')">
+          Cancel
+        </button>
+
+        <button class="btn btn-success" (click)="confirmComplete(modal, $event)">
+          Confirm
+        </button>
+      </div>
+    </ng-template>
+
     <div class="card-header">
       <!-- status icon -->
       <svg class="status-icon"
@@ -46,7 +69,7 @@
  
       <button class="btn complete-btn"
               *ngIf="task.status==='In Progress'"
-              (click)="completeTask(task, $event)">
+              (click)="openCompleteModal(completeTpl, task)">
         ✔ Mark as Completed
       </button>
     </div>
