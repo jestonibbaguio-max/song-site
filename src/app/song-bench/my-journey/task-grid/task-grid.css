@@ -28,10 +28,10 @@
   stroke: none;
 }
  
-.status-icon.completed rect { fill: #63B750; }   /* green */
+.status-icon.completed rect { fill: #22c55e; }   /* green */
 .status-icon.inprogress rect { fill: #f59e0b; }  /* blue */
 .status-icon.pending rect { fill: #FEC22B; }     /* orange */
-.status-icon.notstarted rect { fill: #9E9E9E; }  /* red */
+.status-icon.notstarted rect { fill: #9E9E9E; }  /* gray */
  
 .task-card h3 {
   margin: 0;
@@ -75,7 +75,7 @@
   transition: width 0.3s ease;
 } */
  
-.status-completed { background-color: #63B750; }
+.status-completed { background-color: #22c55e; }
 .status-inprogress { background-color: #f59e0b; }
 .status-pending { background-color: #FEC22B; }
 .status-notstarted { background-color: #9E9E9E; }
