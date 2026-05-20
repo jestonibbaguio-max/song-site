@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { Task } from '../models/task';
 import { TaskService } from '../task.service';
 import { CommonModule } from '@angular/common';
 
 import { Router } from '@angular/router';
- 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-task-grid',
   standalone: true,
@@ -14,8 +15,24 @@ import { Router } from '@angular/router';
 })
 export class TaskGrid {
   @Input() tasks: Task[] = [];
- 
-  constructor(private taskService: TaskService, private router: Router) {}
+  selectedTask: any;
+
+  constructor(private taskService: TaskService, private router: Router, private modalService: NgbModal) { }
+
+  openCompleteModal(content: TemplateRef<any>, task: any) {
+    event?.stopPropagation();
+    this.selectedTask = task;
+    this.modalService.open(content, {
+      windowClass: 'top-center-modal'
+    });
+
+  }
+
+  confirmComplete(modal: any, event: Event) {
+    event?.stopPropagation();
+    this.completeTask(this.selectedTask, event);
+    modal.close(); // close modal after confirm
+  }
  
   goToTask(url: string) {
     this.router.navigate([url]);
