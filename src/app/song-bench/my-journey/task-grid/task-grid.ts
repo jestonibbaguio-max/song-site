@@ -1,10 +1,10 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Task } from '../models/task';
 import { TaskService } from '../task.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { Router } from '@angular/router';
+ 
 @Component({
   selector: 'app-task-grid',
   standalone: true,
@@ -14,25 +14,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TaskGrid {
   @Input() tasks: Task[] = [];
-  selectedTask: any;
-
-  constructor(private taskService: TaskService, private router: Router, private modalService: NgbModal) { }
-
-  openCompleteModal(content: TemplateRef<any>, task: any) {
-    event?.stopPropagation();
-    this.selectedTask = task;
-    this.modalService.open(content, {
-      windowClass: 'top-center-modal'
-    });
-
-  }
-
-  confirmComplete(modal: any, event: Event) {
-    event?.stopPropagation();
-    this.completeTask(this.selectedTask, event);
-    modal.close(); // close modal after confirm
-  }
-
+ 
+  constructor(private taskService: TaskService, private router: Router) {}
+ 
   goToTask(url: string) {
     this.router.navigate([url]);
   }
@@ -45,15 +29,15 @@ export class TaskGrid {
       // window.location.reload();   // refresh page after update
     });
   }
-
+ 
   completeTask(task: Task, event?: Event) {
     event?.stopPropagation();
-
+    
     this.taskService.updateTaskStatus(task.id, 'complete').subscribe(() => {
       window.location.reload();   // refresh page after update
     });
   }
-
+ 
   getProgress(status: string): number {
     switch (status) {
       case 'In Progress':
