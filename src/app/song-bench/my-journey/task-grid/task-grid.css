@@ -29,7 +29,7 @@
 }
  
 .status-icon.completed rect { fill: #22c55e; }   /* green */
-.status-icon.inprogress rect { fill: #f59e0b; }  /* blue */
+.status-icon.inprogress rect { fill: #f59e0b; }  /* orange */
 .status-icon.pending rect { fill: #FEC22B; }     /* orange */
 .status-icon.notstarted rect { fill: #9E9E9E; }  /* gray */
  
