@@ -76,4 +76,15 @@ export class TaskGrid {
         return '#22c55e';
     }
   }
+
+  getStatus(status: string): string {
+    switch (status) {
+      case 'In Progress':
+        return "inprogress";
+      case 'Completed':
+        return "completed";
+      default:
+        return "notstarted";
+    }
+  }
 }
