@@ -46,19 +46,12 @@
     <p class="status">{{task.status}}</p>
  
     <!-- Progress Bar -->
-    <!-- <div class="progress-container">
-      <div class="progress-bar" [style.width.%]="getProgress(task.status)">
+    <div class="progress-container">
+      <div class="progress-bar status-{{getStatus(task.status)}}" [style.width.%]="getProgress(task.status)">
         {{getProgress(task.status)}}%
       </div>
-    </div> -->
-    <div class="progress-container">
-      <div class="progress-bar"
-          [style.width.%]="getProgress(task.status)"
-          [style.background]="getProgressColor(task.status)">
-        {{ getProgress(task.status) }}%
-      </div>
     </div>
- 
+
     <!-- Action buttons -->
     <div class="actions">
       <button class="btn start-btn"
