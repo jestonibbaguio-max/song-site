@@ -29,9 +29,9 @@
 }
  
 .status-icon.completed rect { fill: #63B750; }   /* green */
-.status-icon.inprogress rect { fill: #1582D5; }  /* blue */
+.status-icon.inprogress rect { fill: #f59e0b; }  /* blue */
 .status-icon.pending rect { fill: #FEC22B; }     /* orange */
-.status-icon.notstarted rect { fill: #F14A48; }  /* red */
+.status-icon.notstarted rect { fill: #9E9E9E; }  /* red */
  
 .task-card h3 {
   margin: 0;
@@ -51,9 +51,9 @@
   margin-bottom: 8px;
 }
 .status.completed { color: #63B750; }
-.status.inprogress { color: #1582D5; }
+.status.inprogress { color: #f59e0b; }
 .status.pending { color: #FEC22B; }
-.status.notstarted { color: #F14A48; }
+.status.notstarted { color: #9E9E9E; }
  
 
  
@@ -76,9 +76,9 @@
 } */
  
 .status-completed { background-color: #63B750; }
-.status-inprogress { background-color: #1582D5; }
+.status-inprogress { background-color: #f59e0b; }
 .status-pending { background-color: #FEC22B; }
-.status-notstarted { background-color: #F14A48; }
+.status-notstarted { background-color: #9E9E9E; }
  
 .actions {
   margin-top: 12px;
@@ -118,4 +118,5 @@
   background-color: #4a8f3d;
 }
  
+
  

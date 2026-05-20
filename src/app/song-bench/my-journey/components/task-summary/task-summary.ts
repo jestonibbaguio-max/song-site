@@ -26,9 +26,9 @@ export class TaskSummary {
 
   summaryItems: { key: StatusKey; label: string; color: string }[] = [
     { key: 'completed', label: 'Completed', color: '#63B750' },
-    { key: 'inprogress', label: 'In Progress', color: '#007BFF' },
+    { key: 'inprogress', label: 'In Progress', color: '#f59e0b' },
     // { key: 'pending', label: 'Pending', color: '#FFA500' },
-    { key: 'notstarted', label: 'Not Started', color: '#DC3545' }
+    { key: 'notstarted', label: 'Not Started', color: '#9E9E9E' }
   ];
 
   ngOnChanges() {
