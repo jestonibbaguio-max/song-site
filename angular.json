@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "art-portfolio": {
+    "song-site": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -60,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "art-portfolio:build:production"
+              "buildTarget": "song-site:build:production"
             },
             "development": {
-              "buildTarget": "art-portfolio:build:development"
+              "buildTarget": "song-site:build:development"
             }
           },
           "defaultConfiguration": "development"
