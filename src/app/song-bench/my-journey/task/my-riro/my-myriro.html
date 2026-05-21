@@ -1,0 +1,129 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My RIRO Page</title>
+
+</head>
+<body>
+    <app-navbar></app-navbar>
+     <div class="page">
+<!-- Back Button -->
+    <div class="back-btn" (click)="goBack()">← Back</div>
+
+    <!-- Hero Image -->
+    <div class="hero-section">
+      <img
+        src="assets/images/createacv.png" class="about-img"/>
+    </div>
+
+
+    <div class="content">
+
+      <h1>My RiRo Guidelines</h1>
+
+        <div class="intro">
+        <p>
+        Our goal while you're in bench is to make your transition to your next project as smooth as possible. 
+        </p>
+    </div>
+
+    <div class="step-card step1">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 1<br>
+        <span class="sub-title">Access the ATCP Bench Portal</span>
+        </h2>
+
+        <p>
+           Go to: <b>Power Apps → ATCP Bench Portal → RIRO module</b><br>
+           <b>Roll-in Checklist</b>(if onboarding to bench/project)<br>
+           <b>Roll-Off Checklist</b>(if exiting)<br>
+            This is the official system where RIRO tasks are completed and tracked. Timely completion is mandatory to comply with
+            Bench policies and to avoid escalation ( Required period within 3 days of roll-in )
+          </p>
+      </div>
+    </div>
+
+    <div class="step-card step2">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 2<br>
+        <span class="sub-title">
+            Review All Assigned Items
+        </span></h2>
+
+        <p>
+          Carefully go through each checklist item. Do not skip any task.<br>
+          The checklist ensures full alignmemt with Bench requirements and onboarding/offboarding standards.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step3">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 3<br>
+        <span class="sub-title">
+            Update Required Details in Each Item
+        </span>
+        </h2>
+
+        <p>
+          Provide accurate inputs such as: Status ( Completed/Pending/N/A) for required links or preferences<br>
+          Incomplete or incorrect entries can delay validation and compliance checks
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step4">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 4<br>
+            <span class="sub-title">
+            Validate Before Submission
+        </span>
+        </h2>
+
+        <p>
+          Double check all items are addressed, No missing or blank fields, Links and references are working.<br>
+          Prevents rework and follow-ups from Bench or leads
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step5">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 5<br>
+            <span class="sub-title">
+             Submit / Confirm Completion
+        </span>
+        </h2>
+
+        <p>
+          Complete or acknowledge completion ( If required in the portal )<br>
+        </p>
+      </div>
+    </div>
+
+
+
+
+
+
+     <!-- Button -->
+      <div class="btn-wrapper">
+        <button class="complete-btn" (click)="markCompleted()">Complete task </button>
+        <!-- <button class="finish-btn" (click)="markCompleted()" [disabled]="!canComplete()">COMPLETE</button> -->
+      </div>
+
+ </div>
+
+<p *ngIf="isWaiting">
+Updating status... redirecting in 5 seconds
+</p>

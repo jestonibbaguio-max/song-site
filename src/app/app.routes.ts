@@ -88,6 +88,11 @@ export const routes: Routes = [
       import('./song-bench/my-journey/task/my-mycompetency/my-mycompetency').then(m => m.MyMyCompetency)
   },
   {
+    path: 'my-myriro',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/my-riro/my-myriro').then(m => m.MyMyRiro)
+  },
+  {
     path: 'my-workday',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-workday/my-workday').then(m => m.MyWorkday)
@@ -101,15 +106,5 @@ export const routes: Routes = [
     path: 'navbar',
     loadComponent: () =>
       import('./navbar/navbar').then(m => m.Navbar)
-  },
-  {
-    path: 'update-contact',
-    loadComponent: () =>
-      import('./song-bench/journey/update-contact/update-contact').then(m => m.UpdateContact)
-  },
-  {
-    path: 'my-update-contact',
-    loadComponent: () =>
-      import('./song-bench/my-journey/task/my-update-contact/my-update-contact').then(m => m.MyUpdateContact)
   }
 ];
