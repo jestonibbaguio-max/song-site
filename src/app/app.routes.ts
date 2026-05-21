@@ -123,6 +123,9 @@ export const routes: Routes = [
       import('./song-bench/my-journey/task/my-update-contact/my-update-contact').then(m => m.MyUpdateContact)
   },
   {
+    path: 'people-lead',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/people-lead/people-lead').then(m => m.PeopleLead)
     path: 'my-compliance',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-compliance/my-compliance').then(m => m.MyCompliance)
