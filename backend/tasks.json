@@ -61,5 +61,14 @@
     "status": "Not Started",
     "progress": 100,
     "url": "/my-asset-tracker"
+  },
+  {
+    "id": 8,
+    "title": "Compliance",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/my-compliance"
   }
 ]
