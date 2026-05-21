@@ -28,10 +28,10 @@
   stroke: none;
 }
  
-.status-icon.completed rect { fill: #63B750; }   /* green */
-.status-icon.inprogress rect { fill: #f59e0b; }  /* blue */
+.status-icon.completed rect { fill: #22c55e; }   /* green */
+.status-icon.inprogress rect { fill: #f59e0b; }  /* orange */
 .status-icon.pending rect { fill: #FEC22B; }     /* orange */
-.status-icon.notstarted rect { fill: #9E9E9E; }  /* red */
+.status-icon.notstarted rect { fill: #9E9E9E; }  /* gray */
  
 .task-card h3 {
   margin: 0;
@@ -50,14 +50,14 @@
   font-weight: bold;
   margin-bottom: 8px;
 }
-.status.completed { color: #63B750; }
+.status.completed { color: #22c55e; }
 .status.inprogress { color: #f59e0b; }
 .status.pending { color: #FEC22B; }
 .status.notstarted { color: #9E9E9E; }
  
 
  
-/* .progress-container {
+.progress-container {
   background-color: #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
@@ -67,15 +67,14 @@
  
 .progress-bar {
   height: 100%;
-  background-color: #63B750; 
   color: white;
   font-size: 12px;
   text-align: center;
   line-height: 20px;
   transition: width 0.3s ease;
-} */
+}
  
-.status-completed { background-color: #63B750; }
+.status-completed { background-color: #22c55e; }
 .status-inprogress { background-color: #f59e0b; }
 .status-pending { background-color: #FEC22B; }
 .status-notstarted { background-color: #9E9E9E; }

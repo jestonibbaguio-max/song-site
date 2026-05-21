@@ -23,6 +23,9 @@
     "startDate": "2026-05-11",
     "endDate": "",
     "status": "In Progress",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
     "progress": 100,
     "url": "/my-mycompetency"
   },
@@ -30,8 +33,9 @@
     "id": 4,
     "title": "Update Contact",
     "startDate": "2026-05-13",
+    "startDate": "",
     "endDate": "",
-    "status": "In Progress",
+    "status": "Not Started",
     "progress": 100,
     "url": "/my-update-contact"
   },
@@ -41,6 +45,9 @@
     "startDate": "2026-05-11",
     "endDate": "2026-05-12",
     "status": "Completed",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
     "progress": 100,
     "url": "/my-workday"
   },

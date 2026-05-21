@@ -2,6 +2,7 @@ import { Component, Input, TemplateRef } from '@angular/core';
 import { Task } from '../models/task';
 import { TaskService } from '../task.service';
 import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -32,7 +33,7 @@ export class TaskGrid {
     this.completeTask(this.selectedTask, event);
     modal.close(); // close modal after confirm
   }
-
+ 
   goToTask(url: string) {
     this.router.navigate([url]);
   }
@@ -45,15 +46,15 @@ export class TaskGrid {
       // window.location.reload();   // refresh page after update
     });
   }
-
+ 
   completeTask(task: Task, event?: Event) {
     event?.stopPropagation();
-
+    
     this.taskService.updateTaskStatus(task.id, 'complete').subscribe(() => {
       window.location.reload();   // refresh page after update
     });
   }
-
+ 
   getProgress(status: string): number {
     switch (status) {
       case 'In Progress':
@@ -73,6 +74,17 @@ export class TaskGrid {
         return '#f59e0b';
       default:
         return '#22c55e';
+    }
+  }
+
+  getStatus(status: string): string {
+    switch (status) {
+      case 'In Progress':
+        return "inprogress";
+      case 'Completed':
+        return "completed";
+      default:
+        return "notstarted";
     }
   }
 }
