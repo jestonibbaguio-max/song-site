@@ -52,5 +52,14 @@
     "status": "Not Started",
     "progress": 100,
     "url": "/my-myriro"
+  },
+  {
+    "id": 7,
+    "title": "Asset Tracker",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/my-asset-tracker"
   }
 ]

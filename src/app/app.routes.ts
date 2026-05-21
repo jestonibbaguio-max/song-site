@@ -106,5 +106,10 @@ export const routes: Routes = [
     path: 'navbar',
     loadComponent: () =>
       import('./navbar/navbar').then(m => m.Navbar)
+  },
+  {
+    path: 'my-asset-tracker',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/my-asset-tracker/my-asset-tracker').then(m => m.MyAssetTracker)
   }
 ];
