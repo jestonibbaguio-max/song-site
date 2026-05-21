@@ -2,27 +2,24 @@
   {
     "id": 1,
     "title": "Create CV",
-    "startDate": "2026-05-11",
-    "endDate": "2026-05-11",
-    "status": "Completed",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
     "progress": 100,
     "url": "/my-cv"
   },
   {
     "id": 2,
     "title": "ATCP Song Skills Matrix",
-    "startDate": "2026-05-12",
-    "endDate": "2026-05-12",
-    "status": "Completed",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
     "progress": 100,
     "url": "/my-skills-matrix"
   },
   {
     "id": 3,
     "title": "myCompentency",
-    "startDate": "2026-05-11",
-    "endDate": "",
-    "status": "In Progress",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
@@ -32,7 +29,6 @@
   {
     "id": 4,
     "title": "Update Contact",
-    "startDate": "2026-05-13",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
@@ -42,9 +38,6 @@
   {
     "id": 5,
     "title": "Workday",
-    "startDate": "2026-05-11",
-    "endDate": "2026-05-12",
-    "status": "Completed",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
@@ -54,9 +47,9 @@
   {
     "id": 6,
     "title": "Riro",
-    "startDate": "2026-05-19",
-    "endDate": "2026-05-19",
-    "status": "Completed",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
     "progress": 100,
     "url": "/my-myriro"
   }
