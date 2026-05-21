@@ -116,5 +116,10 @@ export const routes: Routes = [
     path: 'my-update-contact',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-update-contact/my-update-contact').then(m => m.MyUpdateContact)
+  },
+  {
+    path: 'my-compliance',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/my-compliance/my-compliance').then(m => m.MyCompliance)
   }
 ];
