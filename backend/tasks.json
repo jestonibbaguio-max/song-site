@@ -70,5 +70,15 @@
     "status": "Not Started",
     "progress": 100,
     "url": "/people-lead"
+    "url": "/my-asset-tracker"
+  },
+  {
+    "id": 8,
+    "title": "My Compliance",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/my-compliance"
   }
 ]
