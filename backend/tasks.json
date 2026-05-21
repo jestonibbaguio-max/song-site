@@ -47,29 +47,19 @@
   {
     "id": 6,
     "title": "Riro",
-    "startDate": "2026-05-21",
+    "startDate": "",
     "endDate": "",
-    "status": "In Progress",
+    "status": "Not Started",
     "progress": 100,
     "url": "/my-myriro"
   },
   {
     "id": 7,
     "title": "Asset Tracker",
-    "startDate": "2026-05-21",
-    "endDate": "",
-    "status": "In Progress",
-    "progress": 100,
-    "url": "/my-asset-tracker"
-  },
-  {
-    "id": 7,
-    "title": "Update People Lead",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/people-lead"
     "url": "/my-asset-tracker"
   },
   {
@@ -80,5 +70,14 @@
     "status": "Not Started",
     "progress": 100,
     "url": "/my-compliance"
+  },
+  {
+    "id": 9,
+    "title": "Update People Lead",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/people-lead"
   }
 ]
