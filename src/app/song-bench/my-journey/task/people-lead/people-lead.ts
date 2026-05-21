@@ -10,7 +10,7 @@ import { Navbar } from '../../../../navbar/navbar';
   imports: [CommonModule, Navbar],
   templateUrl: './people-lead.html',
   styleUrls: ['./people-lead.css']
-
+ 
 })
 
 export class PeopleLead implements OnInit {
