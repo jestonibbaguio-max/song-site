@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div style="text-align:center">
+  <h1>Training Tracker</h1>
+</div>
+
+<!-- Path progress visualization -->
+<app-path-progress
+  src="assets/training/training.svg"
+  alt="Training tracker progress path"
+></app-path-progress>
+
+<!-- Task grid -->
+<app-task-grid [tasks]="tasks"></app-task-grid>
+<!-- Task summary -->
+<app-task-summary [tasks]="tasks"></app-task-summary>

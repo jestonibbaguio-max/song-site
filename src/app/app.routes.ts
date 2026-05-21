@@ -58,6 +58,11 @@ export const routes: Routes = [
       import('./song-bench/my-journey/my-journey.component').then(m => m.MyJourneyComponent)
   },
   {
+    path: 'training-tracker',
+    loadComponent: () =>
+      import('./song-bench/training-tracker/training-tracker').then(m => m.TrainingTracker)
+  },
+  {
     path: 'cv',
     loadComponent: () =>
       import('./song-bench/journey/cv/cv').then(m => m.Cv)
