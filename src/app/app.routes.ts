@@ -110,6 +110,16 @@ export const routes: Routes = [
   {
     path: 'my-asset-tracker',
     loadComponent: () =>
-      import('./song-bench/my-journey/task/my-asset-tracker/my-asset-tracker').then(m => m.MyAssetTracker)
+      import('./song-bench/journey/update-contact/update-contact').then(m => m.UpdateContact)
+  },
+  {
+    path: 'my-update-contact',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/my-update-contact/my-update-contact').then(m => m.MyUpdateContact)
+  },
+  {
+    path: 'my-compliance',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/my-compliance/my-compliance').then(m => m.MyCompliance)
   }
 ];
