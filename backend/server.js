@@ -116,4 +116,93 @@ app.put('/api/tasks/:id/status', (req, res) => {
   res.json(tasks[index]);
 });
 
+// ── Training Tracker ──────────────────────────────────────────────────────────
+
+const trainingFilePath = path.join(__dirname, "training-tasks.json");
+
+function readTrainingTasks() {
+  const data = fs.readFileSync(trainingFilePath);
+  return JSON.parse(data);
+}
+
+function writeTrainingTasks(tasks) {
+  fs.writeFileSync(trainingFilePath, JSON.stringify(tasks, null, 2));
+}
+
+app.get("/api/training-tasks", (req, res) => {
+  fs.readFile(trainingFilePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read training tasks file" });
+    try {
+      res.json(JSON.parse(data));
+    } catch {
+      res.status(500).json({ error: "Invalid JSON format" });
+    }
+  });
+});
+
+app.put("/api/training-tasks/:id", (req, res) => {
+  const tasks = readTrainingTasks();
+  const taskId = parseInt(req.params.id, 10);
+  const index = tasks.findIndex(t => t.id === taskId);
+  if (index === -1) return res.status(404).json({ error: "Task not found" });
+  tasks[index] = { ...tasks[index], ...req.body };
+  writeTrainingTasks(tasks);
+  res.json(tasks[index]);
+});
+
+app.post("/api/training-tasks", (req, res) => {
+  const newTask = { id: Date.now(), ...req.body };
+  fs.readFile(trainingFilePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read training tasks file" });
+    let tasks = [];
+    try { tasks = JSON.parse(data); } catch {}
+    tasks.push(newTask);
+    fs.writeFile(trainingFilePath, JSON.stringify(tasks, null, 2), (writeErr) => {
+      if (writeErr) return res.status(500).json({ error: "Failed to save task" });
+      res.status(201).json(newTask);
+    });
+  });
+});
+
+app.get("/api/training-progress-status", (req, res) => {
+  fs.readFile(trainingFilePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read training tasks file" });
+    try {
+      const tasks = JSON.parse(data);
+      if (!Array.isArray(tasks) || tasks.length === 0) return res.json({ progress: 0 });
+      let score = 0;
+      tasks.forEach((task) => {
+        switch (task.status) {
+          case "Completed": score += 1; break;
+          case "In Progress": score += 0.5; break;
+          case "Pending": score += 0.25; break;
+          default: score += 0;
+        }
+      });
+      const progressPercent = (score / tasks.length) * 100;
+      res.json({ progress: Math.round(progressPercent) });
+    } catch {
+      res.status(500).json({ error: "Invalid JSON format" });
+    }
+  });
+});
+
+app.put("/api/training-tasks/:id/status", (req, res) => {
+  const tasks = readTrainingTasks();
+  const taskId = parseInt(req.params.id, 10);
+  const index = tasks.findIndex(t => t.id === taskId);
+  if (index === -1) return res.status(404).json({ error: "Task not found" });
+  const { action } = req.body;
+  if (action === "start") {
+    tasks[index].status = "In Progress";
+    tasks[index].startDate = new Date().toISOString().split("T")[0];
+  } else if (action === "complete") {
+    tasks[index].status = "Completed";
+    tasks[index].endDate = new Date().toISOString().split("T")[0];
+    tasks[index].progress = 100;
+  }
+  writeTrainingTasks(tasks);
+  res.json(tasks[index]);
+});
+
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

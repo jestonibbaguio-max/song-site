@@ -1,0 +1,114 @@
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.task-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.task-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-icon rect {
+  stroke: none;
+}
+
+.status-icon.completed rect { fill: #22c55e; }
+.status-icon.inprogress rect { fill: #f59e0b; }
+.status-icon.pending rect { fill: #FEC22B; }
+.status-icon.notstarted rect { fill: #9E9E9E; }
+
+.task-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-family: 'Graphik', Arial, sans-serif;
+}
+
+.dates {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin: 8px 0;
+}
+
+.status {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.status.completed { color: #22c55e; }
+.status.inprogress { color: #f59e0b; }
+.status.pending { color: #FEC22B; }
+.status.notstarted { color: #9E9E9E; }
+
+.status-completed { background-color: #22c55e; }
+.status-inprogress { background-color: #f59e0b; }
+.status-pending { background-color: #FEC22B; }
+.status-notstarted { background-color: #9E9E9E; }
+
+.actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  color: #fff;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.start-btn {
+  background-color: #007BFF;
+}
+.start-btn:hover {
+  background-color: #0056b3;
+}
+
+.complete-btn {
+  background-color: #63B750;
+}
+.complete-btn:hover {
+  background-color: #4a8f3d;
+}
+
+.progress-container {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
+  margin: 10px 0;
+}
+ 
+.progress-bar {
+  height: 100%;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  line-height: 20px;
+  transition: width 0.3s ease;
+}
