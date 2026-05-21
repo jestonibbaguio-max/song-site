@@ -111,5 +111,10 @@ export const routes: Routes = [
     path: 'my-asset-tracker',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-asset-tracker/my-asset-tracker').then(m => m.MyAssetTracker)
+  },
+  {
+    path: 'my-update-contact',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/my-update-contact/my-update-contact').then(m => m.MyUpdateContact)
   }
 ];
