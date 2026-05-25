@@ -9,7 +9,8 @@ import { Navbar } from '../navbar/navbar';
  selector: 'app-contactus',
  standalone: true,
  imports: [CommonModule, RouterModule, ReactiveFormsModule, Navbar],
- templateUrl: './contactus.html'
+ templateUrl: './contactus.html',
+ styleUrl: './contactus.css'
 })
 
 export class Contactus implements OnInit{
@@ -307,7 +308,7 @@ export class Contactus implements OnInit{
       inquiryType: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phoneNumber: ['', Validators.required],
       company: ['', Validators.required],
       role: ['', Validators.required],

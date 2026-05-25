@@ -1,5 +1,13 @@
 .contactus{
     border-radius: 40px;
+
+}
+
+.contact-section {
+    display: block;
+    min-height: 100vh;
+    background-color: black;
+    color: white;
 }
 
 .header {
