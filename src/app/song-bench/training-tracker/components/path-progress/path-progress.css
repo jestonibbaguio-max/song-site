@@ -1,0 +1,19 @@
+.path-wrap {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+.path-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .path-svg {
+    max-height: 320px;
+    object-fit: contain;
+  }
+}

@@ -58,6 +58,11 @@ export const routes: Routes = [
       import('./song-bench/my-journey/my-journey.component').then(m => m.MyJourneyComponent)
   },
   {
+    path: 'training-tracker',
+    loadComponent: () =>
+      import('./song-bench/training-tracker/training-tracker').then(m => m.TrainingTracker)
+  },
+  {
     path: 'cv',
     loadComponent: () =>
       import('./song-bench/journey/cv/cv').then(m => m.Cv)
@@ -118,8 +123,18 @@ export const routes: Routes = [
       import('./song-bench/my-journey/task/my-update-contact/my-update-contact').then(m => m.MyUpdateContact)
   },
   {
+    path: 'people-lead',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/people-lead/people-lead').then(m => m.PeopleLead)
+  },
+  {
     path: 'my-compliance',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-compliance/my-compliance').then(m => m.MyCompliance)
+  },
+  {
+    path: 'wd-update-contact',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/wd-update-contact/wd-update-contact').then(m => m.WDUpdateContact)
   }
 ];

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Contact Details in Workday</title>
+</head>
+<body>
+    <app-navbar></app-navbar>
+    <div class="container px-4 px-lg-5">
+        <div class="update-contact-header">
+            <div class="back">
+                <button type="button" class="btn-back" (click)="goBack()">
+                    <img src="assets/icons/back.png" alt="Back icon" />
+                    <span>Back</span>
+                </button>
+            </div>
+
+            <div class="hero-section">
+                <img class="img-fluid rounded" src="assets/images/aboutUS.png" />
+            </div>
+
+            <div class="content">
+                <h1 class="font-weight-light">Updating Contact Details in Workday Guidelines</h1>
+                <p>This is a guide to update your contact details in Workday. Keeping your contact details up to date ensures that you receive important communications and stay connected with your team and organization.</p>
+            </div>
+        </div>
+        
+        <div class="update-contact-card">
+            <div class="card-group step1">
+                <div class="card-body">
+                    <h2 class="card-title">Step 1</h2>
+                    <p class="card-text">Log in to your <a href="https://wd103.myworkday.com/accenture/d/home.htmld" target="_blank"><span class="highlight">Workday</span></a> account and visit profile by clicking <b>View Profile</b>.</p>
+                </div>
+            </div>
+
+            <div class="card-group step2">
+                <div class="card-body">
+                    <h2 class="card-title">Step 2</h2>
+                    <p class="card-text">Look for the Actions panel on the left side of the screen, then click <b>Contact</b> which can be found between <i>Personal</i> and <i>Compensation</i>.</p>
+                </div>
+            </div>
+
+            <div class="card-group step3">
+                <div class="card-body">
+                    <h2 class="card-title">Step 3</h2>
+                    <p class="card-text">Go to the <b><i>Contact</i></b> tab and update the necessary information on both Home Contact Information and Work Contact Information.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="update-contact-actions">
+            <button class="btn-complete"
+                (click)="markCompleted()"
+                [disabled]="isWaiting">
+                {{ isWaiting ? 'Processing...' : 'Complete task' }}
+            </button>
+        </div>
+    </div>
+        
+    <p *ngIf="isWaiting">
+        Updating status... redirecting in 5 seconds
+    </p>
+</body>
+</html>
