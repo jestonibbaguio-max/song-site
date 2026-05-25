@@ -131,5 +131,10 @@ export const routes: Routes = [
     path: 'my-compliance',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-compliance/my-compliance').then(m => m.MyCompliance)
+  },
+  {
+    path: 'wd-update-contact',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/wd-update-contact/wd-update-contact').then(m => m.WDUpdateContact)
   }
 ];
