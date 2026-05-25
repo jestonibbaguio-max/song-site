@@ -1,7 +1,7 @@
 body {
-    margin: 0;
-    padding: 0;
     font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    min-height: 100vh;
 }
 
 
@@ -17,6 +17,8 @@ body {
     font-size: clamp(18px, 2.5vw, 24px);
     font-weight: bold;
     margin-top: 20px;
+    color: #f2f2f2;
+    
 }
 
 .center-text1 {
@@ -25,6 +27,7 @@ body {
     margin: 10px auto;
     max-width: 800px;
     padding: 0 16px;
+    color: #f2f2f2;
 }
 
 /* BUTTON */
@@ -32,9 +35,9 @@ body {
     display: block;
     margin: 20px auto;
     border-radius: 15px;
-    color: purple;
-    background-color: white;
-    border: 2px solid purple;
+    color: white;
+    background-color: purple;
+    border: 2px solid white;
     padding: 10px 18px;
     font-size: 14px;
     cursor: pointer;
@@ -70,4 +73,9 @@ body {
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
+}
+.header img {
+   width: 100%;
+  height: auto;
+  margin-top: 5%;
 }
