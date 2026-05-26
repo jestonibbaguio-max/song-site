@@ -1,158 +1,320 @@
-.announcement-container {
-  display: block;
+.announcement-page {
   min-height: 100vh;
-  background-color: black;
-  color: white;
+  background: radial-gradient(circle at top, #1a0033 0%, #000 45%);
+  color: #fff;
+  padding: 40px 30px 60px;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
 }
 
-.bar {
-  background-color: #4b0082;
-  font-size: 70px;
-  font-family: "Playfair Display", serif;
-  margin-top: 20px;
-  padding: 0px 40px;
-  color: #fff;
+/* SECTION HEADER */
+.section-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-header h1 {
+  font-size: 30px;
+  font-weight: 500;
+  padding-top: 80px;
+  color: #f5f2ff;
+  text-shadow: 0 0 15px rgba(161, 0, 255, 0.35);
+}
+
+.line {
+  width: 200px;
+  height: 3px;
+  margin: 5px auto 0;
+  border-radius: 10px;
+  background: linear-gradient(to right, transparent, #a100ff, transparent);
+}
+
+/* CAROUSEL CONTAINER */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0px 80px 20px;
+}
+
+/* CAROUSEL STAGE */
+.carousel-stage {
+  position: relative;
+  height: 420px;
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-.cong {
-color: #fff;
-display: flex;
-font-size: 30px;
-font-family: "Playfair Display", serif;
-justify-content: center;
-align-items: center;
-text-align: center;
-}
-
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  max-width: 1500px;  
-  margin: 0 auto;   
-  padding:  10px 20px;
-}
-
-.card {
-
-  width: 100%;
-  height: 420px;
+  justify-content: center;
   perspective: 1200px;
 }
 
-.card-inner {
-  transform-origin: center;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
-.card:hover .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
+/* CARD BASE */
+.carousel-card {
   position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  width: 600px;
+  height: 350px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(88, 0, 168, 0.7), rgba(20, 5, 40, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 35px rgba(161, 0, 255, 0.18);
+  transition: all 0.7s ease;
+  transform-style: preserve-3d;
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* Front */
-.card-front img {
+/* IMAGE */
+.card-image {
   width: 100%;
   height: 100%;
-  object-position: top;
 }
 
-/* Back */
-.card-back {
-  background-color: #4b0082;
-  color: white;
-  transform: rotateY(180deg);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  padding: 20px;
-  box-sizing: border-box;
-
-  text-align: center;
-}
-.card-back h3 {
-  margin: 0 0 10px 0;
-    font-size: 24px;
-}
-
-.card-back p {
-  margin: 5px 0;
-  font-size: 14px;
-  line-height: 1.4;
-
-  max-width: 90%;
-}
-.announcement-board {
-  color: white;
-  padding: 20px;
-  box-sizing: border-box;
-
-}
-.announcement-board h2 {
-  text-align: center;
-  font-size: 50px;
-  margin-bottom: 20px;
-  color: #ffffff;
-  font-family: "Playfair Display", serif;
-}
-.announcement {
-  background: #1c1c1c;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-left: 5px solid #4b0082;
-  border-radius: 8px;
-}
-.announcement h4 {
-  margin: 0 0 5px 0;
-  font-size: 24px;
-}
-
-.announcement p {
-  margin: 0;
-  font-size: 16px;
-}
-.page {
+.card-image img {
   width: 100%;
-  background-color: black;
-  padding-bottom: 20px;
-}
-.header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 15px 20px;
-}
-.home-btn {
-  text-decoration: none;
-  background: #007bff;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 500;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.home-btn:hover {
-  background: #0056b3;
+/* OVERLAY */
+.card-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.1));
 }
-.atcp-link {
-  color: blue;
-  font-weight: bold;
-  text-decoration: underline;
+
+.card-overlay h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.card-overlay p {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255,255,255,0.78);
+}
+
+/* CENTER CARD */
+.carousel-card.center {
+  opacity: 1;
+  transform: translateX(0) scale(1.08) rotateY(0deg);
+  z-index: 3;
+  pointer-events: auto;
+  box-shadow: 0 0 40px rgba(161, 0, 255, 0.35);
+}
+
+/* LEFT CARD */
+.carousel-card.left {
+  opacity: 0.55;
+  transform: translateX(-360px) scale(0.86) rotateY(18deg);
+  z-index: 2;
+}
+
+/* RIGHT CARD */
+.carousel-card.right {
+  opacity: 0.55;
+  transform: translateX(360px) scale(0.86) rotateY(-18deg);
+  z-index: 2;
+}
+
+/* HIDDEN CARDS */
+.carousel-card.hidden {
+  opacity: 0;
+  transform: scale(0.6);
+  z-index: 1;
+}
+
+/* NAV BUTTONS */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(161, 0, 255, 0.16);
+  color: #fff;
+  font-size: 24px;
   cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.nav-btn:hover {
+  background: #a100ff;
+  box-shadow: 0 0 18px rgba(161, 0, 255, 0.45);
+}
+
+.left-btn {
+  left: 0;
+}
+
+.right-btn {
+  right: 0;
+}
+
+/* DOTS */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  width: 20px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #d48cff, #8d2bff);
+  box-shadow: 0 0 12px rgba(161, 0, 255, 0.45);
+}
+
+/* ANNOUNCEMENT SECTION */
+.announcement-title h1{
+  display: flex;
+  font-size: 30px;
+  font-weight: 500;
+  padding-top: 30px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.line2 {
+  width: 200px;
+  height: 3px;
+  margin: 5px auto 50px;
+  border-radius: 10px;
+  background: linear-gradient(to right, transparent, #a100ff, transparent);
+}
+
+.announcement-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.announcement-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 22px 18px;
+  border-radius: 16px;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 0 18px rgba(255,255,255,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.announcement-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 24px rgba(161, 0, 255, 0.25);
+}
+
+.announcement-card .icon {
+  font-size: 24px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.announcement-card h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.announcement-card p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.5;
+}
+
+
+/* COLORS */
+.purple {
+  background: linear-gradient(135deg, rgba(110, 0, 255, 0.45), rgba(60, 0, 100, 0.28));
+}
+
+.pink {
+  background: linear-gradient(135deg, rgba(255, 78, 203, 0.45), rgba(118, 0, 91, 0.28));
+}
+
+.orange {
+  background: linear-gradient(135deg, rgba(255, 123, 0, 0.45), rgba(110, 42, 0, 0.28));
+}
+
+.blue {
+  background: linear-gradient(135deg, rgba(0, 191, 255, 0.45), rgba(0, 54, 120, 0.28));
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .carousel-card {
+    width: 430px;
+    height: 260px;
+  }
+
+  .carousel-card.left {
+    transform: translateX(-260px) scale(0.82) rotateY(16deg);
+  }
+
+  .carousel-card.right {
+    transform: translateX(260px) scale(0.82) rotateY(-16deg);
+  }
+
+  .announcement-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header h1 {
+    font-size: 28px;
+  }
+
+  .carousel-container {
+    padding: 20px 50px 10px;
+  }
+
+  .carousel-stage {
+    height: 320px;
+  }
+
+  .carousel-card,
+  .carousel-card.center {
+    width: 300px;
+    height: 200px;
+  }
+
+  .carousel-card.left,
+  .carousel-card.right {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  .card-overlay h3 {
+    font-size: 20px;
+  }
+
+  .announcement-grid {
+    grid-template-columns: 1fr;
+  }
 }
