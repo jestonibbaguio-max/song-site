@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
-<section>
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center" style="height: 100vh;">
+<section class="contact-section">
+  <div class="container-fluid h-custom contactus">
+    <div class="row d-flex justify-content-center align-items-center">
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <h2>Need something else?</h2>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
@@ -47,6 +47,10 @@
             <span class="text-danger"
                 *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['required']">
                 Email Address is required
+            </span>
+            <span class="text-danger"
+                *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['pattern']">
+                Please enter a valid email address
             </span>
           </div>
 

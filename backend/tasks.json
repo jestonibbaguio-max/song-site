@@ -70,23 +70,5 @@
     "status": "Not Started",
     "progress": 100,
     "url": "/my-compliance"
-  },
-  {
-    "id": 9,
-    "title": "Update People Lead",
-    "startDate": "",
-    "endDate": "",
-    "status": "Not Started",
-    "progress": 100,
-    "url": "/people-lead"
-  },
-  {
-    "id": 10,
-    "title": "Update Workday Contact",
-    "startDate": "",
-    "endDate": "",
-    "status": "Not Started",
-    "progress": 100,
-    "url": "/wd-update-contact"
   }
 ]
