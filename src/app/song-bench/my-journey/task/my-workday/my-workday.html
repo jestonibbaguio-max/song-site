@@ -1,19 +1,106 @@
-<app-navbar></app-navbar>
-<div class="workday-container">
-  <div class="workday-header">
-    <h1>Update Priorities in Workday</h1>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Wokrday Priorities</title>
 
-  <div class="guidelines-section">
-    <h2>Guidelines</h2>
-    <ol class="guidelines-list">
-      <li *ngFor="let step of guidelines">{{ step }}</li>
-    </ol>
-  </div>
+</head>
+<body>
+    <app-navbar></app-navbar>
+     <div class="page">
+<!-- Back Button -->
 
-  <div class="actions">
-    <button class="primary-btn" (click)="markCompleted()">
-      Mark as Completed
-    </button>
-  </div>
-</div>
+    <!-- Hero Image -->
+    <div class="hero-section">
+      <img
+        src="assets/images/createacv.png" class="about-img"/>
+    </div>
+
+
+    <div class="content">
+
+      <h1>Update Priorities in Workday Guidelines</h1>
+
+        <div class="intro">
+        <p>
+        We update Workday priorities to ensure our daily tasks align with evolving business goals. Regular updates provide clarity on what we should focus on, help managers track performance for promotions and bonuses, and support ongoing professional development.
+        </p>
+    </div>
+
+    <div class="step-card step1">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 1<br>
+        </h2>
+        <p>
+           Open <a href="https://wd103.myworkday.com/accenture/d/home.htmld" target="_blank"><span class="highlight">Workday</span></a>  and navigate to the Priorities section.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step2">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 2<br></h2>
+        <p>
+          Review your active priorities.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step3">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 3<br>
+        </h2>
+
+        <p>
+          Update priority details clearly and accurately.<br>
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step4">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 4<br>
+        </h2>
+
+        <p>
+          Save all changes in Workday.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-card step5">
+      <div class="overlay"></div>
+
+      <div class="step-content">
+        <h2>Step 5<br>
+        </h2>
+
+        <p>
+          Confirm the task is now marked complete.
+        </p>
+      </div>
+    </div>
+
+
+
+
+
+
+     <!-- Button -->
+      <div class="btn-wrapper">
+        <button class="complete-btn" (click)="markCompleted()">Complete task </button>
+        <!-- <button class="finish-btn" (click)="markCompleted()" [disabled]="!canComplete()">COMPLETE</button> -->
+      </div>
+
+ </div>
+
+
