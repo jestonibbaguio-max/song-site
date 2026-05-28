@@ -88,5 +88,14 @@
     "status": "Not Started",
     "progress": 100,
     "url": "/wd-update-contact"
+  },
+  {
+    "id": 11,
+    "title": "Learning Platform",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/my-learning-platform"
   }
 ]
