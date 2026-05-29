@@ -88,5 +88,14 @@
     "status": "Not Started",
     "progress": 100,
     "url": "/wd-update-contact"
+  },
+  {
+    "id": 11,
+    "title": "Workday Training Tracker",
+    "startDate": "",
+    "endDate": "",
+    "status": "",
+    "progress": 100,
+    "url": "/training-tracker"
   }
 ]

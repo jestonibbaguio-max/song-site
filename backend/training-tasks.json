@@ -2,9 +2,9 @@
   {
     "id": 1,
     "title": "TQ Training on Udacity",
-    "startDate": "2026-05-21",
-    "endDate": "2026-05-21",
-    "status": "Completed",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
     "progress": 100,
     "url": "https://www.udacity.com/learning-plan/tq-at-accenture"
   },
@@ -14,7 +14,7 @@
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
-    "progress": 0,
+    "progress": 100,
     "url": "https://wd103.myworkday.com/accenture/learning/viewmore/6964690f7fd810001c749ba92ee68ceb"
   },
   {
