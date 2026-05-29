@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register for Training Materials</title>
+</head>
+<body>
+    <app-navbar></app-navbar>
+    <div class="container px-4 px-lg-5">
+        <div class="learning-platform-header">
+            <div class="back">
+                <button type="button" class="btn-back" (click)="goBack()">
+                    <img src="assets/icons/back.png" alt="Back icon" />
+                    <span>Back</span>
+                </button>
+            </div>
+
+            <div class="hero-section">
+                <img class="img-fluid rounded" src="assets/images/aboutUS.png" />
+            </div>
+
+            <div class="content">
+                <h1 class="font-weight-light">Register for Learning Platform</h1>
+                <p>This document is for use of Song Bench resources. Follow the steps below to register and access the training materials available to you.</p>
+            </div>
+        </div>
+
+        <div class="learning-platform-card">
+            <div class="card-group step1">
+                <div class="card-body">
+                    <h2 class="card-title">Step 1</h2>
+                    <p class="card-text">Create an account in <a href="https://accenture.percipio.com" target="_blank">Percipio</a>, <a href="https://app.pluralsight.com/library/free" target="_blank">Pluralsight</a> or <a href="https://www.udacity.com/dashboard" target="_blank">Udacity</a>.</p>
+                </div>
+            </div>
+
+            <div class="card-group step2">
+                <div class="card-body">
+                    <h2 class="card-title">Step 2</h2>
+                    <p class="card-text">Browse the catalog and select the training materials relevant to your role and skills development plan.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="learning-platform-actions">
+            <button class="btn-complete"
+                (click)="markCompleted()"
+                [disabled]="isWaiting">
+                {{ isWaiting ? 'Processing...' : 'Complete task' }}
+            </button>
+        </div>
+    </div>
+
+    <p *ngIf="isWaiting">
+        Updating status... redirecting in 5 seconds
+    </p>
+</body>
+</html>
