@@ -91,20 +91,20 @@
   },
   {
     "id": 11,
-<<<<<<< HEAD
+    "title": "My Learning Path",
+    "startDate": "",
+    "endDate": "",
+    "status": "Not Started",
+    "progress": 100,
+    "url": "/my-learning-platform"
+  },
+    {
+    "id": 11,
     "title": "Workday Training Tracker",
     "startDate": "",
     "endDate": "",
     "status": "",
     "progress": 100,
     "url": "/training-tracker"
-=======
-    "title": "Learning Platform",
-    "startDate": "",
-    "endDate": "",
-    "status": "Not Started",
-    "progress": 100,
-    "url": "/my-learning-platform"
->>>>>>> 10136a35dad5f2344194ec4d893193fd81d15aad
   }
 ]
