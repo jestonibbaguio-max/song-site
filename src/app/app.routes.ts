@@ -136,5 +136,10 @@ export const routes: Routes = [
     path: 'wd-update-contact',
     loadComponent: () =>
       import('./song-bench/my-journey/task/wd-update-contact/wd-update-contact').then(m => m.WDUpdateContact)
+  },
+  {
+    path: 'my-learning-platform',
+    loadComponent: () =>
+      import('./song-bench/my-journey/task/my-learning-platform/my-learning-platform').then(m => m.MyLearningPlatform)
   }
 ];
