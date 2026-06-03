@@ -9,4 +9,10 @@ export interface Task {
   status: TaskStatus;
   progress: number;
   url: string;
+  startedAt?: string;
+  completedAt?: string;
+  actualDuration?: number;
+  description?: string;
+  linkText?: string;
+  externalLink?: string;
 }

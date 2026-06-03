@@ -9,13 +9,13 @@ describe('TaskGrid', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TaskGrid]
-    });
+  });
     fixture = TestBed.createComponent(TaskGrid);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+  expect(component).toBeTruthy();
   });
 });
