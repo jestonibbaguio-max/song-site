@@ -34,27 +34,26 @@ export class TaskGrid {
     modal.close(); // close modal after confirm
   }
  
-  goToTask(url: string) {
-    this.router.navigate([url]);
+  goToTask(task: Task) {
+    this.router.navigate([task.url], { state: { task } });
   }
 
   startTask(task: Task, event?: Event) {
     event?.stopPropagation();
 
-    this.taskService.updateTaskStatus(task.id, 'start').subscribe(() => {
-      this.router.navigate([task.url]);
-      // window.location.reload();   // refresh page after update
+    this.taskService.updateTaskStatus(task.id, 'start').subscribe(updated => {
+      this.router.navigate([task.url], { state: { task: updated } });
     });
   }
  
   completeTask(task: Task, event?: Event) {
     event?.stopPropagation();
-    
+
     this.taskService.updateTaskStatus(task.id, 'complete').subscribe(() => {
       window.location.reload();   // refresh page after update
     });
   }
- 
+
   getProgress(status: string): number {
     switch (status) {
       case 'In Progress':

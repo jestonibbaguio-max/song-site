@@ -1,6 +1,6 @@
 <div class="task-grid">
   <div class="task-card" *ngFor="let task of tasks"
-    (click)="goToTask(task.url)">
+    (click)="goToTask(task)">
 
     <!-- MODAL TEMPLATE -->
     <ng-template #completeTpl let-modal class="top-center-modal">
@@ -59,12 +59,13 @@
               (click)="startTask(task, $event)">
         ▶ Start
       </button>
- 
+
       <button class="btn complete-btn"
               *ngIf="task.status==='In Progress'"
               (click)="openCompleteModal(completeTpl, task)">
         ✔ Mark as Completed
       </button>
+
     </div>
  
   </div>
