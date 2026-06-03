@@ -1,17 +1,37 @@
-.header1 {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 15px 20px;
-}
-.home-btn1 {
-  text-decoration: none;
-  background: #007bff;
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #000;
   color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 500;
 }
-.home-btn1:hover {
-  background: #0056b3;
+
+.hero {
+  background:
+    linear-gradient(
+      180deg,
+      #7a00ff 0%;
+      #43007a 45%;
+      #000000 100%
+    );
+  padding: 80px 60px 120px;
+}
+
+.hero-content {
+  max-width: 850px;
+}
+
+.hero h1 {
+  font-size: 54px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  max-width: 700px;
+  line-height: 1.6;
 }

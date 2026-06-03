@@ -2,9 +2,8 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
-
 const app = express();
-const PORT = 5000;
+const PORT = 5001;
 
 app.use(cors());
 app.use(express.json());
@@ -37,7 +36,6 @@ app.get("/api/tasks", (req, res) => {
 app.put('/api/tasks/:id', (req, res) => {
   const tasks = readTasks();
   const taskId = parseInt(req.params.id, 10);
-
   const index = tasks.findIndex(t => t.id === taskId);
   if (index === -1) {
     return res.status(404).json({ error: 'Task not found' });
@@ -45,23 +43,22 @@ app.put('/api/tasks/:id', (req, res) => {
 
   // Merge updates
   tasks[index] = { ...tasks[index], ...req.body };
-
   writeTasks(tasks);
   res.json(tasks[index]);
 });
 
 app.post("/api/tasks", (req, res) => {
- const newTask = { id: Date.now(), ...req.body };
- fs.readFile(filePath, "utf8", (err, data) => {
-   if (err) return res.status(500).json({ error: "Failed to read tasks file" });
-   let tasks = [];
-   try { tasks = JSON.parse(data); } catch {}
-   tasks.push(newTask);
-   fs.writeFile(filePath, JSON.stringify(tasks, null, 2), (writeErr) => {
-     if (writeErr) return res.status(500).json({ error: "Failed to save task" });
-     res.status(201).json(newTask);
-   });
- });
+  const newTask = { id: Date.now(), ...req.body };
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read tasks file" });
+    let tasks = [];
+    try { tasks = JSON.parse(data); } catch { }
+    tasks.push(newTask);
+    fs.writeFile(filePath, JSON.stringify(tasks, null, 2), (writeErr) => {
+      if (writeErr) return res.status(500).json({ error: "Failed to save task" });
+      res.status(201).json(newTask);
+    });
+  });
 });
 
 app.get("/api/progress-status", (req, res) => {
@@ -70,7 +67,6 @@ app.get("/api/progress-status", (req, res) => {
     try {
       const tasks = JSON.parse(data);
       if (!Array.isArray(tasks) || tasks.length === 0) return res.json({ progress: 0 });
-
       let score = 0;
       tasks.forEach((task) => {
         switch (task.status) {
@@ -93,25 +89,29 @@ app.put('/api/tasks/:id/status', (req, res) => {
   const tasks = readTasks();
   const taskId = parseInt(req.params.id, 10);
   const index = tasks.findIndex(t => t.id === taskId);
-
   if (index === -1) {
     return res.status(404).json({ error: 'Task not found' });
   }
-
   const { action } = req.body;
-// console.log("ISO (UTC):", new Date().toISOString());
-// console.log("Local:", new Date().toString());
-// console.log("Local date only:", new Date().toLocaleDateString('en-CA'));
-// console.log("Timezone:", Intl.DateTimeFormat().resolvedOptions().timeZone);
   if (action === 'start') {
     tasks[index].status = 'In Progress';
     tasks[index].startDate = new Date().toISOString().split('T')[0];
+    // Store exact start timestamp
+    tasks[index].startedAt = new Date().toISOString();
   } else if (action === 'complete') {
+    const completedAt = new Date().toISOString();
     tasks[index].status = 'Completed';
-    tasks[index].endDate = new Date().toISOString().split('T')[0];
+    tasks[index].endDate = completedAt.split('T')[0];
+    tasks[index].completedAt = completedAt;
     tasks[index].progress = 100;
+    // Calculate actual duration in minutes
+    if (tasks[index].startedAt) {
+      const start = new Date(tasks[index].startedAt).getTime();
+      const end = new Date(completedAt).getTime();
+      tasks[index].actualDuration =
+        Math.round((end - start) / 60000);
+    }
   }
-
   writeTasks(tasks);
   res.json(tasks[index]);
 });
@@ -119,7 +119,6 @@ app.put('/api/tasks/:id/status', (req, res) => {
 // ── Training Tracker ──────────────────────────────────────────────────────────
 
 const trainingFilePath = path.join(__dirname, "training-tasks.json");
-
 function readTrainingTasks() {
   const data = fs.readFileSync(trainingFilePath);
   return JSON.parse(data);
@@ -155,7 +154,7 @@ app.post("/api/training-tasks", (req, res) => {
   fs.readFile(trainingFilePath, "utf8", (err, data) => {
     if (err) return res.status(500).json({ error: "Failed to read training tasks file" });
     let tasks = [];
-    try { tasks = JSON.parse(data); } catch {}
+    try { tasks = JSON.parse(data); } catch { }
     tasks.push(newTask);
     fs.writeFile(trainingFilePath, JSON.stringify(tasks, null, 2), (writeErr) => {
       if (writeErr) return res.status(500).json({ error: "Failed to save task" });
@@ -196,13 +195,21 @@ app.put("/api/training-tasks/:id/status", (req, res) => {
   if (action === "start") {
     tasks[index].status = "In Progress";
     tasks[index].startDate = new Date().toISOString().split("T")[0];
-  } else if (action === "complete") {
-    tasks[index].status = "Completed";
-    tasks[index].endDate = new Date().toISOString().split("T")[0];
+    tasks[index].startedAt = new Date().toISOString();
+  } else if (action === 'complete') {
+    const completedAt = new Date().toISOString();
+    tasks[index].status = 'Completed';
+    tasks[index].endDate = completedAt.split('T')[0];
+    tasks[index].completedAt = completedAt;
     tasks[index].progress = 100;
+    if (tasks[index].startedAt) {
+      const start = new Date(tasks[index].startedAt).getTime();
+      const end = new Date(completedAt).getTime();
+      // Duration in minutes
+      tasks[index].actualDuration = Math.round((end - start) / 60000);
+    }
   }
   writeTrainingTasks(tasks);
   res.json(tasks[index]);
 });
-
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

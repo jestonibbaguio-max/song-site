@@ -1,71 +1,94 @@
 <div class="task-grid">
-  <div class="task-card" *ngFor="let task of tasks"
-    (click)="goToTask(task.url)">
+<div class="task-card" *ngFor="let task of tasks"
+   (click)="goToTask(task.url)">
 
-    <!-- MODAL TEMPLATE -->
-    <ng-template #completeTpl let-modal class="top-center-modal">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirm</h5>
-        <button type="button" class="btn-close" (click)="modal.dismiss('cancel')"></button>
-      </div>
+<!-- MODAL TEMPLATE -->
+<ng-template #completeTpl let-modal class="top-center-modal">
+<div class="modal-header">
+<h5 class="modal-title">Confirm</h5>
+<button type="button" class="btn-close" (click)="modal.dismiss('cancel')"></button>
+</div>
 
-      <div class="modal-body">
-        Are you sure all tasks under <b>{{ selectedTask?.title }}</b> is already completed?
-      </div>
+<div class="modal-body">
+<p>
+   Are you sure all tasks under
+<b>{{ selectedTask?.title }}</b>
+   are already completed?
+</p>
+</div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="modal.dismiss('cancel')">
-          Cancel
-        </button>
+<div class="modal-footer">
+<button class="btn btn-secondary" (click)="modal.dismiss('cancel')">
+         Cancel
+</button>
 
-        <button class="btn btn-success" (click)="confirmComplete(modal, $event)">
-          Confirm
-        </button>
-      </div>
-    </ng-template>
+<button class="btn btn-success" (click)="confirmComplete(modal, $event)">
+         Confirm
+</button>
+</div>
+</ng-template>
 
-    <div class="card-header">
-      <!-- status icon -->
-      <svg class="status-icon"
-           [ngClass]="task.status.toLowerCase().replace(' ', '')"
-           width="25" height="24" viewBox="0 0 25 24">
-        <rect width="25" height="24" rx="4"/>
-        <path d="M6 13.5L10 17L18 9"
-              stroke="white" stroke-width="3"
-              stroke-linecap="round" stroke-linejoin="round"
-              fill="none"/>
-      </svg>
-      <h3>{{task.title}}</h3>
-    </div>
- 
-    <div class="dates">
-      <span><strong>Start:</strong> {{task.startDate || '—'}}</span>
-      <span><strong>End:</strong> {{task.endDate || '—'}}</span>
-    </div>
- 
-    <p class="status">{{task.status}}</p>
- 
-    <!-- Progress Bar -->
-    <div class="progress-container">
-      <div class="progress-bar status-{{getStatus(task.status)}}" [style.width.%]="getProgress(task.status)">
-        {{getProgress(task.status)}}%
-      </div>
-    </div>
+<div class="card-header">
+<!-- status icon -->
+<svg class="status-icon"
+          [ngClass]="task.status.toLowerCase().replace(' ', '')"
+          width="25" height="24" viewBox="0 0 25 24">
+<rect width="25" height="24" rx="4"/>
+<path d="M6 13.5L10 17L18 9"
+             stroke="white" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round"
+             fill="none"/>
+</svg>
+<h3>{{task.title}}</h3>
+</div>
 
-    <!-- Action buttons -->
-    <div class="actions">
-      <button class="btn start-btn"
-              *ngIf="task.status==='Not Started'"
-              (click)="startTask(task, $event)">
-        ▶ Start
-      </button>
- 
-      <button class="btn complete-btn"
-              *ngIf="task.status==='In Progress'"
-              (click)="openCompleteModal(completeTpl, task)">
-        ✔ Mark as Completed
-      </button>
-    </div>
- 
-  </div>
+<div class="duration">
+<strong>Est duration:</strong>
+     {{ task.actualDuration ? formatDuration(task.actualDuration) : '—' }}
+</div>
+
+<p class="description">
+  {{ task.description }}
+</p>
+
+<div class="dates">
+<span><strong>Start:</strong> {{task.startDate || '—'}}</span>
+<span><strong>End:</strong> {{task.endDate || '—'}}</span>
+</div>
+
+<p class="status">{{task.status}}</p>
+
+<!-- Progress Bar -->
+<!-- <div class="progress-container">
+<div class="progress-bar status-{{getStatus(task.status)}}" [style.width.%]="getProgress(task.status)">
+       {{getProgress(task.status)}}%
+</div>
+</div> -->
+
+<a 
+  *ngIf="task.externalLink"
+  class="resource-link"
+  [href]="task.externalLink"
+  targe="_blank"
+  (click)="$event.stopPropagation()">
+
+    {{ task.linkText }}
+</a>
+
+<!-- Action buttons -->
+<div class="actions">
+<button class="btn start-btn"
+             *ngIf="task.status==='Not Started'"
+             (click)="startTask(task, $event)">
+       ▶ Start
+</button>
+
+<button class="btn complete-btn"
+             *ngIf="task.status==='In Progress'"
+             (click)="openCompleteModal(completeTpl, task)">
+       ✔ Mark as Completed
+</button>
+</div>
+
+</div>
 </div>

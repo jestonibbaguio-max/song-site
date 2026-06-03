@@ -6,7 +6,13 @@
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-cv"
+    "url": "/my-cv",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Create a CV to communicate your value and make a strong first impression when a project opportunity rises.",
+    "linkText": "Song Bench CV Repository",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 2,
@@ -15,7 +21,13 @@
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-skills-matrix"
+    "url": "/my-skills-matrix",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Help the ATCP Song organization to map your skills and skills levels so you can be matched to best clients.",
+    "linkText": "ATCP Song Skills Matrix",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 3,
@@ -24,43 +36,73 @@
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-mycompetency"
+    "url": "/my-mycompetency",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Select and assess your competency on your primary and secondary skills.",
+    "linkText": "myCompetency",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 4,
-    "title": "Update Contact",
+    "title": "Update contact details",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-update-contact"
+    "url": "/my-update-contact",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Update your primary and emergency contact details in our bench repository so we can reach out to you for important news and reminders.",
+    "linkText": "Update contact details",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 5,
-    "title": "Workday",
+    "title": "Update your Priorities in Workday",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-workday"
+    "url": "/my-workday",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Update your priorities in Workday as well as take trainings and required learnings.",
+    "linkText": "Workday",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 6,
-    "title": "Riro",
+    "title": "Complete RIRO",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-myriro"
+    "url": "/my-myriro",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Complete our Roll-in / Roll-off (RIRO) checklist in our repository as well as in the ATCP Bench Portal.",
+    "linkText": "Song Bench CV Repository",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 7,
-    "title": "Asset Tracker",
+    "title": "Update the Asset Tracker",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-asset-tracker"
+    "url": "/my-asset-tracker",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Ensure that your workstation is properly accounted for by updating the ATCP Song Bench Asset Tracker.",
+    "linkText": "Asset Tracker",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 8,
@@ -69,42 +111,69 @@
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-compliance"
+    "url": "/my-compliance",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Create a CV to communicate your value and make a strong first impression when a project opportunity rises.",
+    "linkText": "Song Bench CV Repository",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 9,
-    "title": "Update People Lead",
+    "title": "Update your People Lead in Workday",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/people-lead"
+    "url": "/people-lead",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Update your people lead in workday as well as take trainings and required learnings.",
+    "linkText": "Workday",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 10,
-    "title": "Workday Update Contact",
+    "title": "Update your Contact Details in Workday",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/wd-update-contact"
+    "url": "/wd-update-contact",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Update your primary and emergency contact details in Workday for BCM and other important notifications.",
+    "linkText": "Song Bench CV Repository",
+    "externalLink": "http://your-link-here"
   },
   {
     "id": 11,
-    "title": "My Learning Path",
+    "title": "Register to Percipio, Pluralsight, and Udacity",
     "startDate": "",
     "endDate": "",
     "status": "Not Started",
     "progress": 100,
-    "url": "/my-learning-platform"
+    "url": "/my-learning-platform",
+    "startedAt": "",
+    "completedAt": "",
+    "actualDuration": "",
+    "description": "Access thousands of training materials and build your capability by registering your Accenture account with our learning partners Percipio, Pluralsight, and Udacity.",
+    "linkText": "Register",
+    "externalLink": "http://your-link-here"
   },
-    {
+  {
     "id": 12,
-    "title": "Workday Training Tracker",
+    "title": "Complete all Training trackers",
     "startDate": "",
     "endDate": "",
     "status": "",
     "progress": 100,
-    "url": "/training-tracker"
+    "url": "/training-tracker",
+    "description": "Update the training trackers in our repository so we can account which trainings are need to be taken, in-progress, or completed.",
+    "linkText": "Workday Training Tracker",
+    "externalLink": "http://your-link-here"
   }
 ]

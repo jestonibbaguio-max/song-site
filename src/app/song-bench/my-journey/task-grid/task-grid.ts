@@ -2,89 +2,84 @@ import { Component, Input, TemplateRef } from '@angular/core';
 import { Task } from '../models/task';
 import { TaskService } from '../task.service';
 import { CommonModule } from '@angular/common';
-
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { FormsModule } from '@angular/forms';
 @Component({
-  selector: 'app-task-grid',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './task-grid.html',
-  styleUrls: ['./task-grid.css']
+ selector: 'app-task-grid',
+ standalone: true,
+ imports: [CommonModule, FormsModule],
+ templateUrl: './task-grid.html',
+ styleUrls: ['./task-grid.css']
 })
 export class TaskGrid {
-  @Input() tasks: Task[] = [];
-  selectedTask: any;
-
-  constructor(private taskService: TaskService, private router: Router, private modalService: NgbModal) { }
-
-  openCompleteModal(content: TemplateRef<any>, task: any) {
-    event?.stopPropagation();
-    this.selectedTask = task;
-    this.modalService.open(content, {
-      windowClass: 'top-center-modal'
-    });
-
-  }
-
-  confirmComplete(modal: any, event: Event) {
-    event?.stopPropagation();
-    this.completeTask(this.selectedTask, event);
-    modal.close(); // close modal after confirm
-  }
- 
-  goToTask(url: string) {
-    this.router.navigate([url]);
-  }
-
-  startTask(task: Task, event?: Event) {
-    event?.stopPropagation();
-
-    this.taskService.updateTaskStatus(task.id, 'start').subscribe(() => {
-      this.router.navigate([task.url]);
-      // window.location.reload();   // refresh page after update
-    });
-  }
- 
-  completeTask(task: Task, event?: Event) {
-    event?.stopPropagation();
-    
-    this.taskService.updateTaskStatus(task.id, 'complete').subscribe(() => {
-      window.location.reload();   // refresh page after update
-    });
-  }
- 
-  getProgress(status: string): number {
-    switch (status) {
-      case 'In Progress':
-        return 50;
-      case 'Completed':
-        return 100;
-      default:
-        return 0;
-    }
-  }
-
-  getProgressColor(status: string): string {
-    switch (status) {
-      case 'Complete':
-        return '#22c55e';
-      case 'In Progress':
-        return '#f59e0b';
-      default:
-        return '#22c55e';
-    }
-  }
-
-  getStatus(status: string): string {
-    switch (status) {
-      case 'In Progress':
-        return "inprogress";
-      case 'Completed':
-        return "completed";
-      default:
-        return "notstarted";
-    }
-  }
+ @Input() tasks: Task[] = [];
+ selectedTask: any;
+ constructor(private taskService: TaskService, private router: Router, private modalService: NgbModal) { }
+ openCompleteModal(content: TemplateRef<any>, task: any) {
+   event?.stopPropagation();
+   this.selectedTask = task;
+   this.modalService.open(content, {
+     windowClass: 'top-center-modal'
+   });
+ }
+confirmComplete(modal: any, event: Event) {
+ event?.stopPropagation();
+ this.completeTask(this.selectedTask, event);
+ modal.close();
+}
+ goToTask(url: string) {
+   this.router.navigate([url]);
+ }
+ startTask(task: Task, event?: Event) {
+   event?.stopPropagation();
+   this.taskService.updateTaskStatus(task.id, 'start').subscribe(() => {
+     this.router.navigate([task.url]);
+     // window.location.reload();   // refresh page after update
+   });
+ }
+completeTask(task: Task, event?: Event) {
+ event?.stopPropagation();
+ this.taskService.updateTaskStatus(task.id, 'complete').subscribe(() => {
+   window.location.reload();
+ });
+}
+ getProgress(status: string): number {
+   switch (status) {
+     case 'In Progress':
+       return 50;
+     case 'Completed':
+       return 100;
+     default:
+       return 0;
+   }
+ }
+ getProgressColor(status: string): string {
+   switch (status) {
+     case 'Complete':
+       return '#22c55e';
+     case 'In Progress':
+       return '#f59e0b';
+     default:
+       return '#22c55e';
+   }
+ }
+ getStatus(status: string): string {
+   switch (status) {
+     case 'In Progress':
+       return "inprogress";
+     case 'Completed':
+       return "completed";
+     default:
+       return "notstarted";
+   }
+ }
+ formatDuration(minutes: number): string {
+ const hours = Math.floor(minutes / 60);
+ const mins = minutes % 60;
+ if (hours === 0) {
+   return `${mins} min`;
+ }
+ return `${hours} hr ${mins} min`;
+ }
 }
