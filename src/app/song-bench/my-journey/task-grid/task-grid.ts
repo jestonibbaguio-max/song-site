@@ -28,13 +28,13 @@ confirmComplete(modal: any, event: Event) {
  this.completeTask(this.selectedTask, event);
  modal.close();
 }
- goToTask(url: string) {
-   this.router.navigate([url]);
+ goToTask(task: Task) {
+    this.router.navigate([task.url], { state: { task } });
  }
  startTask(task: Task, event?: Event) {
    event?.stopPropagation();
-   this.taskService.updateTaskStatus(task.id, 'start').subscribe(() => {
-     this.router.navigate([task.url]);
+   this.taskService.updateTaskStatus(task.id, 'start').subscribe(updated => {
+      this.router.navigate([task.url], { state: { task: updated } });
      // window.location.reload();   // refresh page after update
    });
  }
