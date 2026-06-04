@@ -5,7 +5,7 @@ import { TrainingTask } from './models/training-task';
 
 @Injectable({ providedIn: 'root' })
 export class TrainingTaskService {
-  private apiUrl = 'http://localhost:5000/api';
+  private apiUrl = 'http://localhost:5001/api';
 
   constructor(private http: HttpClient) {}
 

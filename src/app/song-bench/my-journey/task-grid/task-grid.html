@@ -58,16 +58,20 @@
 <span><strong>End:</strong> {{task.endDate || '—'}}</span>
 </div>
 
-<p class="status">{{task.status}}</p>
+<p class="status">
+  <img src="./assets/icons/Calendar.png" class="calendar-icon">
+  <span>{{task.status}}</span></p>
 
+<div class="resource-links" *ngIf="task.externalLinks?.length">  
 <a 
-  *ngIf="task.externalLink"
+  *ngFor="let link of task.externalLinks"
   class="resource-link"
-  [href]="task.externalLink"
+  [href]="link.url"
   target="_blank"
   (click)="$event.stopPropagation()">
-
-    {{ task.linkText }}
+  <img
+    src="assets/icons/Launch_External_Link.png" class="external-link-icon">
+  <span>{{ link.text }}</span>
 </a>
 
 <!-- Action buttons -->
@@ -75,7 +79,13 @@
 <button class="btn start-btn"
     *ngIf="task.status==='Not Started'"
     (click)="startTask(task, $event)">
-    ▶ Start
+    Start
+</button>
+
+<button class="btn resume-btn"
+    *ngIf="task.status === 'In Progress'"
+    (click)="goToTask(task); $event.stopPropagation()">
+    Resume Task
 </button>
 
 <button class="btn complete-btn"

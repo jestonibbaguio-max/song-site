@@ -11,8 +11,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Create a CV to communicate your value and make a strong first impression when a project opportunity rises.",
-    "linkText": "Song Bench CV Repository",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Song Bench CV Repository",
+        "url": "https://ts.accenture.com/:f:/r/sites/InteractiveBench/Shared%20Documents/General/01%20Onboarding%20Documents/CV?csf=1&web=1&e=V3zJy7"
+      }
+    ]
   },
   {
     "id": 2,
@@ -26,8 +30,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Help the ATCP Song organization to map your skills and skills levels so you can be matched to best clients.",
-    "linkText": "ATCP Song Skills Matrix",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "ATCP Song Skills Matrix",
+        "url": "https://ts.accenture.com/:x:/r/sites/InteractiveBench/_layouts/15/Doc.aspx?sourcedoc=%7BD0BFCA08-72A7-4D98-A4DE-C4BBA8E1F9CE%7D&file=ATCP%20Song%20Skills%20Matrix.xlsx&action=default&mobileredirect=true"
+      }
+    ]
   },
   {
     "id": 3,
@@ -41,8 +49,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Select and assess your competency on your primary and secondary skills.",
-    "linkText": "myCompetency",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "myCompetency",
+        "url": "https://mycompetency.accenture.com/#/home"
+      }
+    ]
   },
   {
     "id": 4,
@@ -56,8 +68,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Update your primary and emergency contact details in our bench repository so we can reach out to you for important news and reminders.",
-    "linkText": "Update contact details",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Update contact details",
+        "url": "https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo."
+      }
+    ]    
   },
   {
     "id": 5,
@@ -71,8 +87,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Update your priorities in Workday as well as take trainings and required learnings.",
-    "linkText": "Workday",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Workday",
+        "url": "https://identity.wd103.myworkday.com/wday/authgwy/accenture/upc/login"
+      }
+    ]    
   },
   {
     "id": 6,
@@ -86,8 +106,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Complete our Roll-in / Roll-off (RIRO) checklist in our repository as well as in the ATCP Bench Portal.",
-    "linkText": "Song Bench CV Repository",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "RIRO",
+        "url": "https://roro.clientdataprotection.accenture.com/RORO.aspx"
+      }
+    ]
   },
   {
     "id": 7,
@@ -101,8 +125,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Ensure that your workstation is properly accounted for by updating the ATCP Song Bench Asset Tracker.",
-    "linkText": "Asset Tracker",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Asset Tracker",
+        "url": "https://ts.accenture.com/:x:/s/InteractiveBench/EXhaA23geO9GsZAw0H-zOyMBGzLVYnYM4vaaIkW3alkNvQ?e=i4uhaZ"
+      }
+    ]
   },
   {
     "id": 8,
@@ -116,8 +144,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Create a CV to communicate your value and make a strong first impression when a project opportunity rises.",
-    "linkText": "Song Bench CV Repository",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "My Compliance",
+        "url": "https://ts.accenture.com/:x:/s/InteractiveBench/EXhaA23geO9GsZAw0H-zOyMBGzLVYnYM4vaaIkW3alkNvQ?e=i4uhaZ"
+      }
+    ]
   },
   {
     "id": 9,
@@ -131,8 +163,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Update your people lead in workday as well as take trainings and required learnings.",
-    "linkText": "Workday",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Workday",
+        "url": "https://identity.wd103.myworkday.com/wday/authgwy/accenture/upc/login"
+      }
+    ]
   },
   {
     "id": 10,
@@ -146,8 +182,12 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Update your primary and emergency contact details in Workday for BCM and other important notifications.",
-    "linkText": "Song Bench CV Repository",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Workday",
+        "url": "https://identity.wd103.myworkday.com/wday/authgwy/accenture/upc/login"
+      }
+    ]
   },
   {
     "id": 11,
@@ -161,8 +201,20 @@
     "completedAt": "",
     "actualDuration": "",
     "description": "Access thousands of training materials and build your capability by registering your Accenture account with our learning partners Percipio, Pluralsight, and Udacity.",
-    "linkText": "Register",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Percipio",
+        "url": "https://accenture.percipio.com/"
+      },
+      {
+        "text": "Pluralsight",
+        "url": "https://app.pluralsight.com/id/signin?redirectTo=https%3A%2F%2Fapp.pluralsight.com%2Flibrary%2Ffree"
+      },
+      {
+        "text": "Udacity",
+        "url":"https://auth.udacity.com/sign-in?next=https://www.udacity.com/dashboard"
+      }
+    ]
   },
   {
     "id": 12,
@@ -173,7 +225,11 @@
     "progress": 100,
     "url": "/training-tracker",
     "description": "Update the training trackers in our repository so we can account which trainings are need to be taken, in-progress, or completed.",
-    "linkText": "Workday Training Tracker",
-    "externalLink": "http://your-link-here"
+    "externalLinks": [
+      {
+        "text": "Training Tracker",
+        "url": "/training-tracker"
+      }
+    ]
   }
 ]

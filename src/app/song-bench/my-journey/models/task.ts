@@ -1,6 +1,11 @@
 // src/app/models/task.ts
 export type TaskStatus = 'Completed' | 'In Progress' | 'Pending' | 'Not Started';
 
+export interface TaskLink {
+  text: string;
+  url: string;
+}
+
 export interface Task {
   id: number;
   title: string;
@@ -13,6 +18,5 @@ export interface Task {
   completedAt?: string;
   actualDuration?: number;
   description?: string;
-  linkText?: string;
-  externalLink?: string;
+  externalLinks?: TaskLink[];
 }
