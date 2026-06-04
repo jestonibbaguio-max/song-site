@@ -1,24 +1,36 @@
 <app-navbar></app-navbar>
-<!-- <div style="text-align:center">
-  <h1>Resource Journey Tracker</h1>
-</div> -->
+
 <section class="hero">
   <div class="hero-content">
+
     <h1>ATCP Song Bench Journey</h1>
-    <h2>Transition to your next project as smooth as possible</h2>
-    <p>Begin your bench journey by completing your milestone activities. 
-      Track your progress and complete each requirement below.
+
+    <h2>
+      Transition to your next project as smooth as possible.
+    </h2>
+
+    <p>
+      Begin your bench journey by completing your milestone
+      activities. Track your progress and learn more details
+      on how to complete each journey.
     </p>
+
   </div>
 </section>
 
-<!-- Path progress visualization -->
-<app-path-progress
-  src="assets/journey/path-progress.svg"
-  alt="Resource journey tracker path"
-></app-path-progress>
+<section class="milestones">
 
-<!-- Task grid -->
-<app-task-grid [tasks]="tasks"></app-task-grid>
-<!-- Task summary -->
-<app-task-summary [tasks]="tasks"></app-task-summary>
+  <div class="milestone-header">
+
+    <h2>Journey Milestones</h2>
+
+    <div class="progress-counter">
+      {{ getCompletedCount() }} / {{ tasks.length }}
+      Tasks completed
+    </div>
+
+  </div>
+
+  <app-task-grid [tasks]="tasks"></app-task-grid>
+
+</section>

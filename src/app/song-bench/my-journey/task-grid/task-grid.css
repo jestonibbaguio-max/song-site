@@ -15,7 +15,7 @@
   min-height: 330px;
   display: flex;
   flex-direction: column;
-  border-bottom: 4px solid #f5b400;
+  border-bottom: 4px solid #d9d9d9;
   transition: all .2s ease;
 }
 .task-card:hover {
@@ -35,7 +35,7 @@
 .status-icon.completed rect { fill: #22c55e; }   /* green */
 .status-icon.inprogress rect { fill: #f59e0b; }  /* orange */
 .status-icon.pending rect { fill: #FEC22B; }     /* orange */
-.status-icon.notstarted rect { fill: #9E9E9E; }  /* gray */
+.status-icon.notstarted rect { fill: #d9d9d9; }  /* gray */
 
 .task-card h3 {
   margin: 0;
@@ -165,4 +165,22 @@
 
 .resource-link:hover {
   text-decoration: underline;
+}
+
+.card-divider {
+  border: 0;
+  border-top: 1px solid #111;
+  margin: 20px 0;
+}
+
+.task-card.notstarted {
+  border-bottom: 4px solid #d9d9d9;
+}
+
+.task-card.inprogress {
+  border-bottom: 4px solid #f59e0b;
+}
+
+.task-card.completed {
+  border-bottom: 4px solid #22c55e;
 }
