@@ -1,5 +1,6 @@
 <div class="task-grid">
   <div class="task-card" *ngFor="let task of tasks"
+    [ngClass]="getStatus(task.status)"
     (click)="goToTask(task)">
 
 <!-- MODAL TEMPLATE -->
