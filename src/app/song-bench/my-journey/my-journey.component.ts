@@ -1,8 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { TaskGrid } from "./task-grid/task-grid";
-import { TaskSummary } from "./components/task-summary/task-summary";
-import { PathProgress } from "./components/path-progress/path-progress";
 import { ChangeDetectorRef } from "@angular/core";
 
 import { Task } from "./models/task";
@@ -11,8 +9,9 @@ import { Navbar } from "../../navbar/navbar";
 
 @Component({
  standalone: true,
- imports: [CommonModule, TaskGrid, PathProgress, TaskSummary, Navbar],
- templateUrl: './my-journey.component.html'
+ imports: [CommonModule, TaskGrid, Navbar],
+ templateUrl: './my-journey.component.html',
+ styleUrl: './my-journey.component.css'
 })
 export class MyJourneyComponent {
 
@@ -25,5 +24,11 @@ export class MyJourneyComponent {
       this.tasks = data;
       this.cdr.detectChanges();
     });
+  }
+
+  getCompletedCount(): number {
+  return this.tasks.filter(
+    task => task.status === 'Completed'
+  ).length;
   }
 }
