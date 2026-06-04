@@ -1,58 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Update Contact Page</title>
-</head>
-<body>
-    <app-navbar></app-navbar>
-    <div class="container px-4 px-lg-5">
-        <div class="update-contact-header">
-            <div class="back">
-                <button type="button" class="btn-back" (click)="goBack()">
-                    <img src="assets/icons/back.png" alt="Back icon" />
-                    <span>Back</span>
-                </button>
-            </div>
+<app-navbar></app-navbar>
+<div class="page">
 
-            <div class="hero-section">
-                <img class="img-fluid rounded" src="assets/images/aboutUS.png" />
-            </div>
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">Update Contact Details</span>
+  </div>
 
-            <div class="content">
-                <h1 class="font-weight-light">Updating Contact Details Guidelines</h1>
-                <p>This document is for use of Song Bench resources. This contains all the Contact Details of Bench resources. </p>
-            </div>
-        </div>
-        
-        <div class="update-contact-card">
-            <div class="card-group step1">
-                <div class="card-body">
-                    <h2 class="card-title">Step 1</h2>
-                    <p class="card-text">Open the <a href="https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo." target="_blank">Bench Resources Contact Details.xslx</a> and select the current FY sheet.</p>
-                </div>
-            </div>
+  <!-- Page Title -->
+  <h1 class="page-title">Update Contact Details</h1>
 
-            <div class="card-group step2">
-                <div class="card-body">
-                    <h2 class="card-title">Step 2</h2>
-                    <p class="card-text">Complete your resource details from columns A to H.</p>
-                </div>
-            </div>
-        </div>
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/Rocket2.png" class="hero-img" alt="Update Contact Details" />
+  </div>
 
-        <div class="update-contact-actions">
-            <button class="btn-complete"
-                (click)="markCompleted()"
-                [disabled]="isWaiting">
-                {{ isWaiting ? 'Processing...' : 'Complete task' }}
-            </button>
-        </div>
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + target + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Update your primary and emergency contact details in our bench repository so we can reach out to you for important news and reminders.
+      </p>
+
+      <div class="btn-wrapper">
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Back</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
     </div>
-        
-    <p *ngIf="isWaiting">
-        Updating status... redirecting in 5 seconds
-    </p>
-</body>
-</html>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Bench Resources Contact Details.xslx and fill up all relevant fields.</p>
+        <a href="https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo." target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> Bench Resources Contact Details
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>Update using your current contact details so we can reach out to you for important news and or reminders.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 3</div>
+        <p>Make sure to update the location details as well as your emergency contact so we can account you for BCM purposes.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
