@@ -1,6 +1,8 @@
 <div class="task-grid">
-<div class="task-card" *ngFor="let task of tasks"
-   (click)="goToTask(task.url)">
+<div class="task-card"
+     [ngClass]="getStatus(task.status)"
+     *ngFor="let task of tasks"
+     (click)="goToTask(task.url)">
 
 <!-- MODAL TEMPLATE -->
 <ng-template #completeTpl let-modal class="top-center-modal">
@@ -11,19 +13,19 @@
 
 <div class="modal-body">
 <p>
-   Are you sure all tasks under
+  Are you sure all tasks under
 <b>{{ selectedTask?.title }}</b>
-   are already completed?
+  are already completed?
 </p>
 </div>
 
 <div class="modal-footer">
 <button class="btn btn-secondary" (click)="modal.dismiss('cancel')">
-         Cancel
+    Cancel
 </button>
 
 <button class="btn btn-success" (click)="confirmComplete(modal, $event)">
-         Confirm
+    Confirm
 </button>
 </div>
 </ng-template>
@@ -31,25 +33,27 @@
 <div class="card-header">
 <!-- status icon -->
 <svg class="status-icon"
-          [ngClass]="task.status.toLowerCase().replace(' ', '')"
-          width="25" height="24" viewBox="0 0 25 24">
+    [ngClass]="task.status.toLowerCase().replace(' ', '')"
+    width="25" height="24" viewBox="0 0 25 24">
 <rect width="25" height="24" rx="4"/>
 <path d="M6 13.5L10 17L18 9"
-             stroke="white" stroke-width="3"
-             stroke-linecap="round" stroke-linejoin="round"
-             fill="none"/>
+    stroke="white" stroke-width="3"
+    stroke-linecap="round" stroke-linejoin="round"
+    fill="none"/>
 </svg>
 <h3>{{task.title}}</h3>
 </div>
 
 <div class="duration">
 <strong>Est duration:</strong>
-     {{ task.actualDuration ? formatDuration(task.actualDuration) : '—' }}
+  {{ task.actualDuration ? formatDuration(task.actualDuration) : '—' }}
 </div>
 
 <p class="description">
   {{ task.description }}
 </p>
+
+<hr class="card-divider">
 
 <div class="dates">
 <span><strong>Start:</strong> {{task.startDate || '—'}}</span>
@@ -58,18 +62,11 @@
 
 <p class="status">{{task.status}}</p>
 
-<!-- Progress Bar -->
-<!-- <div class="progress-container">
-<div class="progress-bar status-{{getStatus(task.status)}}" [style.width.%]="getProgress(task.status)">
-       {{getProgress(task.status)}}%
-</div>
-</div> -->
-
 <a 
   *ngIf="task.externalLink"
   class="resource-link"
   [href]="task.externalLink"
-  targe="_blank"
+  target="_blank"
   (click)="$event.stopPropagation()">
 
     {{ task.linkText }}
@@ -78,15 +75,15 @@
 <!-- Action buttons -->
 <div class="actions">
 <button class="btn start-btn"
-             *ngIf="task.status==='Not Started'"
-             (click)="startTask(task, $event)">
-       ▶ Start
+    *ngIf="task.status==='Not Started'"
+    (click)="startTask(task, $event)">
+    ▶ Start
 </button>
 
 <button class="btn complete-btn"
-             *ngIf="task.status==='In Progress'"
-             (click)="openCompleteModal(completeTpl, task)">
-       ✔ Mark as Completed
+    *ngIf="task.status==='In Progress'"
+    (click)="openCompleteModal(completeTpl, task)">
+    ✔ Mark as Completed
 </button>
 </div>
 
