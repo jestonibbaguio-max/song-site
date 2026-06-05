@@ -28,7 +28,7 @@
       <div class="btn-wrapper">
         <!-- Not yet completed: show both buttons -->
         <ng-container *ngIf="!isCompleted">
-          <button class="later-btn" (click)="goBack()">Back</button>
+          <button class="later-btn" (click)="goBack()">Complete Later</button>
           <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
         </ng-container>
 
@@ -48,8 +48,9 @@
       <div class="step-card">
         <div class="step-label">Step 1</div>
         <p>Bench Resources Contact Details.xslx and fill up all relevant fields.</p>
-        <a href="https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo." target="_blank" class="step-link">
-          <span class="link-icon">&#x1F5D7;</span> Bench Resources Contact Details
+        <a class="step-link" href="https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo." target="_blank" (click)="$event.stopPropagation()">
+          <img src="assets/icons/Launch_External_Link.png" class="link-icon">
+          <span >Bench Resources Contact Details</span>
         </a>
       </div>
 
