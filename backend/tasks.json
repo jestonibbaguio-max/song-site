@@ -13,9 +13,13 @@
     "description": "Create a CV to communicate your value and make a strong first impression when a project opportunity rises.",
     "externalLinks": [
       {
-        "text": "Song Bench CV Repository",
-        "url": "https://ts.accenture.com/:f:/r/sites/InteractiveBench/Shared%20Documents/General/01%20Onboarding%20Documents/CV?csf=1&web=1&e=V3zJy7"
-      }
+        "text": "ATCP Song Bench CV Template",
+        "url": "https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV%2F%5BNEW%5D%20Manila&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92"
+      },
+      {
+        "text": "ATCP Song Bench CV Repository",
+        "url": "https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92"
+      }      
     ]
   },
   {
@@ -73,7 +77,7 @@
         "text": "Update contact details",
         "url": "https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo."
       }
-    ]    
+    ]
   },
   {
     "id": 5,
@@ -92,7 +96,7 @@
         "text": "Workday",
         "url": "https://identity.wd103.myworkday.com/wday/authgwy/accenture/upc/login"
       }
-    ]    
+    ]
   },
   {
     "id": 6,
@@ -203,16 +207,20 @@
     "description": "Access thousands of training materials and build your capability by registering your Accenture account with our learning partners Percipio, Pluralsight, and Udacity.",
     "externalLinks": [
       {
-        "text": "Percipio",
+        "text": "Accenture Percipio site",
         "url": "https://accenture.percipio.com/"
       },
       {
-        "text": "Pluralsight",
+        "text": "Pluralsight site",
         "url": "https://app.pluralsight.com/id/signin?redirectTo=https%3A%2F%2Fapp.pluralsight.com%2Flibrary%2Ffree"
       },
       {
-        "text": "Udacity",
-        "url":"https://auth.udacity.com/sign-in?next=https://www.udacity.com/dashboard"
+        "text": "Udacity Site",
+        "url": "https://auth.udacity.com/sign-in?next=https://www.udacity.com/dashboard"
+      },
+      {
+        "text": "Udacity: TQ at Accenture",
+        "url": "https://www.udacity.com/accenture"
       }
     ]
   },
