@@ -39,10 +39,17 @@ confirmComplete(modal: any, event: Event) {
    });
  }
 completeTask(task: Task, event?: Event) {
- event?.stopPropagation();
- this.taskService.updateTaskStatus(task.id, 'complete').subscribe(() => {
-   window.location.reload();
- });
+  event?.stopPropagation();
+  this.taskService.updateTaskStatus(task.id, 'complete').subscribe(() => {
+    window.location.reload();
+  });
+}
+
+updateTask(task: Task, event?: Event) {
+  event?.stopPropagation();
+  this.taskService.updateTaskStatus(task.id, 'start').subscribe(() => {
+    window.location.reload();
+  });
 }
  getProgress(status: string): number {
    switch (status) {
