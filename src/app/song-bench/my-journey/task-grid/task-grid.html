@@ -77,23 +77,33 @@
 
 <!-- Action buttons -->
 <div class="actions">
-<button class="btn start-btn"
-    *ngIf="task.status==='Not Started'"
-    (click)="startTask(task, $event)">
-    Start
-</button>
+  <button class="btn start-btn"
+      *ngIf="task.status==='Not Started'"
+      (click)="startTask(task, $event)">
+      Start
+  </button>
 
-<button class="btn resume-btn"
-    *ngIf="task.status === 'In Progress'"
-    (click)="goToTask(task); $event.stopPropagation()">
-    Resume Task
-</button>
+  <button class="btn resume-btn"
+      *ngIf="task.status==='In Progress'"
+      (click)="goToTask(task); $event.stopPropagation()">
+      Resume Task
+  </button>
 
-<button class="btn complete-btn"
-    *ngIf="task.status==='In Progress'"
-    (click)="openCompleteModal(completeTpl, task)">
-    ✔ Mark as Completed
-</button>
+  <button class="btn complete-btn"
+      *ngIf="task.status==='In Progress'"
+      (click)="openCompleteModal(completeTpl, task)">
+      ✔ Mark as Completed
+  </button>
+
+  <button class="btn update-btn"
+      *ngIf="task.status==='Completed'"
+      (click)="updateTask(task, $event)">
+      Update task
+  </button>
+
+  <span class="task-completed-badge" *ngIf="task.status==='Completed'">
+    <span class="completed-check">&#10003;</span> Task Completed
+  </span>
 </div>
 
 </div>

@@ -164,6 +164,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: auto;
   margin-bottom: 16px;
 }
 
@@ -212,5 +213,48 @@
 }
 
 .resume-btn:hover {
-  background:
+  background: #8500d4;
+}
+
+/* Update task button — outlined with purple text */
+.update-btn {
+  background: transparent;
+  color: #a100ff;
+  border: 1.5px solid #bbb;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 14px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.update-btn:hover {
+  border-color: #a100ff;
+  background: rgba(161, 0, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Task Completed badge */
+.task-completed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+}
+
+.completed-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #22c55e;
+  color: #22c55e;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
 }

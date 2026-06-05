@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
 import { Navbar } from '../../../../navbar/navbar';
+import { TaskService } from '../../task.service';
 
 @Component({
   selector: 'app-my-learning-platform',
@@ -11,35 +11,31 @@ import { Navbar } from '../../../../navbar/navbar';
   templateUrl: './my-learning-platform.html',
   styleUrl: './my-learning-platform.css',
 })
-
 export class MyLearningPlatform implements OnInit {
-	isWaiting = false;
-	constructor(private router: Router) {}
 
-	goBack() {
-		this.router.navigate(['/my-journey']);
-	}
+  isCompleted = false;
+  private readonly taskId = 11;
 
-	markCompleted() {
-		const data = localStorage.getItem('items');
-		let items: any[] = [];
+  constructor(private router: Router, private taskService: TaskService) {}
 
-		if (data) {
-			items = JSON.parse(data);
-		}
+  ngOnInit() {
+    const task = history.state?.task;
+    if (task) {
+      this.isCompleted = task.status === 'Completed';
+    } else {
+      this.taskService.getTasks().subscribe(tasks => {
+        this.isCompleted = tasks.find(t => t.id === this.taskId)?.status === 'Completed';
+      });
+    }
+  }
 
-		const track = items.find((i: any) => i.label === 'Learning Platform');
-		const now = new Date().toISOString();
-		if (track && (track.status === 'In Progress' || track.status === 'Blocked')) {
-			track.status = 'Completed';
-			track.endDate = now;
-			track.lastUpdated = now;
-			localStorage.setItem('items', JSON.stringify(items));
-		}
-		setTimeout(() => {
-			this.router.navigate(['/my-journey']);
-		}, 5000);
-	}
+  goBack() {
+    this.router.navigate(['/my-journey']);
+  }
 
-	ngOnInit() {}
+  updateTask() {
+    this.isCompleted = false;
+    this.taskService.updateTaskStatus(this.taskId, 'start').subscribe();
+  }
+
 }
