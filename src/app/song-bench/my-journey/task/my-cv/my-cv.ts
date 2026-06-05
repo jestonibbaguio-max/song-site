@@ -1,44 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { TaskService } from '../../task.service';
 import { Navbar } from '../../../../navbar/navbar';
 
 @Component({
- selector: 'app-my-cv',
- standalone: true,
- imports: [CommonModule, Navbar],
- templateUrl: './my-cv.html',
- styleUrl: './my-cv.css'
+  selector: 'app-my-cv',
+  standalone: true,
+  imports: [CommonModule, Navbar],
+  templateUrl: './my-cv.html',
+  styleUrl: './my-cv.css'
 })
-export class MyCv {
+export class MyCv implements OnInit {
 
- constructor(private router: Router) {}
+  isCompleted = false;
+  private readonly taskId = 1;
 
-  goBack() {
+  constructor(private router: Router, private taskService: TaskService) {}
+
+    ngOnInit() {
+    const task = history.state?.task;
+    if (task) {
+      this.isCompleted = task.status === 'Completed';
+    } else {
+      this.taskService.getTasks().subscribe(tasks => {
+        this.isCompleted = tasks.find(t => t.id === this.taskId)?.status === 'Completed';
+      });
+    }
+  }
+
+  goBack(): void {
     this.router.navigate(['/my-journey']);
   }
 
-  isWaiting = false;
-  
-markCompleted() {
- const data = localStorage.getItem('items');
- let items: any[] = [];
- if (data) {
-   items = JSON.parse(data);
- }
- const track = items.find((i: any) => i.label === 'Create CV');
- const now = new Date().toISOString();
- // ✅ ONLY update status if allowed
- if (track && (track.status === 'In Progress' || track.status === 'Blocked')) {
-   track.status = 'Completed';
-   track.endDate = now;
-   track.lastUpdated = now;
-   localStorage.setItem('items', JSON.stringify(items));
- }
- // ✅ ALWAYS navigate (regardless of status)
- setTimeout(() => {
-   this.router.navigate(['/my-journey']);
- }, 500);
+     updateTask() {
+    this.isCompleted = false;
+    this.taskService.updateTaskStatus(this.taskId, 'start').subscribe();
+  }
+
 }
-}
+ 
+
