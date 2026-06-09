@@ -59,20 +59,20 @@
 }
 
 .milestone-header {
-  margin-top: 40px;
+  margin-top: 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .milestone-header h2 {
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 34px;
+  font-weight: 700;
 }
 
 .progress-counter {
-  font-size: 22px;
+  font-size: 34px;
   font-weight: 300;
 }
 
