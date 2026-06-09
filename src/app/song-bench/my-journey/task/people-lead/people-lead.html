@@ -1,110 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>People Lead Page</title>
+<app-navbar></app-navbar>
+<div class="page">
 
-</head>
-<body>
-    <app-navbar></app-navbar>
-     <div class="page">
-<!-- Back Button -->
-    <div class="back-btn" (click)="goBack()">← Back</div>
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">Update your People Lead in Workday</span>
+  </div>
 
-    <!-- Hero Image -->
-    <div class="hero-section">
-      <img
-        src="assets/images/createacv.png" class="about-img"/>
-    </div>
+  <!-- Page Title -->
+  <h1 class="page-title">Update your People Lead in Workday</h1>
 
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/360VR.png" class="hero-img" alt="Update your People Lead in Workday" />
+  </div>
 
-    <div class="content">
+  <!-- Two-column main content -->
+  <div class="main-content">
 
-      <h1>ATCP Song People Lead Guidelines</h1>
+    <!-- Left: description + target + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Update your People Lead in Workday and ensure that you are aligned to your Capability or Market Bench Lead.
+      </p>
 
-        <div class="intro">
-        <p>
-        People Lead an individual within an organization who is responsible for leading, managing, and developing a group of employees.
-        </p>
-    </div>
-
-    <div class="step-card step1">
-      <div class="overlay"></div>
-
-      <div class="step-content">
-        <h2>Step 1<br>
-        <span class="sub-title">Identify People Lead</span>
-        </h2>
-
-        <p>
-           Log in to <a href="https://wd103.myworkday.com/accenture/d/home.htmld" target="_blank"><span class="highlight">Workday</span></a> and open View Profile.
-           You will see who are your People Lead in the Dashboard.
-        </p>
-      </div>
-    </div>
-
-    <div class="step-card step2">
-      <div class="overlay"></div>
-
-      <div class="step-content">
-        <h2>Step 2<br>
-        <span class="sub-title">
-            Contact People Lead
-        </span></h2>
-
-        <p>
-          If the People Lead in the Dashboard are not the right one.
-          Contact your expected People Lead to change the assign to His/Her name.
-        </p>
-      </div>
-    </div>
-
-    <div class="step-card step3">
-      <div class="overlay"></div>
-
-      <div class="step-content">
-        <h2>Step 3<br>
-        <span class="sub-title">
-            Confirm
-        </span>
-        </h2>
-
-        <p>
-          Check whether People Lead are now reflected and correctly identify<br>
-        </p>
-      </div>
-    </div>
-
-    <div class="step-card step4">
-      <div class="overlay"></div>
-
-      <div class="step-content">
-        <h2>Step 4<br>
-            <span class="sub-title">
-            Submit and Keep Your People Lead Updated
-        </span>
-        </h2>
-
-        <p>
-          An updated people Lead keeps you deployment‑ready and visible for future opportunities.
-        </p>
-      </div>
-    </div>
-
-
-
-
-
-
-     <!-- Button -->
       <div class="btn-wrapper">
-        <button class="complete-btn" (click)="markCompleted()">Complete task </button>
-        <!-- <button class="finish-btn" (click)="markCompleted()" [disabled]="!canComplete()">COMPLETE</button> -->
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete Later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Launch Workday and navigate to your Profile page.</p>
+        <a class="step-link" href="https://wd103.myworkday.com/accenture/d/home.htmld" target="_blank" (click)="$event.stopPropagation()">
+          <img src="assets/icons/Launch_External_Link.png" class="link-icon">
+          <span >Workday</span>
+        </a>
       </div>
 
- </div>
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>Check if the assigned People Lead is aligned to the Capability or Maket Bench Lead.</p>
+      <br>
+        <p>If not, please reach out to your previous People Lead indicated in your Workday and request to update it in Workday.</p>
+      </div>
 
-<p *ngIf="isWaiting">
-Updating status... redirecting in 5 seconds
-</p>
+      <div class="step-card">
+        <div class="step-label">Step 3 (for new hires only)</div>
+        <p>If you are newly hired, please contact you HRPA, provide the EID of your Capability Lead, and request to have it updated in Workday.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

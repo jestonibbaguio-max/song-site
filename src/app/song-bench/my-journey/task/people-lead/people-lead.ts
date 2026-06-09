@@ -1,49 +1,42 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { Navbar } from '../../../../navbar/navbar';
-@Component({
+import { TaskService } from '../../task.service';
 
-  selector: 'app-people-lead',
-  standalone: true,
-  imports: [CommonModule, Navbar],
-  templateUrl: './people-lead.html',
-  styleUrls: ['./people-lead.css']
- 
+@Component({
+	selector: 'app-people-lead',
+	standalone: true,
+	imports: [CommonModule, Navbar],
+	templateUrl: './people-lead.html',
+	styleUrl: './people-lead.css',
 })
 
 export class PeopleLead implements OnInit {
+	isCompleted = false;
+	private readonly taskId = 9;
 
-  isWaiting = false;
-  constructor(private router: Router) {}
+	constructor(private router: Router, private taskService: TaskService) {}
 
-  goBack() {
-    this.router.navigate(['/my-journey']);
-  }
+	goBack() {
+		this.router.navigate(['/my-journey']);
+	}
 
-  markCompleted() {
-    const data = localStorage.getItem('items');
-    let items: any[] = [];
-    if (data) {
-    items = JSON.parse(data);
-    }
-    const track = items.find((i: any) => i.label === 'My Competency');
-    const now = new Date().toISOString();
- // ✅ ONLY update status if allowed
-    if (track && (track.status === 'In Progress' || track.status === 'Blocked')) {
-      track.status = 'Completed';
-      track.endDate = now;
-      track.lastUpdated = now;
-      localStorage.setItem('items', JSON.stringify(items));
-    }
- // ✅ ALWAYS navigate (regardless of status)
-    setTimeout(() => {
-      this.router.navigate(['/my-journey']);
-    }, 500);
-}  
+	ngOnInit() {
+		const task = history.state?.task;
+		if (task) {
+			this.isCompleted = task.status === 'Completed';
+		} else {
+			this.taskService.getTasks().subscribe(tasks => {
+				this.isCompleted = tasks.find(t => t.id === this.taskId)?.status === 'Completed';
+			});
+		}
+	}
 
-  ngOnInit() {}
-
+	updateTask() {
+		this.isCompleted = false;
+		this.taskService.updateTaskStatus(this.taskId, 'start').subscribe();
+	}
 }
- 
