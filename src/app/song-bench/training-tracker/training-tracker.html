@@ -1,15 +1,35 @@
 <app-navbar></app-navbar>
-<div style="text-align:center">
-  <h1>Training Tracker</h1>
-</div>
 
-<!-- Path progress visualization -->
-<app-path-progress
-  src="assets/training/training.svg"
-  alt="Training tracker progress path"
-></app-path-progress>
+<section class="hero">
+  <div class="hero-content">
 
-<!-- Task grid -->
-<app-task-grid [tasks]="tasks"></app-task-grid>
-<!-- Task summary -->
-<app-task-summary [tasks]="tasks"></app-task-summary>
+    <h1>ATCP Training Tracker</h1>
+
+    <h2>
+      Track your learning journey and complete all required trainings.
+    </h2>
+
+    <p>
+      Monitor your training progress, launch learning resources,
+      and complete all assigned courses to prepare for your next opportunity.
+    </p>
+
+  </div>
+</section>
+
+<section class="training-content">
+
+  <div class="training-header">
+
+    <h2>Training Milestones</h2>
+
+    <div class="progress-counter">
+      {{ getCompletedCount() }} / {{ tasks.length }}
+      Tasks completed
+    </div>
+
+  </div>
+
+  <app-task-grid [tasks]="tasks"></app-task-grid>
+
+</section>

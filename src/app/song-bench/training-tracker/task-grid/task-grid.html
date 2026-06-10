@@ -1,5 +1,8 @@
 <div class="task-grid">
-  <div class="task-card" *ngFor="let task of tasks"
+  <div
+    class="task-card"
+    *ngFor="let task of tasks"
+    [ngClass]="getTrainingStatus(task.status)"
     (click)="goToTask(task.url)">
 
     <!-- MODAL TEMPLATE -->
@@ -35,36 +38,92 @@
               stroke-linecap="round" stroke-linejoin="round"
               fill="none"/>
       </svg>
+
       <h3>{{task.title}}</h3>
     </div>
+
+    <div class="duration">
+      <strong>Est duration:</strong>
+      {{ task.actualDuration ? formatDuration(task.actualDuration) : '—' }}
+    </div>
+
+    <p class="description">
+      {{ task.description }}
+    </p>
+
+    <hr class="card-divider">
 
     <div class="dates">
       <span><strong>Start:</strong> {{task.startDate || '—'}}</span>
       <span><strong>End:</strong> {{task.endDate || '—'}}</span>
     </div>
 
-    <p class="status">{{task.status}}</p>
+    <p class="status">
+      <img
+        src="./assets/icons/Calendar.png"
+        class="calendar-icon">
+      <span>{{task.status}}</span>
+    </p>
 
-    <!-- Progress Bar -->
-    <div class="progress-container">
-      <div class="progress-bar status-{{getTrainingStatus(task.status)}}" [style.width.%]="getProgress(task.status)">
-        {{getProgress(task.status)}}%
-      </div>
+    <!-- Resource Links -->
+    <div
+      class="resource-links"
+      *ngIf="task.externalLinks?.length">
+
+      <a
+        *ngFor="let link of task.externalLinks"
+        class="resource-link"
+        [href]="link.url"
+        target="_blank"
+        (click)="$event.stopPropagation()">
+
+        <img
+          src="./assets/icons/Launch_External_Link.png"
+          class="external-link-icon">
+
+        <span>{{ link.text }}</span>
+      </a>
+
     </div>
+
 
     <!-- Action buttons -->
     <div class="actions">
-      <button class="btn start-btn"
-              *ngIf="task.status==='Not Started'"
-              (click)="startTask(task, $event)">
-        ▶ Start
+
+    <!-- NOT STARTED -->
+      <button
+        class="btn start-btn"
+        *ngIf="task.status==='Not Started'"
+        (click)="startTask(task, $event)">
+        Start
       </button>
 
-      <button class="btn complete-btn"
-              *ngIf="task.status==='In Progress'"
-              (click)="openCompleteModal(completeTpl, task)">
+    <!-- IN PROGRESS -->
+      <button
+        class="btn resume-btn"
+        *ngIf="task.status==='In Progress'"
+        (click)="goToTask(task.url); $event.stopPropagation()">
+        Resume Training
+      </button>
+
+      <button
+        class="btn complete-btn"
+        *ngIf="task.status==='In Progress'"
+        (click)="openCompleteModal(completeTpl, task)">
         ✔ Mark as Completed
       </button>
+
+    <!-- COMPLETED -->
+      <span
+        class="task-completed-badge"
+        *ngIf="task.status==='Completed'">
+
+      <span class="completed-check">
+        &#10003;
+      </span>
+
+        Training Completed
+      </span>
     </div>
 
   </div>

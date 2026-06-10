@@ -25,4 +25,10 @@ export class TrainingTracker {
       this.cdr.detectChanges();
     });
   }
+
+  getCompletedCount(): number {
+    return this.tasks.filter(
+      task => task.status === 'Completed'
+    ).length;
+  }
 }

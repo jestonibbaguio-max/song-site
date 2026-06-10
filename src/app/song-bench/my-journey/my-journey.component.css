@@ -8,7 +8,6 @@
 .hero {
   position: relative;
   overflow: hidden;
-  background: #6a0dad !important;
   background:
     radial-gradient(
       circle at top left,
@@ -24,7 +23,7 @@
       #000000 70%
     );
 
-  padding: 120px 60px 20px;
+  padding: 120px 60px 30px;
 }
 
 .hero-content {
