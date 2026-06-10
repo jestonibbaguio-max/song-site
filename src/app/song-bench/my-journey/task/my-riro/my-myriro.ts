@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { TaskService } from '../../task.service';
 import { Navbar } from '../../../../navbar/navbar';
+
 @Component({
 
   selector: 'app-my-myriro',
@@ -15,35 +16,30 @@ import { Navbar } from '../../../../navbar/navbar';
 
 export class MyMyRiro implements OnInit {
 
-  isWaiting = false;
-  constructor(private router: Router) {}
 
-  goBack() {
+  isCompleted = false;
+  private readonly taskId = 6;
+
+  constructor(private router: Router, private taskService: TaskService) {}
+
+    ngOnInit() {
+    const task = history.state?.task;
+    if (task) {
+      this.isCompleted = task.status === 'Completed';
+    } else {
+      this.taskService.getTasks().subscribe(tasks => {
+        this.isCompleted = tasks.find(t => t.id === this.taskId)?.status === 'Completed';
+      });
+    }
+  }
+
+  goBack(): void {
     this.router.navigate(['/my-journey']);
   }
 
-  markCompleted() {
-    const data = localStorage.getItem('items');
-    let items: any[] = [];
-    if (data) {
-    items = JSON.parse(data);
-    }
-    const track = items.find((i: any) => i.label === 'My RiRo');
-    const now = new Date().toISOString();
- // ✅ ONLY update status if allowed
-    if (track && (track.status === 'In Progress' || track.status === 'Blocked')) {
-      track.status = 'Completed';
-      track.endDate = now;
-      track.lastUpdated = now;
-      localStorage.setItem('items', JSON.stringify(items));
-    }
- // ✅ ALWAYS navigate (regardless of status)
-    setTimeout(() => {
-      this.router.navigate(['/my-journey']);
-    }, 500);
-}  
-
-  ngOnInit() {}
+     updateTask() {
+    this.isCompleted = false;
+    this.taskService.updateTaskStatus(this.taskId, 'start').subscribe();
+  }
 
 }
- 
