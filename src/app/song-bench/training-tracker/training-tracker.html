@@ -30,6 +30,6 @@
 
   </div>
 
-  <app-task-grid [tasks]="tasks"></app-task-grid>
+  <app-task-grid [tasks]="tasks" (tasksChanged)="loadTasks()"></app-task-grid>
 
 </section>

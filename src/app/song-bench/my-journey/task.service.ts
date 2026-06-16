@@ -27,4 +27,8 @@ export class TaskService {
     data
     );
   }
+
+  getTrainingTasks(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/training-tasks`);
+  }
 }

@@ -18,6 +18,10 @@ export class TrainingTracker {
   constructor(private taskService: TrainingTaskService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.loadTasks();
+  }
+
+  loadTasks() {
     this.taskService.getTasks().subscribe(data => {
       this.tasks = data;
       this.cdr.detectChanges();

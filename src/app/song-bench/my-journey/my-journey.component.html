@@ -31,6 +31,6 @@
 
   </div>
 
-  <app-task-grid [tasks]="tasks"></app-task-grid>
+  <app-task-grid [tasks]="tasks" [allTrainingCompleted]="allTrainingCompleted" (tasksChanged)="loadTasks()"></app-task-grid>
 
 </section>
