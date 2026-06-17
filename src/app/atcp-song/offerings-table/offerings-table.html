@@ -1,0 +1,37 @@
+<section class="offerings-section">
+  <div
+    class="offerings-grid"
+    [style.grid-template-columns]="gridColumns()"
+  >
+
+    <!-- ROW 1: Column Headers -->
+    <div class="cell cell-header cell-label">Song Offerings</div>
+    @for (offering of offerings(); track offering.id) {
+      <div class="cell cell-header">{{ offering.name }}</div>
+    }
+
+    <!-- ROW 2: Practice Leads -->
+    <div class="cell cell-row-label">Practice Leads</div>
+    @for (offering of offerings(); track offering.id) {
+      <div class="cell">
+        <span class="person-name">{{ offering.practiceLead }}</span>
+      </div>
+    }
+
+    <!-- ROW 3: Capability Leads -->
+    <div class="cell cell-row-label">Capability Leads</div>
+    @for (offering of offerings(); track offering.id) {
+      <div class="cell cell-capability">
+        @for (lead of offering.capabilityLeads; track lead.name) {
+          <div class="capability-entry">
+            <span class="person-name">{{ lead.name }}</span>
+            @if (lead.specialization) {
+              <span class="specialization">({{ lead.specialization }})</span>
+            }
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</section>

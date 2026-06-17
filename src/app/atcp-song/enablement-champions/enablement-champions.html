@@ -1,0 +1,19 @@
+<!-- src/app/components/enablement-champions/enablement-champions.component.html -->
+<section class="champions-section">
+  <div class="champions-card">
+
+    <div class="champions-title-bar">
+      <h2>Enablement Champions</h2>
+    </div>
+
+    <div class="champions-grid">
+      @for (champion of champions(); track champion.name) {
+        <div class="champion-item">
+          <span class="champion-name">{{ champion.name }}</span>
+          <span class="champion-role">{{ champion.role }}</span>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>
