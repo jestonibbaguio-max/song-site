@@ -141,5 +141,10 @@ export const routes: Routes = [
     path: 'my-learning-platform',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-learning-platform/my-learning-platform').then(m => m.MyLearningPlatform)
+  },
+  {
+    path: 'atcp-song-links',
+    loadComponent: () =>
+      import('./atcp-song-links/atcp-song-links').then(m => m.AtcpSongLinks)
   }
 ];
