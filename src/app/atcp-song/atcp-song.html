@@ -1,2 +1,40 @@
-<app-navbar></app-navbar>
-<img src="assets/images/leadership.png" style="width:100%; height:auto;">
+<!-- src/app/atcp-song/atcp-song.html -->
+<div class="site-shell">
+
+ <app-navbar></app-navbar>
+
+  @if (loading()) {
+    <div class="state-center">
+      <div class="spinner"></div>
+      <p>Loading ATCP SONG data…</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="state-center state-error">
+      <p>⚠️ {{ error() }}</p>
+    </div>
+  }
+
+  @if (data(); as pageData) {
+    <main class="page-content">
+
+      <!-- Page Title -->
+      <h1 class="page-title">ATCP <span>Song Leadership</span></h1>
+
+      <!-- Section 1: Leadership Banner -->
+      <app-header
+        [songLead]="pageData.songLead"
+        [regionalLeads]="pageData.regionalLeads"
+      />
+
+      <!-- Section 2: Song Offerings Grid -->
+      <app-offerings-table [offerings]="pageData.offerings" />
+
+      <!-- Section 3: Enablement Champions -->
+      <app-enablement-champions [champions]="pageData.enablementChampions" />
+
+    </main>
+  }
+
+</div>

@@ -38,7 +38,6 @@
               stroke-linecap="round" stroke-linejoin="round"
               fill="none"/>
       </svg>
-
       <h3>{{task.title}}</h3>
     </div>
 
@@ -59,38 +58,27 @@
     </div>
 
     <p class="status">
-      <img
-        src="./assets/icons/Calendar.png"
-        class="calendar-icon">
+      <img src="assets/icons/Calendar.png" class="calendar-icon">
       <span>{{task.status}}</span>
     </p>
 
-    <!-- Resource Links -->
-    <div
-      class="resource-links"
-      *ngIf="task.externalLinks?.length">
-
+    <!-- Resource links (variable — can wrap freely) -->
+    <div class="resource-links" *ngIf="task.externalLinks?.length">
       <a
         *ngFor="let link of task.externalLinks"
         class="resource-link"
         [href]="link.url"
         target="_blank"
         (click)="$event.stopPropagation()">
-
-        <img
-          src="./assets/icons/Launch_External_Link.png"
-          class="external-link-icon">
-
+        <img src="assets/icons/Launch_External_Link.png" class="external-link-icon">
         <span>{{ link.text }}</span>
       </a>
-
     </div>
 
+    <!-- Action buttons — own grid row, always at same position -->
+    <div class="actions" (click)="$event.stopPropagation()">
 
-    <!-- Action buttons -->
-    <div class="actions">
-
-    <!-- NOT STARTED -->
+      <!-- NOT STARTED -->
       <button
         class="btn start-btn"
         *ngIf="task.status==='Not Started'"
@@ -98,7 +86,7 @@
         Start
       </button>
 
-    <!-- IN PROGRESS -->
+      <!-- IN PROGRESS -->
       <button
         class="btn resume-btn"
         *ngIf="task.status==='In Progress'"
@@ -113,17 +101,17 @@
         ✔ Mark as Completed
       </button>
 
-    <!-- COMPLETED -->
-      <span
-        class="task-completed-badge"
-        *ngIf="task.status==='Completed'">
+      <!-- COMPLETED -->
+      <button class="btn update-btn"
+        *ngIf="task.status==='Completed'"
+        (click)="updateTask(task, $event)">
+        Update task
+      </button>
 
-      <span class="completed-check">
-        &#10003;
+      <span class="task-completed-badge" *ngIf="task.status==='Completed'">
+        <span class="completed-check">&#10003;</span> Training Completed
       </span>
 
-        Training Completed
-      </span>
     </div>
 
   </div>

@@ -201,7 +201,7 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
       a {
         position: relative;
-        color: #7c00d9;
+        color: #224bff;;
         font-weight: 700;
         text-decoration: none;
 
@@ -223,6 +223,12 @@ body {
             transform: scaleX(1);
         }
     }
+    p {
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 0 0 10px;
+      color: #333;
+    }
 }
 
 .step-label {
@@ -230,13 +236,6 @@ body {
   font-weight: 800;
   margin-bottom: 8px;
   color: #111;
-}
-
-.step-card p {
-  font-size: 17px;
-  line-height: 1.6;
-  margin: 0 0 10px;
-  color: #333;
 }
 
 .step-card p:last-child {
@@ -250,18 +249,21 @@ body {
   gap: 5px;
   font-size: 15px;
   font-weight: 600;
-  color: #7c00d9;
+  color: #224bff;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
 }
 
 .step-link:hover {
-  border-bottom-color: #7c00d9;
+  border-bottom-color: #224bff;;
 }
 
 .link-icon {
-  font-size: 13px;
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+  color: #7c00d9;;
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */

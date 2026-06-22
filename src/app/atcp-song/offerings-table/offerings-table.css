@@ -1,0 +1,91 @@
+/* src/app/atcp-song/offerings-table/offerings-table.css */
+
+:host {
+  display: block;
+}
+
+.offerings-section {
+  overflow-x: auto;
+}
+
+.offerings-grid {
+  display: grid;
+  min-width: 700px;
+  border: 2px solid #e2e0e8;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* Base cell */
+.cell {
+  padding: 0.875rem 0.75rem;
+  border-right: 2px dashed #c4b5fd;
+  border-bottom: 2px solid #e2e0e8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.2rem;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+/* Header row */
+.cell-header {
+  background: #7c3aed;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  border-right-color: rgba(255, 255, 255, 0.3);
+  border-bottom: none;
+}
+
+.cell-header.cell-label {
+  background: #7c3aed;
+  font-size: 0.88rem;
+}
+
+/* Row label (leftmost) */
+.cell-row-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #7c3aed;
+  background: #ffffff;
+  border-right-color: #e2e0e8;
+}
+
+/* Capability leads cell */
+.cell-capability {
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem 0.75rem;
+  border-bottom: none;
+}
+
+.cell-capability ~ .cell {
+  border-bottom: none;
+}
+
+.capability-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.35;
+}
+
+.person-name {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #111111;
+}
+
+.specialization {
+  font-size: 0.775rem;
+  color: #6b7280;
+  margin-top: 0.1rem;
+}

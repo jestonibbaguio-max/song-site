@@ -63,20 +63,21 @@
   <img src="./assets/icons/Calendar.png" class="calendar-icon">
   <span>{{task.status}}</span></p>
 
-<div class="resource-links" *ngIf="task.externalLinks?.length">  
-<a 
-  *ngFor="let link of task.externalLinks"
-  class="resource-link"
-  [href]="link.url"
-  target="_blank"
-  (click)="$event.stopPropagation()">
-  <img
-    src="assets/icons/Launch_External_Link.png" class="external-link-icon">
-  <span>{{ link.text }}</span>
-</a>
+<!-- Resource links (variable — can wrap freely) -->
+<div class="resource-links" *ngIf="task.externalLinks?.length">
+  <a
+    *ngFor="let link of task.externalLinks"
+    class="resource-link"
+    [href]="link.url"
+    target="_blank"
+    (click)="$event.stopPropagation()">
+    <img src="assets/icons/Launch_External_Link.png" class="external-link-icon">
+    <span>{{ link.text }}</span>
+  </a>
+</div>
 
-<!-- Action buttons -->
-<div class="actions">
+<!-- Action buttons — own grid row, always at same position -->
+<div class="actions" (click)="$event.stopPropagation()">
   <button class="btn start-btn"
       *ngIf="task.status==='Not Started'"
       (click)="startTask(task, $event)">
@@ -91,6 +92,7 @@
 
   <button class="btn complete-btn"
       *ngIf="task.status==='In Progress'"
+      [disabled]="task.url === '/training-tracker' && !allTrainingCompleted"
       (click)="openCompleteModal(completeTpl, task)">
       ✔ Mark as Completed
   </button>
@@ -104,7 +106,5 @@
   <span class="task-completed-badge" *ngIf="task.status==='Completed'">
     <span class="completed-check">&#10003;</span> Task Completed
   </span>
-</div>
-
 </div>
 </div>

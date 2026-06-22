@@ -1,24 +1,83 @@
-.header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 15px 20px;
+:host {
+  display: block;
 }
-.home-btn {
-  text-decoration: none;
-  background: #007bff;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+
+.site-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  padding-top: 80px;
+}
+
+/* Page Content */
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem 3rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Page Title */
+.page-title {
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: #111111;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.page-title span {
+  color: #7c3aed;
+}
+
+/* Loading / Error */
+.state-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  color: #6b21a8;
+  gap: 1rem;
+}
+
+.state-center p {
+  margin: 0;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
-.home-btn:hover {
-  background: #0056b3;
+.state-error {
+  color: #b91c1c;
+  background: #fff1f2;
 }
-.atcp-link {
-  color: blue;
-  font-weight: bold;
-  text-decoration: underline;
-  cursor: pointer;
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid #ddd6fe;
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
 }
