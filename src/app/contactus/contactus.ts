@@ -43,6 +43,29 @@ export class Contactus implements OnInit{
     'Former employee - I no longer work at Accenture and need support.',
     'Other - I need help with something not listed above.'
   ];
+
+  reinventions = [
+    'Song',
+    'Snow',
+    'Financial Service'
+  ];
+
+  industries = [
+    'Software and Platforms',
+    'Mining',
+    "Financial Service"
+  ];
+
+  phonePrefixes = [
+    { code: "63", name: "Philippines (+63)"},
+    { code: "1", name: "United States (+1)"},
+    { code: "44", name: "United Kingdome (+44)"},
+    { code: "61", name: "Australia (+61)"},
+    { code: "81", name: "Japan (+81)"}
+  ]
+
+  prefixDefaultValue = this.phonePrefixes[0];
+
   countries = [
     { code: "AF", name: "Afghanistan" },
     { code: "AX", name: "Åland Islands" },
@@ -305,12 +328,12 @@ export class Contactus implements OnInit{
   ngOnInit() {
  
     this.contactForm = this.formBuilder.group({
-      inquiryType: ['', Validators.required],
+      industry: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phoneNumber: ['', Validators.required],
-      company: ['', Validators.required],
+      reinvention: ['', Validators.required],
       role: ['', Validators.required],
       country: ['', Validators.required],
       message: ['', Validators.required],
