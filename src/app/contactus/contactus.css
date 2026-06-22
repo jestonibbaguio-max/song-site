@@ -1,13 +1,76 @@
-.contactus{
-    border-radius: 40px;
-
-}
-
 .contact-section {
-    display: block;
-    min-height: 100vh;
-    background-color: black;
-    color: white;
+  display: block;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+
+  .title-container {
+    margin-top: 76px;
+    padding: 68px;
+  }
+
+  .form-container {
+    color: #000000;
+    background-color: #ffffff;
+    padding-top: 24px;
+
+    label {
+      font-weight: bold;
+      .required-label {
+        color:red;
+      }
+    }
+      .first-row, .second-row, .third-row {
+      margin: 0 68px;
+
+      .contactus {
+        width: 400px;
+      }
+
+      .form-outline {
+        display: inline-grid;
+        padding-right: 50px;
+        margin-bottom: 16px;
+      }
+
+      textarea {
+        width: 850px;
+      }
+
+      .privacy-container {
+        display: flex;
+        flex-direction: row;
+        padding-top: 16px;
+        border-top: 2px solid #000000;
+        margin-top: 24px;
+
+        input {
+          height: 18px;
+          width: 18px;
+          margin-right: 4px;
+        }
+
+        label {
+          font-weight: normal;
+          font-size: 14px;
+          padding-right: 30px;
+        }
+
+        .submit-btn-contaier {
+          button {
+            border-radius: 0;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+          }
+
+          .btn:disabled {
+            background-color: gray;
+            border-color: gray;
+          }
+        }
+      }
+    }
+  }
 }
 
 .header {
