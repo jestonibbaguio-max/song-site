@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { Footer } from "../footer/footer";
 import { Navbar } from '../navbar/navbar';
 
 @Component({
  selector: 'app-contactus',
  standalone: true,
- imports: [CommonModule, RouterModule, ReactiveFormsModule, Navbar],
+ imports: [CommonModule, RouterModule, ReactiveFormsModule, Navbar, Footer],
  templateUrl: './contactus.html',
  styleUrl: './contactus.css'
 })

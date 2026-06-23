@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { Footer } from "../../../../footer/footer";
 import { Navbar } from '../../../../navbar/navbar';
 import { TaskService } from '../../task.service';
 
 @Component({
   selector: 'app-my-asset-tracker',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, Navbar, Footer],
   templateUrl: './my-asset-tracker.html',
   styleUrl: './my-asset-tracker.css',
 })

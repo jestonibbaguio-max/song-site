@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../task.service';
 import { Navbar } from '../../../../navbar/navbar';
+import { Footer } from "../../../../footer/footer";
 
 @Component({
   selector: 'app-my-cv',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, Navbar, Footer],
   templateUrl: './my-cv.html',
   styleUrl: './my-cv.css'
 })

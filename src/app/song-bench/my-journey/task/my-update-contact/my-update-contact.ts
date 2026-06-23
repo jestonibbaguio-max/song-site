@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../../../../navbar/navbar';
 import { TaskService } from '../../task.service';
+import { Footer } from "../../../../footer/footer";
 
 @Component({
 	selector: 'app-my-update-contact',
 	standalone: true,
-	imports: [CommonModule, Navbar],
+	imports: [CommonModule, Navbar, Footer],
 	templateUrl: './my-update-contact.html',
 	styleUrl: './my-update-contact.css',
 })

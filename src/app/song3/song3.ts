@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
-
+import { Footer } from "../footer/footer";
 
 type TechCard = {
   id: number;
@@ -20,7 +20,7 @@ type GroupSection = {
 @Component({
   selector: 'app-song3',
   standalone: true,
-  imports: [Navbar, CommonModule],
+  imports: [Navbar, CommonModule, Footer],
   templateUrl: './song3.html',
   styleUrl: './song3.css'
 })
