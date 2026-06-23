@@ -56,16 +56,6 @@ export class Contactus implements OnInit{
     "Financial Service"
   ];
 
-  phonePrefixes = [
-    { code: "63", name: "Philippines (+63)"},
-    { code: "1", name: "United States (+1)"},
-    { code: "44", name: "United Kingdome (+44)"},
-    { code: "61", name: "Australia (+61)"},
-    { code: "81", name: "Japan (+81)"}
-  ]
-
-  prefixDefaultValue = this.phonePrefixes[0];
-
   countries = [
     { code: "AF", name: "Afghanistan" },
     { code: "AX", name: "Åland Islands" },
