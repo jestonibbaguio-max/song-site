@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
+import { Footer } from "../footer/footer";
 
 interface LinkCard {
   title: string;
@@ -18,7 +19,7 @@ interface LinkSection {
 @Component({
   selector: 'app-atcp-song-links',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, Navbar, Footer],
   templateUrl: './atcp-song-links.html',
   styleUrls: ['./atcp-song-links.css']
 })

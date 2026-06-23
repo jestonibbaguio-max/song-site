@@ -4,10 +4,11 @@ import { TaskGrid } from "./task-grid/task-grid";
 import { TrainingTask } from "./models/training-task";
 import { TrainingTaskService } from "./training-task.service";
 import { Navbar } from "../../navbar/navbar";
+import { Footer } from "../../footer/footer";
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TaskGrid, Navbar],
+  imports: [CommonModule, TaskGrid, Navbar, Footer],
   templateUrl: './training-tracker.html',
   styleUrls: ['./training-tracker.css']
 })
