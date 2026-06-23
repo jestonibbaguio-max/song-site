@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { forkJoin } from "rxjs";
 import { TaskGrid } from "./task-grid/task-grid";
-
+import { Footer } from "../../footer/footer";
 import { Task } from "./models/task";
 import { TaskService } from "./task.service";
 import { Navbar } from "../../navbar/navbar";
@@ -11,7 +11,7 @@ const TRAINING_TRACKER_TASK_ID = 12;
 
 @Component({
  standalone: true,
- imports: [CommonModule, TaskGrid, Navbar],
+ imports: [CommonModule, TaskGrid, Navbar, Footer],
  templateUrl: './my-journey.component.html',
  styleUrl: './my-journey.component.css'
 })

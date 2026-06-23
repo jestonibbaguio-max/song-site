@@ -2,14 +2,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { Footer } from "../../../../footer/footer";
 import { Navbar } from '../../../../navbar/navbar';
 import { TaskService } from '../../task.service';
 
 @Component({
 	selector: 'app-people-lead',
 	standalone: true,
-	imports: [CommonModule, Navbar],
+	imports: [CommonModule, Navbar, Footer],
 	templateUrl: './people-lead.html',
 	styleUrl: './people-lead.css',
 })

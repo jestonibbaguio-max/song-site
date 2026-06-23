@@ -239,7 +239,7 @@ body {
 }
 
 .step-card p:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0px;
 }
 
 /* Step links */

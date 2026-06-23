@@ -113,6 +113,11 @@ export const routes: Routes = [
       import('./navbar/navbar').then(m => m.Navbar)
   },
   {
+    path: 'footer',
+    loadComponent: () =>
+      import('./footer/footer').then(m => m.Footer)
+  },
+  {
     path: 'my-asset-tracker',
     loadComponent: () =>
       import('./song-bench/my-journey/task/my-asset-tracker/my-asset-tracker').then(m => m.MyAssetTracker)
