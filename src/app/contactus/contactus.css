@@ -25,6 +25,8 @@
 
       .contactus {
         width: 400px;
+        appearance: auto;
+        -webkit-appearance: listbox;
       }
 
       .form-outline {
@@ -67,6 +69,10 @@
             background-color: gray;
             border-color: gray;
           }
+        }
+
+        .privacy-link {
+          text-decoration: none;
         }
       }
     }
