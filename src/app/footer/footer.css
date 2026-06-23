@@ -16,7 +16,7 @@
   flex-direction: flex;
 
  
-  &__ribbon {
+  .footer__ribbon {
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -26,47 +26,6 @@
       height: 100%;
     }
   }
-
-
-  &__bar {
-    position: relative;
-    z-index: 1;
-    margin-top: auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    padding: 18px 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    box-sizing: border-box;
-   
-  }
-
- 
-  &__links {
-    display: flex;
-    gap: 24px;
-    flex-shrink: 0;
-  }
-
-  &__link {
-    font-family: 'Graphik', 'Inter', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.65);
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: color 0.2s ease;
-
-    &:hover,
-    &:focus-visible {
-      color: #ffffff;
-      text-decoration: underline;
-      outline-offset: 3px;
-    }
-  }
-
  
   .footer__copyright {
 margin-left: auto;
