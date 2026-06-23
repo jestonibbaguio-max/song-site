@@ -26,6 +26,9 @@
       height: 100%;
     }
   }
+  .footer__link {
+   color: white;
+  }
  
   .footer__copyright {
 margin-left: auto;
