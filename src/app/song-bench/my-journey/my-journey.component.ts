@@ -19,6 +19,8 @@ export class MyJourneyComponent implements OnInit {
 
   tasks: Task[] = [];
   allTrainingCompleted = false;
+  showCongratsModal = false;
+  congratsDismissed = false;
 
   constructor(
     private taskService: TaskService,
@@ -44,14 +46,28 @@ export class MyJourneyComponent implements OnInit {
         this.taskService.updateTaskStatus(TRAINING_TRACKER_TASK_ID, 'start').subscribe(() => {
           this.taskService.getTasks().subscribe(updated => {
             this.tasks = updated;
+            this.checkAllCompleted();
             this.cdr.detectChanges();
           });
         });
       } else {
         this.tasks = tasks;
+        this.checkAllCompleted();
         this.cdr.detectChanges();
       }
     });
+  }
+
+  checkAllCompleted() {
+    if (!this.congratsDismissed && this.tasks.length > 0 && this.tasks.every(t => t.status === 'Completed')) {
+      this.showCongratsModal = true;
+    }
+  }
+
+  closeCongratsModal() {
+    this.showCongratsModal = false;
+    this.congratsDismissed = true;
+    this.cdr.detectChanges();
   }
 
   getCompletedCount(): number {

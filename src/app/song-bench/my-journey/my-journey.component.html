@@ -34,4 +34,17 @@
   <app-task-grid [tasks]="tasks" [allTrainingCompleted]="allTrainingCompleted" (tasksChanged)="loadTasks()"></app-task-grid>
 
 </section>
+
+<!-- Congratulations Modal -->
+<div *ngIf="showCongratsModal" class="congrats-overlay" (click)="closeCongratsModal()">
+  <div class="congrats-modal" (click)="$event.stopPropagation()">
+    <h1 class="congrats-title">Congratulations</h1>
+    <div class="congrats-trophy">
+      <img src="assets/images/CongratsTrophy.png" alt="Trophy" />
+    </div>
+    <p class="congrats-message">You have now completed all {{ tasks.length }} tasks under ATCP Song Bench Journey. To proceed, you may click the close button.</p>
+    <button class="congrats-close-btn" (click)="closeCongratsModal()">Close</button>
+  </div>
+</div>
+
 <app-footer></app-footer>
