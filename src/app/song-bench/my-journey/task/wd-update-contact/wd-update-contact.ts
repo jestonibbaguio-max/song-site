@@ -2,14 +2,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { Footer } from "../../../../footer/footer";
 import { Navbar } from '../../../../navbar/navbar';
 import { TaskService } from '../../task.service';
 
 @Component({
 	selector: 'app-wd-update-contact',
 	standalone: true,
-	imports: [CommonModule, Navbar],
+	imports: [CommonModule, Navbar, Footer],
 	templateUrl: './wd-update-contact.html',
 	styleUrl: './wd-update-contact.css',
 })

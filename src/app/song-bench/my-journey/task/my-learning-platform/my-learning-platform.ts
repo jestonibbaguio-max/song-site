@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../../../../navbar/navbar';
 import { TaskService } from '../../task.service';
+import { Footer } from "../../../../footer/footer";
 
 @Component({
   selector: 'app-my-learning-platform',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, Navbar, Footer],
   templateUrl: './my-learning-platform.html',
   styleUrl: './my-learning-platform.css',
 })

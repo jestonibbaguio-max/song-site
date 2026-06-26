@@ -8,6 +8,7 @@ import { Header } from './header/header';
 import { OfferingsTable } from './offerings-table/offerings-table';
 import { EnablementChampions } from './enablement-champions/enablement-champions';
 import { Navbar } from '../navbar/navbar';
+import { Footer } from "../footer/footer";
 
 @Component({
   selector: 'app-atcp-song',
@@ -15,6 +16,7 @@ import { Navbar } from '../navbar/navbar';
   imports: [
     CommonModule,
     Navbar,
+    Footer,
     Header, 
     OfferingsTable,      /* fixes: 'app-offerings-table' is not a known element */
     EnablementChampions  /* fixes: 'app-enablement-champions' is not a known element */

@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from "../navbar/navbar";
+import { Footer } from "../footer/footer";
 
 @Component({
   selector: 'app-announcement',
   standalone: true,
-  imports: [RouterModule, CommonModule, Navbar],
+  imports: [RouterModule, CommonModule, Navbar, Footer],
   templateUrl: './announcement.html',
   styleUrls: ['./announcement.css']
 })
