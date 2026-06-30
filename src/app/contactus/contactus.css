@@ -59,6 +59,7 @@
         }
 
         .submit-btn-contaier {
+          margin-left: auto;
           button {
             border-radius: 0;
             padding-left: 2.5rem;
