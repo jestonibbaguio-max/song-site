@@ -7,7 +7,7 @@ body {
 
 .page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #3d0080 0%, #1a0038 35%, #000000 65%);
+  background: linear-gradient(180deg, #6a0dad 0%, #1a0038 35%, #000000 65%);
   color: #fff;
   font-family: Arial, sans-serif;
   padding: 80px 100px 60px;
@@ -196,8 +196,7 @@ body {
 .step-card {
   background: #fff;
   color: #111;
-  border-radius: 8px;
-  padding: 18px 20px;
+  padding: 12px 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
       a {
         position: relative;
@@ -234,7 +233,7 @@ body {
 .step-label {
   font-size: 18px;
   font-weight: 800;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: #111;
 }
 
