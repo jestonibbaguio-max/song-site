@@ -10,104 +10,112 @@
       <div class="form-container">
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
           <div class="first-row">
-            <div class="form-outline">
-              <label class="form-label" for="lastName"><span class="required-label">*</span>Last Name</label>
-              <input type="text" formControlName="lastName" id="lastName" class="form-control form-control-lg contactus" 
+            <div class="col-lg-12 col-md-12">
+                <div class="form-outline">
+                  <label class="form-label" for="lastName"><span class="required-label">*</span>Last Name</label>
+                  <input type="text" formControlName="lastName" id="lastName" class="form-control form-control-lg contactus" 
+                    required  />
+                  <span class="text-danger"
+                      *ngIf="(registerFormControl['lastName'].touched || isSubmit) && registerFormControl['lastName'].errors?.['required']">
+                      Last Name is required
+                  </span>
+                </div>
+                <div class="form-outline">
+                  <label class="form-label" for="firstName"><span class="required-label">*</span>First Name</label>
+                  <input type="text" formControlName="firstName" id="firstName" class="form-control form-control-lg contactus" 
+                    required />
+                  <span class="text-danger"
+                      *ngIf="(registerFormControl['firstName'].touched || isSubmit) && registerFormControl['firstName'].errors?.['required']">
+                      First Name is required
+                  </span>
+                </div>
+            </div>
+          
+            <div class="col-lg-12 col-md-12">
+              <!-- Email input -->
+              <div class="form-outline">
+                <label class="form-label" for="email"><span class="required-label">*</span>Accenture Email</label>
+                <input type="email" formControlName="email" id="email" class="form-control form-control-lg contactus"
                 required  />
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['lastName'].touched || isSubmit) && registerFormControl['lastName'].errors?.['required']">
-                  Last Name is required
-              </span>
-            </div>
-            <div class="form-outline">
-              <label class="form-label" for="firstName"><span class="required-label">*</span>First Name</label>
-              <input type="text" formControlName="firstName" id="firstName" class="form-control form-control-lg contactus" 
-                required />
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['firstName'].touched || isSubmit) && registerFormControl['firstName'].errors?.['required']">
-                  First Name is required
-              </span>
-            </div>
-
-            <!-- Email input -->
-            <div class="form-outline">
-              <label class="form-label" for="email"><span class="required-label">*</span>Accenture Email</label>
-              <input type="email" formControlName="email" id="email" class="form-control form-control-lg contactus"
-              required  />
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['required']">
-                  Email Address is required
-              </span>
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['pattern']">
-                  Please enter a valid email address
-              </span>
-            </div>
-    
-            <div class="form-outline">
-              <label class="form-label" for="phoneNumber"><span class="required-label">*</span>Phone Number</label>
-              <input type="number" formControlName="phoneNumber" id="phoneNumber" class="form-control form-control-lg contactus"
-              required  />
-              <span class="text-danger"
-                *ngIf="(registerFormControl['phoneNumber'].touched || isSubmit) && registerFormControl['phoneNumber'].errors?.['required']">
-                Phone Number is required
-              </span>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['required']">
+                    Email Address is required
+                </span>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['pattern']">
+                    Please enter a valid email address
+                </span>
+              </div>
+      
+              <div class="form-outline">
+                <label class="form-label" for="phoneNumber"><span class="required-label">*</span>Phone Number</label>
+                <input type="number" formControlName="phoneNumber" id="phoneNumber" class="form-control form-control-lg contactus"
+                required  />
+                <span class="text-danger"
+                  *ngIf="(registerFormControl['phoneNumber'].touched || isSubmit) && registerFormControl['phoneNumber'].errors?.['required']">
+                  Phone Number is required
+                </span>
+              </div>
             </div>
             <hr>
           </div>
           
           <div class="second-row">
-            <!-- Country -->
-            <div class="form-outline">
-              <label class="form-label" for="country"><span class="required-label">*</span>Country/Location</label>
-              <select formControlName="country" id="country" class="form-control form-control-lg contactus" placeholder="Select country">
-                  <option disabled value="">Select Country</option>
-                  <option *ngFor="let country of countries" value="{{ country.code }}">
-                      {{ country.name }}
-                  </option>
-              </select>
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['country'].touched || isSubmit) && registerFormControl['country'].errors?.['required']">
-                  Country Type is required
-              </span>
-            </div>
+            <div class="col-lg-12 col-md-12">
+              <!-- Country -->
+              <div class="form-outline">
+                <label class="form-label" for="country"><span class="required-label">*</span>Country/Location</label>
+                <select formControlName="country" id="country" class="form-control form-control-lg contactus" placeholder="Select country">
+                    <option disabled value="">Select Country</option>
+                    <option *ngFor="let country of countries" value="{{ country.code }}">
+                        {{ country.name }}
+                    </option>
+                </select>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['country'].touched || isSubmit) && registerFormControl['country'].errors?.['required']">
+                    Country Type is required
+                </span>
+              </div>
 
-            <div class="form-outline">
-              <label class="form-label" for="reinvention"><span class="required-label">*</span>Reinvention Partner</label>
-              <select formControlName="reinvention" id="reinvention" class="form-control form-control-lg contactus">
-                  <option disabled value="">Select Reinvention</option>
-                  <option *ngFor="let reinvention of reinventions" value="{{ reinvention }}">
-                      {{ reinvention }}
-                  </option>
-              </select>
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['reinvention'].touched || isSubmit) && registerFormControl['reinvention'].errors?.['required']">
-                  Reinvention Partner is required
-              </span>
+              <div class="form-outline">
+                <label class="form-label" for="reinvention"><span class="required-label">*</span>Reinvention Partner</label>
+                <select formControlName="reinvention" id="reinvention" class="form-control form-control-lg contactus">
+                    <option disabled value="">Select Reinvention</option>
+                    <option *ngFor="let reinvention of reinventions" value="{{ reinvention }}">
+                        {{ reinvention }}
+                    </option>
+                </select>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['reinvention'].touched || isSubmit) && registerFormControl['reinvention'].errors?.['required']">
+                    Reinvention Partner is required
+                </span>
+              </div>
             </div>
+            
+            <div class="col-lg-12 col-md-12">
+              <div class="form-outline">
+                <label class="form-label" for="industry"><span class="required-label">*</span>Industry</label>
+                <select formControlName="industry" id="industry" class="form-control form-control-lg contactus">
+                    <option disabled value="">Select Industry</option>
+                    <option *ngFor="let industry of industries" value="{{ industry }}">
+                        {{ industry }}
+                    </option>
+                </select>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['industry'].touched || isSubmit) && registerFormControl['industry'].errors?.['required']">
+                    Industry Type is required
+                </span>
+              </div>
 
-            <div class="form-outline">
-              <label class="form-label" for="industry"><span class="required-label">*</span>Industry</label>
-              <select formControlName="industry" id="industry" class="form-control form-control-lg contactus">
-                  <option disabled value="">Select Industry</option>
-                  <option *ngFor="let industry of industries" value="{{ industry }}">
-                      {{ industry }}
-                  </option>
-              </select>
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['industry'].touched || isSubmit) && registerFormControl['industry'].errors?.['required']">
-                  Industry Type is required
-              </span>
-            </div>
-
-            <div class="form-outline">
-              <label class="form-label" for="role"><span class="required-label">*</span>Job role</label>
-              <input type="text" formControlName="role" id="role" class="form-control form-control-lg contactus"
-              required  />
-              <span class="text-danger"
-                  *ngIf="(registerFormControl['role'].touched || isSubmit) && registerFormControl['role'].errors?.['required']">
-                  Your role/function is required
-              </span>
+              <div class="form-outline">
+                <label class="form-label" for="role"><span class="required-label">*</span>Job role</label>
+                <input type="text" formControlName="role" id="role" class="form-control form-control-lg contactus"
+                required  />
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['role'].touched || isSubmit) && registerFormControl['role'].errors?.['required']">
+                    Your role/function is required
+                </span>
+              </div>
             </div>
             <hr>
           </div>
@@ -115,7 +123,7 @@
           <div class="third-row">
             <!-- Message -->
             <div class="form-group">
-              <label for="msg"><span class="required-label">*</span>How can we help you?</label>
+              <label for="msg"><span class="required-label">*</span>Inquiry, Concern, or Feedback</label>
               <textarea formControlName="message" id="message" class="form-control p-4" contactus rows="3"
                 required></textarea>
               <span class="text-danger"
