@@ -212,4 +212,19 @@ app.put("/api/training-tasks/:id/status", (req, res) => {
   writeTrainingTasks(tasks);
   res.json(tasks[index]);
 });
+// ── Song Links ───────────────────────────────────────────────────────────────
+
+const songLinksFilePath = path.join(__dirname, "song-links.json");
+
+app.get("/api/song-links", (req, res) => {
+  fs.readFile(songLinksFilePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read song-links file" });
+    try {
+      res.json(JSON.parse(data));
+    } catch {
+      res.status(500).json({ error: "Invalid JSON format" });
+    }
+  });
+});
+
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
