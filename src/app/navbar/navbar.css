@@ -24,53 +24,8 @@
     padding: 0px 0px; /* Add some padding for better click/hover area */
    }
 
-   .header nav a:hover, .dropdown:hover .dropbtn {
-    color: #f0f0f0; /* Slightly lighter on hover */
-   }
-
-   /* Dropdown Container */
-   .dropdown {
-     position: relative;
-     display: inline-block;
-   }
-
-   /* Dropdown Button (the "ATCP Links" text) */
-   .dropbtn {
-     background-color: inherit; /* Inherit background from header */
-     border: none;
-     cursor: pointer;
-   }
-
-   /* Dropdown Content (Hidden by Default) */
-   .dropdown-content {
-     display: none;
-     position: absolute;
-     background-color: #6a0dad; /* Light background for dropdown items */
-     min-width: 200px;
-     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-     z-index: 1;
-     left: 0; /* Align with the parent "ATCP Links" */
-     top: 100%; /* Position below the "ATCP Links" link */
-   }
-
-   /* Links inside the dropdown */
-   .dropdown-content a {
-     color: black; /* Darker text for visibility on light background */
-     padding: 12px 16px;
-     text-decoration: none;
-     display: block;
-     text-align: left; /* Align text to the left */
-     font-weight: normal; /* Override bold from parent nav a */
-   }
-
-   /* Change color of dropdown links on hover */
-   .dropdown-content a:hover {
-     background-color: #ddd;
-   }
-
-   /* Show the dropdown menu on hover */
-   .dropdown:hover .dropdown-content {
-     display: block;
+   .header nav a:hover {
+    color: #f0f0f0;
    }
 
    /* Ensure spacing when other elements are present */
