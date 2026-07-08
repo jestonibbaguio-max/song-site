@@ -11,5 +11,11 @@ import { EnablementChampion } from '../models/atcp-song.model';
 })
 export class EnablementChampions {
   readonly champions = input<EnablementChampion[]>([]);
-}
 
+  onImgError(event: Event, initials: string): void {
+    const img = event.target as HTMLImageElement;
+    if (img.parentElement) {
+      img.parentElement.innerHTML = initials;
+    }
+  }
+}

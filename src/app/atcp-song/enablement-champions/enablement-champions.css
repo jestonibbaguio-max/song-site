@@ -1,62 +1,41 @@
-/* src/app/atcp-song/enablement-champions/enablement-champions.css */
+:host { display: block; }
 
-:host {
-  display: block;
-}
-
-.champions-card {
-  border: 2px solid #e2e0e8;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #ffffff;
-  padding-bottom: 1.25rem;
-}
-
-/* Centered pill title */
-.champions-title-bar {
-  display: flex;
-  justify-content: center;
-  padding: 1.1rem 1rem 1rem;
-}
-
-.champions-title-bar h2 {
-  margin: 0;
-  display: inline-block;
-  background: #7c3aed;
-  color: #ffffff;
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 0.4rem 2rem;
-  border-radius: 999px;
-}
-
-/* Champions row */
 .champions-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0;
-  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
 
-.champion-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0.6rem 1.5rem;
-  min-width: 150px;
+.champion-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  padding: 17px;
+  display: flex; align-items: center; gap: 14px;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
+.champion-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.14); }
 
-.champion-name {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #111111;
+.avatar {
+  border-radius: 50%;
+  background: #7c3aed;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff;
+  flex-shrink: 0; overflow: hidden;
 }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-md { width: 40px; height: 40px; font-size: 13px; }
 
-.champion-role {
-  font-size: 0.78rem;
-  color: #6b7280;
-  margin-top: 0.15rem;
+.double-avatar { display: flex; flex-shrink: 0; }
+.double-avatar .avatar { border: 2px solid #fff; }
+.double-avatar .avatar:not(:first-child) { margin-left: -10px; }
+
+.person-name { color: #111; font-size: 15px; font-weight: 700; line-height: 20px; }
+.person-role { color: #555; font-size: 13px; margin-top: 3px; }
+
+@media (max-width: 1200px) {
+  .champions-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .champions-grid { grid-template-columns: 1fr; }
 }

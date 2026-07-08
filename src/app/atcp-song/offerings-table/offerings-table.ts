@@ -1,6 +1,6 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Offering } from '../models/atcp-song.model';
+import { PracticeLead, CapabilityLead } from '../models/atcp-song.model';
 
 @Component({
   selector: 'app-offerings-table',
@@ -10,9 +10,22 @@ import { Offering } from '../models/atcp-song.model';
   styleUrl: './offerings-table.css'
 })
 export class OfferingsTable {
-  readonly offerings = input<Offering[]>([]);
+  readonly practiceLeads = input<PracticeLead[]>([]);
+  readonly capabilityLeads = input<CapabilityLead[]>([]);
 
-  readonly gridColumns = computed(() =>
-    `180px repeat(${this.offerings().length}, 1fr)`
-  );
+  onImgError(event: Event, initials: string): void {
+    const img = event.target as HTMLImageElement;
+    if (img.parentElement) {
+      img.parentElement.innerHTML = initials;
+    }
+  }
+
+  capNamesHtml(cap: CapabilityLead): string {
+    return cap.groups
+      .map(g => {
+        const names = g.members.map(m => m.name).join(' / ');
+        return g.subcategory ? `${names} (${g.subcategory})` : names;
+      })
+      .join('<br>');
+  }
 }

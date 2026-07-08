@@ -1,43 +1,17 @@
-<!-- src/app/atcp-song/header/header.html -->
-<section class="header-section">
-
-  <!-- Left: Song Lead -->
-  <div class="song-lead-card">
-    <div class="avatar">
-      <img
-        [src]="songLead().photo || 'assets/images/placeholder.svg'"
-        [alt]="songLead().name"
-        (error)="onImgError($event)"
-      />
+<div class="market-leads-grid">
+  @for (lead of marketLeads(); track lead.id) {
+    <div class="market-lead-card">
+      <div class="avatar avatar-xl" [style.background]="lead.avatarColor || '#7c3aed'">
+        @if (lead.photo) {
+          <img [src]="lead.photo" [alt]="lead.name" (error)="onImgError($event, lead.initials)" />
+        } @else {
+          {{ lead.initials }}
+        }
+      </div>
+      <div>
+        <div class="person-name">{{ lead.name }}</div>
+        <div class="person-role">{{ lead.role }}</div>
+      </div>
     </div>
-    <div class="lead-info">
-      <p class="lead-name">{{ songLead().name }}</p>
-      <p class="lead-title">{{ songLead().title }}</p>
-    </div>
-  </div>
-
-  <!-- Right: Market Leads -->
-  <div class="market-leads-wrapper">
-    <div class="market-leads-label">
-      <span>MARKET LEADS</span>
-    </div>
-    <div class="market-leads-cards">
-      @for (lead of regionalLeads(); track lead.name) {
-        <div class="regional-card">
-          <div class="avatar avatar-sm">
-            <img
-              [src]="lead.photo || 'assets/images/placeholder.svg'"
-              [alt]="lead.name"
-              (error)="onImgError($event)"
-            />
-          </div>
-          <div class="lead-info">
-            <p class="lead-name">{{ lead.name }}</p>
-            <p class="lead-title">{{ lead.title }}</p>
-          </div>
-        </div>
-      }
-    </div>
-  </div>
-
-</section>
+  }
+</div>
