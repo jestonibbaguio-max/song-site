@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Person } from '../models/atcp-song.model';
+import { MarketLead } from '../models/atcp-song.model';
 
 @Component({
   selector: 'app-header',
@@ -10,10 +10,12 @@ import { Person } from '../models/atcp-song.model';
   styleUrl: './header.css'
 })
 export class Header {
-  readonly songLead = input.required<Person>();
-  readonly regionalLeads = input<Person[]>([]);
+  readonly marketLeads = input.required<MarketLead[]>();
 
-  onImgError(event: Event): void {
-    (event.target as HTMLImageElement).src = 'assets/images/placeholder.svg';
+  onImgError(event: Event, initials: string): void {
+    const img = event.target as HTMLImageElement;
+    if (img.parentElement) {
+      img.parentElement.innerHTML = initials;
+    }
   }
 }

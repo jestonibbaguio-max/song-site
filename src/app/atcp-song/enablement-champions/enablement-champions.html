@@ -1,19 +1,39 @@
-<!-- src/app/components/enablement-champions/enablement-champions.component.html -->
-<section class="champions-section">
-  <div class="champions-card">
+<div class="champions-grid">
+  @for (c of champions(); track c.id) {
+    <div class="champion-card">
 
-    <div class="champions-title-bar">
-      <h2>Enablement Champions</h2>
-    </div>
-
-    <div class="champions-grid">
-      @for (champion of champions(); track champion.name) {
-        <div class="champion-item">
-          <span class="champion-name">{{ champion.name }}</span>
-          <span class="champion-role">{{ champion.role }}</span>
+      @if (c.coLead) {
+        <div class="double-avatar">
+          <div class="avatar avatar-md" [style.background]="c.avatarColor || '#7c3aed'">
+            @if (c.photo) {
+              <img [src]="c.photo" [alt]="c.name" (error)="onImgError($event, c.initials)" />
+            } @else {
+              {{ c.initials }}
+            }
+          </div>
+          <div class="avatar avatar-md" [style.background]="c.coLead.avatarColor || '#7c3aed'">
+            @if (c.coLead.photo) {
+              <img [src]="c.coLead.photo" [alt]="c.coLead.name" (error)="onImgError($event, c.coLead.initials)" />
+            } @else {
+              {{ c.coLead.initials }}
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="avatar avatar-md" [style.background]="c.avatarColor || '#7c3aed'">
+          @if (c.photo) {
+            <img [src]="c.photo" [alt]="c.name" (error)="onImgError($event, c.initials)" />
+          } @else {
+            {{ c.initials }}
+          }
         </div>
       }
-    </div>
 
-  </div>
-</section>
+      <div>
+        <div class="person-name">{{ c.name }}</div>
+        <div class="person-role">{{ c.role }}</div>
+      </div>
+
+    </div>
+  }
+</div>

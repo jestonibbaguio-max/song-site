@@ -1,91 +1,57 @@
-/* src/app/atcp-song/offerings-table/offerings-table.css */
+:host { display: block; }
 
-:host {
-  display: block;
+.divider-row {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+}
+.divider-row .line { flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
+.divider-row .label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.6); white-space: nowrap;
 }
 
-.offerings-section {
-  overflow-x: auto;
-}
-
-.offerings-grid {
+.offering-grid {
   display: grid;
-  min-width: 700px;
-  border: 2px solid #e2e0e8;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #ffffff;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
 }
 
-/* Base cell */
-.cell {
-  padding: 0.875rem 0.75rem;
-  border-right: 2px dashed #c4b5fd;
-  border-bottom: 2px solid #e2e0e8;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 0.2rem;
+.offering-cell {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  padding: 17px;
 }
 
-.cell:last-child {
-  border-right: none;
+.offering-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #7c3aed;
+  margin-bottom: 14px; line-height: 18px;
 }
 
-/* Header row */
-.cell-header {
+.offering-person { display: flex; align-items: center; gap: 12px; }
+.offering-person .person-name { font-size: 15px; color: #111; font-weight: 700; }
+
+.avatar {
+  border-radius: 50%;
   background: #7c3aed;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  border-right-color: rgba(255, 255, 255, 0.3);
-  border-bottom: none;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff;
+  flex-shrink: 0; overflow: hidden;
 }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-md { width: 40px; height: 40px; font-size: 13px; }
+.avatar-sm { width: 32px; height: 32px; font-size: 11px; }
 
-.cell-header.cell-label {
-  background: #7c3aed;
-  font-size: 0.88rem;
+.multi-avatars { display: flex; flex-wrap: wrap; margin-bottom: 10px; }
+.multi-avatars .avatar-sm { border: 2px solid #fff; margin-left: -6px; }
+.multi-avatars .avatar-sm:first-child { margin-left: 0; }
+
+.cap-names { font-size: 13px; line-height: 1.6; color: #444; margin-top: 4px; }
+
+@media (max-width: 1200px) {
+  .offering-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* Row label (leftmost) */
-.cell-row-label {
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #7c3aed;
-  background: #ffffff;
-  border-right-color: #e2e0e8;
-}
-
-/* Capability leads cell */
-.cell-capability {
-  flex-direction: column;
-  gap: 0.6rem;
-  padding: 1rem 0.75rem;
-  border-bottom: none;
-}
-
-.cell-capability ~ .cell {
-  border-bottom: none;
-}
-
-.capability-entry {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.35;
-}
-
-.person-name {
-  font-weight: 700;
-  font-size: 0.875rem;
-  color: #111111;
-}
-
-.specialization {
-  font-size: 0.775rem;
-  color: #6b7280;
-  margin-top: 0.1rem;
+@media (max-width: 700px) {
+  .offering-grid { grid-template-columns: 1fr; }
 }

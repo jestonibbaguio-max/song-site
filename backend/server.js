@@ -212,6 +212,21 @@ app.put("/api/training-tasks/:id/status", (req, res) => {
   writeTrainingTasks(tasks);
   res.json(tasks[index]);
 });
+// ── Leadership ───────────────────────────────────────────────────────────────
+
+const leadershipFilePath = path.join(__dirname, "leadership.json");
+
+app.get("/api/leadership", (req, res) => {
+  fs.readFile(leadershipFilePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read leadership file" });
+    try {
+      res.json(JSON.parse(data));
+    } catch {
+      res.status(500).json({ error: "Invalid JSON format" });
+    }
+  });
+});
+
 // ── Song Links ───────────────────────────────────────────────────────────────
 
 const songLinksFilePath = path.join(__dirname, "song-links.json");

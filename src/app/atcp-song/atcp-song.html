@@ -1,41 +1,65 @@
-<!-- src/app/atcp-song/atcp-song.html -->
-<div class="site-shell">
+<app-navbar></app-navbar>
 
- <app-navbar></app-navbar>
+<div class="page">
+
+  <img class="dust-bg"
+       src="https://www.figma.com/api/mcp/asset/4b5b752b-adeb-440d-aa6b-b3289890a99f"
+       alt="" aria-hidden="true" />
+
+  <div class="deco-bg">
+    <img src="https://www.figma.com/api/mcp/asset/2d6b3d7d-cc72-4e96-a3cd-505576556667"
+         alt="" aria-hidden="true" />
+  </div>
+
+  <!-- ══ HERO ══════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-card">
+      <p class="hero-org">Organization</p>
+      <h1>ATCP Song Leadership</h1>
+      <p class="hero-subtitle">
+        Meet the leaders driving innovation, collaboration, and growth across ATCP Song's global practices.
+      </p>
+    </div>
+  </section>
 
   @if (loading()) {
     <div class="state-center">
       <div class="spinner"></div>
-      <p>Loading ATCP SONG data…</p>
+      <p>Loading leadership data…</p>
     </div>
   }
 
   @if (error()) {
     <div class="state-center state-error">
-      <p>⚠️ {{ error() }}</p>
+      <p>⚠ {{ error() }}</p>
     </div>
   }
 
-  @if (data(); as pageData) {
-    <main class="page-content">
+  @if (data(); as d) {
 
-      <!-- Page Title -->
-      <h1 class="page-title">ATCP <span>Song Leadership</span></h1>
+    <!-- ══ MARKET LEADS ══════════════════════════════════════ -->
+    <section class="section">
+      <h2 class="section-heading">Market Leads</h2>
+      <app-header [marketLeads]="d.marketLeads" />
+    </section>
 
-      <!-- Section 1: Leadership Banner -->
-      <app-header
-        [songLead]="pageData.songLead"
-        [regionalLeads]="pageData.regionalLeads"
+    <!-- ══ SONG OFFERINGS ════════════════════════════════════ -->
+    <section class="offering-section">
+      <h2 class="offering-heading">Song Offerings</h2>
+      <app-offerings-table
+        [practiceLeads]="d.practiceLeads"
+        [capabilityLeads]="d.capabilityLeads"
       />
+    </section>
 
-      <!-- Section 2: Song Offerings Grid -->
-      <app-offerings-table [offerings]="pageData.offerings" />
+    <!-- ══ ENABLEMENT CHAMPIONS ══════════════════════════════ -->
+    <section class="section" style="padding-top: 8px;">
+      <h2 class="section-heading">Enablement Champions</h2>
+      <app-enablement-champions [champions]="d.enablementChampions" />
+    </section>
 
-      <!-- Section 3: Enablement Champions -->
-      <app-enablement-champions [champions]="pageData.enablementChampions" />
-
-    </main>
   }
 
+  <app-footer></app-footer>
+
 </div>
-<app-footer></app-footer>
