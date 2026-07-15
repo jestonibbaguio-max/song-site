@@ -227,6 +227,24 @@ app.get("/api/leadership", (req, res) => {
   });
 });
 
+// ── Home ─────────────────────────────────────────────────────────────────────
+
+const homeFilePath = path.join(__dirname, "home.json");
+
+app.get("/api/home/spotlight", (req, res) => {
+  fs.readFile(homeFilePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to load data" });
+    res.json(JSON.parse(data).spotlight);
+  });
+});
+
+app.get("/api/home/announcements", (req, res) => {
+  fs.readFile(homeFilePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to load data" });
+    res.json(JSON.parse(data).announcements);
+  });
+});
+
 // ── Song Links ───────────────────────────────────────────────────────────────
 
 const songLinksFilePath = path.join(__dirname, "song-links.json");
