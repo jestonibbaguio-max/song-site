@@ -1,21 +1,24 @@
 :host {
-  display: inline-block;
-  background-color: black;
+  display: block;
   width: 100%;
-   padding-top: 24px;
+  padding-top: 24px;
+  background-color: #460073;
 }
 
 .footer {
   position: relative;
   margin-left: 75px;
-  gap: auto; 
- background-color: black;
+  margin-right: 75px;
+
   overflow: hidden;
   min-height: 120px;
-  display: flex;
-  flex-direction: flex;
 
- 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #460073;
+
   .footer__ribbon {
     position: absolute;
     inset: 0;
@@ -26,17 +29,31 @@
       height: 100%;
     }
   }
-  .footer__link {
-   color: white;
+
+  .footer__bar {
+    display: flex;
+    align-items: center;
   }
- 
+
+  .footer__links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer__link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .footer__link:hover {
+    text-decoration: underline;
+  }
+
   .footer__copyright {
-margin-left: auto;
-margin-right: 100px;
-  line-height: 1.7;
-  color: white;
-  display: flex;
-   justify-content: flex-end;
-   text-align: right;
+    color: white;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: right;
   }
 }
