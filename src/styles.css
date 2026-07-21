@@ -13,6 +13,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
 
 @font-face {
   font-family: 'Graphik';
+  src: url('assets/fonts/graphik/Graphik-Semibold-Web.woff2') format('woff2'),
+       url('assets/fonts/graphik/Graphik-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Graphik';
   src: url('assets/fonts/graphik/Graphik-Bold.woff2') format('woff2'),
        url('assets/fonts/graphik/Graphik-Bold.woff') format('woff');
   font-weight: 700;
