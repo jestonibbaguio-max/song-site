@@ -1,17 +1,17 @@
 :host {
   display: block;
   width: 100%;
-  padding-top: 24px;
   background-color: #460073;
 }
 
 .footer {
   position: relative;
-  margin-left: 75px;
-  margin-right: 75px;
+  padding: 0px 84px;
+  height: 120px;
+  min-height: 120px;
+  max-height: 120px;
 
   overflow: hidden;
-  min-height: 120px;
 
   display: flex;
   justify-content: space-between;
@@ -37,23 +37,26 @@
 
   .footer__links {
     display: flex;
-    gap: 24px;
+    align-items: center;
+    gap: 16px;
   }
 
   .footer__link {
     color: white;
-    text-decoration: none;
+    text-decoration: underline;
     font-size: 14px;
+    line-height: 22px;
   }
 
   .footer__link:hover {
-    text-decoration: underline;
+    opacity: 0.8;
   }
 
   .footer__copyright {
+    margin: 0;
     color: white;
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 22px;
     text-align: right;
   }
 }

@@ -3,12 +3,13 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background: #460073; /* purple */
+    height: 88px;
+    background: #460073;
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
+    padding: 0px 84px;
     z-index: 1000;
    }
 
