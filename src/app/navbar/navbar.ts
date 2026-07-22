@@ -21,3 +21,4 @@ isSearchOpen = false;
     }
   }
 }
+

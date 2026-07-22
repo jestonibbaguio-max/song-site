@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Navbar } from "../navbar/navbar";
+import { Footer } from "../footer/footer";
 
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, RouterLink, Navbar],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, RouterLink, Navbar, Footer],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
