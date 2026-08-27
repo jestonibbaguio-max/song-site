@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -41,12 +41,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectPerson(index: number): void {
     this.selectedIndex.set(index);
     this.restartCarousel();
-  }
-
-  initials(fullName: string): string {
-    const parts = fullName.trim().split(' ');
-    if (parts.length === 1) return parts[0][0].toUpperCase();
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   }
 
   private startCarousel(): void {

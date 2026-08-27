@@ -1,0 +1,31 @@
+<main class="landing-shell">
+  <section class="landing-card">
+    <div class="eyebrow">SSO-LOCAL</div>
+    <h1>Welcome to Song Site</h1>
+    <p class="lede">
+      Sign in with Microsoft Entra to continue, or skip SSO and open the dashboard immediately.
+    </p>
+
+    @if (isAuthenticated()) {
+      <div class="status-banner success">
+        Signed in as <strong>{{ displayName() }}</strong>. Redirecting to the dashboard.
+      </div>
+    } @else if (error()) {
+      <div class="status-banner error">{{ error() }}</div>
+    }
+
+    <div class="actions">
+      <button class="primary-action" type="button" [disabled]="isBusy()" (click)="signIn()">
+        @if (isBusy()) {
+          Signing in...
+        } @else {
+          Sign in with SSO
+        }
+      </button>
+
+      <button class="secondary-action" type="button" (click)="skipSso()">
+        Skip SSO
+      </button>
+    </div>
+  </section>
+</main>
