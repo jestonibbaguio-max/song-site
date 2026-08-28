@@ -9,7 +9,7 @@ import {
   PublicClientApplication,
 } from '@azure/msal-browser';
 
-const redirectUri = getEnv('VITE_AZURE_REDIRECT_URI', 'http://localhost:4200/');
+const redirectUri = getEnv('VITE_AZURE_REDIRECT_URI', getDefaultRedirectUri());
 const clientId = getEnv('VITE_ENTRA_CLIENT_ID', '8b6a9386-67b2-4d05-9966-6f20a67713f8');
 const tenantId = getEnv('VITE_ENTRA_TENANT_ID', 'b647a764-1b83-4076-8305-ff4ee0fbbcdf');
 
@@ -125,6 +125,15 @@ export class AuthService {
 
 function getEnv(name: string, fallback: string): string {
   return (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.[name] ?? fallback;
+}
+
+function getDefaultRedirectUri(): string {
+  if (typeof window === 'undefined') {
+    return 'http://localhost:4200/';
+  }
+
+  const baseHref = document.querySelector('base')?.getAttribute('href') ?? '/';
+  return new URL(baseHref, window.location.origin).toString();
 }
 
 function getErrorMessage(error: unknown, fallback: string): string {
