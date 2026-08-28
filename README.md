@@ -9,9 +9,7 @@ Follow these steps when setting up the SSO branch on your local machine.
 1. Checkout the branch:
 
 ```bash
-git fetch origin
-git switch feat/sso
-git pull origin feat/sso
+git checkout main
 ```
 
 2. Install dependencies (use legacy peer dependency resolution):
