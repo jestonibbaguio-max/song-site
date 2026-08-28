@@ -13,7 +13,8 @@
 
 </div>
 
-<nav>
+<div class="header-right">
+  <nav>
   <a 
     routerLink="/"
     routerLinkActive="active"
@@ -69,5 +70,22 @@
     </div>
 
   </nav>
+
+  <div class="profile-dropdown" [class.open]="isProfileOpen">
+    <button type="button" class="profile-trigger" (click)="toggleProfile()" aria-label="User profile menu">
+      <span class="user-avatar">{{ account() ? userInitials() : 'SSO' }}</span>
+      <span class="profile-trigger-label">{{ account() ? displayName() : 'Profile' }}</span>
+      <svg class="profile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="profile-menu">
+      <div class="profile-menu-name">{{ account() ? displayName() : 'Signed out' }}</div>
+      <div class="profile-menu-email">{{ account() ? userEmail() : 'Use SSO login to sign in' }}</div>
+      <button type="button" class="logout-button" (click)="logout()" [disabled]="!account()">Logout</button>
+    </div>
+  </div>
+</div>
 
 </header>

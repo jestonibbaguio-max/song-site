@@ -4,6 +4,12 @@ import { MyJourneyComponent } from './song-bench/my-journey/my-journey.component
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./index/index.component').then(m => m.IndexComponent)
+  },
+  {
+    path: 'dashboard',
     loadComponent: () =>
       import('./home/home.component').then(m => m.HomeComponent)
   },

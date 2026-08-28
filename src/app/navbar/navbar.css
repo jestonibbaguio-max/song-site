@@ -13,10 +13,118 @@
     z-index: 1000;
    }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
    .header nav {
     display: flex;
     gap: 15px; /* Adjust spacing between nav items */
    }
+
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 6px 10px 6px 6px;
+  cursor: pointer;
+}
+
+.profile-trigger-label {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-chevron {
+  opacity: 0.9;
+  transition: transform 0.2s ease;
+}
+
+.profile-dropdown.open .profile-chevron {
+  transform: rotate(180deg);
+}
+
+.profile-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 260px;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #2b0a4a;
+  padding: 12px;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(70, 0, 115, 0.16);
+  display: none;
+}
+
+.profile-dropdown.open .profile-menu {
+  display: block;
+}
+
+.profile-menu-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.profile-menu-email {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #5a3d75;
+  overflow-wrap: anywhere;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a100ff 0%, #6f00b8 100%);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.logout-button {
+  margin-top: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  background: #460073;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.logout-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.logout-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
 
    .header nav a, .dropbtn {
     color: white;
