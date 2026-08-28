@@ -1,0 +1,39 @@
+<div class="champions-grid">
+  @for (c of champions(); track c.id) {
+    <div class="champion-card">
+
+      @if (c.coLead) {
+        <div class="double-avatar">
+          <div class="avatar avatar-md" [style.background]="c.avatarColor || '#7c3aed'">
+            @if (c.photo) {
+              <img [src]="c.photo" [alt]="c.name" (error)="onImgError($event, c.initials)" />
+            } @else {
+              {{ c.initials }}
+            }
+          </div>
+          <div class="avatar avatar-md" [style.background]="c.coLead.avatarColor || '#7c3aed'">
+            @if (c.coLead.photo) {
+              <img [src]="c.coLead.photo" [alt]="c.coLead.name" (error)="onImgError($event, c.coLead.initials)" />
+            } @else {
+              {{ c.coLead.initials }}
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="avatar avatar-md" [style.background]="c.avatarColor || '#7c3aed'">
+          @if (c.photo) {
+            <img [src]="c.photo" [alt]="c.name" (error)="onImgError($event, c.initials)" />
+          } @else {
+            {{ c.initials }}
+          }
+        </div>
+      }
+
+      <div>
+        <div class="person-name">{{ c.name }}</div>
+        <div class="person-role">{{ c.role }}</div>
+      </div>
+
+    </div>
+  }
+</div>

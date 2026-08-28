@@ -1,0 +1,145 @@
+<app-navbar></app-navbar>
+
+  <div class="page">
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+      <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">Complete RIRO</span>
+</div>
+
+
+
+<!-- Page title -->  
+<h1 class="page-title">Complete RIRO</h1>
+
+<!-- Hero image — full width inside hero -->
+<div class="hero-section">
+    <img src="assets/images/createacv.png" class="hero-img" alt="Complete your RIRO illustration" />
+</div>
+
+<!-- Two-column main content -->
+<div class="main-content">
+
+<!-- LEFT COLUMN: text + buttons stacked below image -->
+<div class="left-col">
+
+<p class="bold-text">Complete your Roll-in/Roll-off(RIRO) Checklist in our repository as well as in the ATCP Bench Portal.</p>
+
+<div class="btn-wrapper">
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+</div>
+
+
+<!-- RIGHT COLUMN: step cards -->
+<div class="right-col">
+
+      <!-- Step 1 -->
+      <div class="step-card">
+        <span class="step-label">Step 1</span>
+        <p>Download a RIRO Checklist template from our RIRO repository. Open the designated template, and click File > Create a Copy. You have two choices after this:</p>
+        <ul class="step-list">
+          <li><strong>Create a Copy Online</strong><br> You need to rename this file (see Step 2) and move this to RIRO Checklist folder in Sharepoint. To do this:
+                Create a Copy Online > Choose Location > More save locations > [ ... ] (Triple dot button at the middle top of
+                the popup) > RIRO Checklist. Ensure that you don't replace or delete any pre-existing file.</li>
+          <li><strong>Download a Copy</strong><br> You need to rename this file. You may complete the RIRO checklist first before uploading this to the Sharepoint.</li>
+        </ul>
+        <p>Sharepoint:<a href="https://ts.accenture.com/:x:/r/sites/InteractiveBench/_layouts/15/Doc.aspx?sourcedoc=%7B1F1F812F-E831-4043-A4E7-DAF41236C2AB%7D&file=ATCP%20Digital%20and%20Data%20Bench%20RIRO%20-%20EID%20-%20RI%20Date%20YYYYMMDD%20-%20RO%20Date%20YYYYMMDD%20-%20Editable.xlsm&action=default&mobileredirect=true" target="blank" class="step-link">&#8599; RIRO Template</a></p>
+        </div>
+
+      <!-- Step 2 -->
+      <div class="step-card">
+        <span class="step-label">Step 2</span>
+        <p>
+          Rename your RIRO checklist to the following format:
+          ATCP Digital and Data Bench RIRO - &lt;EID&gt; - RI Date &lt;YYYYMMDD&gt; - RO Date &lt;YYYYMMDD&gt;.</p>
+        <p>If you don't have a Roll-off date, just leave RO Date as YYYYMMDD.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card">
+          <span class="step-label">Step 3</span>
+      <p>Open the RIRO Checklist template. Make sure to ENABLE MACROS in the popup, then go to the RIRO Dashboard tab and update the following details:</p>
+
+  <ul>
+    <li>Roll-in member: Your EID</li>
+    <li>Employment date: Your Accenture hire date</li>
+    <li>Manila or Cebu hire: Your location if Manila or Cebu</li>
+    <li>Roll-in date: Date rolled into Bench, based on DN</li>
+  </ul>
+</div>
+
+<div class="step-card">
+  <span class="step-label">Step 4</span>
+
+  <p>Switch to the Roll-in Checklist tab.</p>
+
+  <p>
+    Follow the checklist instructions on Column D (References / Guidelines / Links),
+    and edit Column H (Date Completed) if you finish the step by entering the date
+    you finished it. If done correctly, Column I (Computed Status) will auto-fill
+    with the correct status indicating whether the task was completed on time or delayed.
+  </p>
+
+  <ul>
+    <li>Column D: References / Guidelines / Links</li>
+    <li>
+      Column H: Date Completed. Edit this as soon as you complete the task in Column D.
+    </li>
+    <li>
+      Column E: Upload proof, such as a screenshot showing completion or documenting
+      an error.
+    </li>
+  </ul>
+
+  <p>
+    Some links may not work, so make sure you include a screenshot before marking
+    the task as complete.
+  </p>
+</div>
+
+<div class="step-card">
+  <span class="step-label">Step 5</span>
+
+  <p>
+    Once you finish your checklist, upload it to the RIRO Repository.
+  </p>
+
+  <p>
+    <a href="#" target="blank" class="step-link">&#8599; SharePoint: ATCP Bench RIRO Repository</a>
+  </p>
+</div>
+
+<div class="step-card">
+  <span class="step-label">Step 6</span>
+
+  <p>
+    After you have uploaded your RIRO, complete the remaining Roll-in tasks in the
+    ATCP Bench Portal. Ensure that the dashboard displays your information on the
+    homepage, then navigate to the RIRO tab. Follow the instructions there and
+    click <strong>Submit</strong> once all tasks are marked as complete.
+  </p>
+
+  <p>Congratulations on completing the RIRO tasks!</p>
+
+  <p>
+        <a href="#" target="blank" class="step-link">&#8599; ATCP Bench Portal</a>
+  </p>
+</div>
+
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

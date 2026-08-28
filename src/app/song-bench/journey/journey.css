@@ -1,0 +1,218 @@
+/* RESET */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+/* Prevent image weird spacing */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: #4b0082;
+  padding: 15px 40px;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+h2 {
+  font-size: 4rem;
+  margin: 0 100px 10px 100px;
+}
+
+/* PARAGRAPH */
+p {
+  font-size: 2.2rem;
+  line-height: 1.25;
+  max-width: 1000px;
+  color: #ddd;
+  font-family: "Sectra Fine", Palatino;
+  margin: 0 0 20px 100px;
+}
+
+.hero-description {
+  font-size: 2.2rem;
+  line-height: 1.6;
+  max-width: 1000px;
+  color: #ddd;
+  font-family: "Playfair Display", serif;
+  margin: 0;
+}
+
+/* ACCENT COLOR */
+.accent {
+  color: #a100ff;
+}
+.about-img {
+  width: 100%;
+  height: auto;
+}
+
+/* HERO LAYOUT */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* HERO TEXT */
+.hero-text h1 {
+  padding-left: 0px;
+  font-size: 100px;
+  line-height: 1;
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .hero-text {
+    margin-right: 50px;
+  }
+
+  .hero-text h1 {
+    font-size: 80px;
+  }
+
+  h2 {
+    font-size: 32px;
+    margin-left: 0;
+  }
+
+  p {
+    font-size: 18px;
+    margin-left: 0;
+  }
+}
+
+/* ACCORDION SECTION */
+.accordion-section {
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* ACCORDION ITEMS */
+.accordion-item {
+  border-top: 1px solid #333;
+  position: relative;
+}
+
+.accordion-item:last-child {
+  border-bottom: 1px solid #333;
+}
+
+/* HEADER */
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 0;
+  font-size: 28px;
+  color: #aaa;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.accordion-header:hover {
+  color: #fff;
+}
+
+/* PURPLE LINE EFFECT */
+.accordion-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: #a100ff;
+  transition: width 0.3s ease;
+}
+
+.accordion-header:hover::before {
+  width: 100%;
+}
+
+.accordion-item.active .accordion-header::before {
+  width: 100%;
+}
+
+/* CONTENT */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  color: #ccc;
+  font-size: 18px;
+}
+.accordion-item.active .accordion-content {
+  padding-bottom: 0;
+}
+
+/* ICON */
+.icon {
+  font-size: 28px;
+  transition: transform 0.3s ease;
+}
+
+.accordion-item.active .icon {
+  transform: rotate(45deg);
+}
+.section {
+  margin: 0;
+  padding-bottom: 20px; /* Adjust bottom padding of the section */
+}
+app-display1 {
+  display: block;
+  margin-top: 0px;  /* Adjust space as needed */
+  padding: 0px;
+  background-color: #000000;
+}
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: black;
+  padding-bottom: 100px;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 20px;
+}
+.home-btn {
+  text-decoration: none;
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.home-btn:hover {
+  background: #0056b3;
+}
+.atcp-link {
+  color: blue;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -1,0 +1,19 @@
+<app-navbar></app-navbar>
+<div class="workday-container">
+  <div class="workday-header">
+    <h1>Update Priorities in Workday</h1>
+  </div>
+
+  <div class="guidelines-section">
+    <h2>Guidelines</h2>
+    <ol class="guidelines-list">
+      <li *ngFor="let step of guidelines">{{ step }}</li>
+    </ol>
+  </div>
+
+  <div class="actions">
+    <button class="primary-btn" (click)="markCompleted()">
+      Mark as Completed
+    </button>
+  </div>
+</div>

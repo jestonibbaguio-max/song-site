@@ -1,0 +1,33 @@
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  width: 100%;          /* make grid span full width of container */
+  max-width: 900px;     /* optional: cap the width for readability */
+  margin: 0 auto;       /* center the grid horizontally */
+}
+ 
+.summary-card {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+ 
+ 
+.summary-icon {
+  margin-bottom: 8px;
+}
+ 
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+ 
+.count {
+  font-size: 16px;
+  font-weight: bold;
+}
+ 

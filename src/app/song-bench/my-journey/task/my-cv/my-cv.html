@@ -1,0 +1,101 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">Create or Update your CV</span>
+    </div>
+
+    <!-- Page title -->
+    <h1 class="page-title">Create or Update your CV</h1>
+
+    <!-- Hero image — full width inside hero -->
+    <div class="hero-section">
+      <img src="assets/images/createacv.png" class="hero-img" alt="Create a CV illustration" />
+    </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- LEFT COLUMN: text + buttons stacked below image -->
+    <div class="left-col">
+
+      <p class="bold-text">
+        Always keep your CV in MyScheduling up-to-date
+        https://mysched.accenture.com on your first day in
+        bench and whenever you complete a training.
+      </p>
+
+      <p class="reminder-sub">
+        Create a one slider CV using the given template and upload your cv here:<br>
+        <a
+          href="https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV%2F%5BNEW%5D%20Manila&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92"
+          target="_blank">Manila</a>
+        /
+        <a
+          href="https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV%2F%5BNEW%5D%20Cebu&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92"
+          target="_blank">Cebu</a>
+      </p>
+
+      <div class="btn-wrapper">
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: step cards -->
+    <div class="right-col">
+
+      <!-- Step 1 -->
+      <div class="step-card">
+        <span class="step-label">Step 1</span>
+        <p>Download the ATCP Song Bench CV Template.</p>
+        <a href="https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV%2F%5BNEW%5D%20Manila&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92" target="blank" class="step-link">&#8599; ATCP Song Bench CV Template</a>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card">
+        <span class="step-label">Step 2</span>
+        <p>Create or update your CV and follow the guidelines below:</p>
+        <ul class="step-list">
+          <li>It should be written in third person point of view.</li>
+          <li>It should have complete details including:
+            <ul>
+              <li>Date duration in the project.</li>
+              <li>Role and technologies used in the project (e.g. Frontend developer (ReactJS)).</li>
+              <li>Your responsibilities and or achievements on each project.</li>
+            </ul>
+          </li>
+          <li>Start the sequence of your previous experiences with the most recent on the top.</li>
+          <li>Mentioned all the skills you have and have used in projects. Even the trainings that you've completed.</li>
+          <li>Include all the trainings or activities that you are currently doing or have completed during your stay in Song Bench.</li>
+          <li>Project name/Client name should be mentioned.</li>
+          <li>Insert a picture. Make sure to provide appropriate and professional looking profile photo.</li>
+          <li>Make sure the CV file does not exceed 200kb and the file name is formatted to &lt;EID&gt;_OneSliderCV.</li>
+        </ul>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card">
+        <span class="step-label">Step 3</span>
+        <p>Upload your updated CV on the Bench CV Repository</p>
+        <a href="https://ts.accenture.com/sites/InteractiveBench/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FInteractiveBench%2FShared%20Documents%2FGeneral%2F01%20Onboarding%20Documents%2FCV&viewid=74113734%2D093e%2D4882%2Db4ce%2Dcd5ba3489b92" target="_blank" class="step-link">&#8599; ATCP Song Bench CV Repository</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

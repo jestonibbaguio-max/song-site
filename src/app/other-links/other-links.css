@@ -1,0 +1,30 @@
+/*  */
+.other-link{
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #7500c0;
+    --bs-btn-hover-border-color: #7500c0;
+}
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 20px;
+}
+.home-btn {
+  text-decoration: none;
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.home-btn:hover {
+  background: #0056b3;
+}
+.atcp-link {
+  color: blue;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}

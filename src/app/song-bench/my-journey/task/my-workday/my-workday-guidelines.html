@@ -1,0 +1,24 @@
+<div class="guidelines-container">
+  <h1>Update Contact Guidelines</h1>
+
+  <p class="intro">
+    Follow these instructions to complete the Update Priorities section in Workday.
+    Once finished, mark the section as complete and return to the Workday page.
+  </p>
+
+  <ol class="guidelines-list">
+    <li *ngFor="let step of steps">{{ step }}</li>
+  </ol>
+
+  <div class="note">
+    <p>When you have completed the steps above, click the button below to update the progress status.</p>
+  </div>
+
+  <button class="complete-btn" (click)="markSectionComplete()" [disabled]="isMarked">
+    {{ isMarked ? 'Section Completed' : 'Tick to complete section' }}
+  </button>
+
+  <div class="status-message" *ngIf="isMarked">
+    The section is now marked complete. Return to the Workday page and click "Mark as Completed".
+  </div>
+</div>

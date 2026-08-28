@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+
+<div class="page">
+
+  <img class="dust-bg"
+       src="https://www.figma.com/api/mcp/asset/4b5b752b-adeb-440d-aa6b-b3289890a99f"
+       alt="" aria-hidden="true" />
+
+  <div class="deco-bg">
+    <img src="https://www.figma.com/api/mcp/asset/2d6b3d7d-cc72-4e96-a3cd-505576556667"
+         alt="" aria-hidden="true" />
+  </div>
+
+  <!-- ══ HERO ══════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-card">
+      <p class="hero-org">Organization</p>
+      <h1>ATCP Song Leadership</h1>
+      <p class="hero-subtitle">
+        Meet the leaders driving innovation, collaboration, and growth across ATCP Song's global practices.
+      </p>
+    </div>
+  </section>
+
+  @if (loading()) {
+    <div class="state-center">
+      <div class="spinner"></div>
+      <p>Loading leadership data…</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="state-center state-error">
+      <p>⚠ {{ error() }}</p>
+    </div>
+  }
+
+  @if (data(); as d) {
+
+    <!-- ══ MARKET LEADS ══════════════════════════════════════ -->
+    <section class="section">
+      <h2 class="section-heading">Market Leads</h2>
+      <app-header [marketLeads]="d.marketLeads" />
+    </section>
+
+    <!-- ══ SONG OFFERINGS ════════════════════════════════════ -->
+    <section class="offering-section">
+      <h2 class="offering-heading">Song Offerings</h2>
+      <app-offerings-table
+        [practiceLeads]="d.practiceLeads"
+        [capabilityLeads]="d.capabilityLeads"
+      />
+    </section>
+
+    <!-- ══ ENABLEMENT CHAMPIONS ══════════════════════════════ -->
+    <section class="section" style="padding-top: 8px;">
+      <h2 class="section-heading">Enablement Champions</h2>
+      <app-enablement-champions [champions]="d.enablementChampions" />
+    </section>
+
+  }
+
+  <app-footer></app-footer>
+
+</div>

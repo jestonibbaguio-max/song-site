@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accenture Style Page</title>
+</head>
+<body>
+<div class="container px-4 px-lg-5">
+
+<!-- Heading Row -->
+<div class="row gx-4 gx-lg-5 align-items-center my-5">
+<div class="col-lg-14">
+<img class="img-fluid rounded mb-4 mb-lg-0"
+                    src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" />
+</div>
+
+<div class="col-lg-0">
+                    <h1 class="font-weight-light">ATCP Song Skills Matrix Guidelines</h1>
+                    <p>This document is for use of Song Bench resources. This contains all of the skills of Bench resources. </p>
+                    <p>Only the current Bench resources have the updated information, the others (Deployed) may no longer be updated.</p>
+                    <a class="btn btn-primary me-3" (click)="goBack()">BACK</a>
+
+
+</div>
+</div>
+            <!-- Call to Action-->
+            <div class="my-5 py-4 text-center">
+                <div class="card h-100">
+                <div class="card-body" ><p>ATCP Song Skills Matrix File: <a href="https://ts.accenture.com/:x:/r/sites/InteractiveBench/_layouts/15/Doc.aspx?sourcedoc=%7BD0BFCA08-72A7-4D98-A4DE-C4BBA8E1F9CE%7D&file=ATCP%20Song%20Skills%20Matrix.xlsx&action=default&mobileredirect=true" target="_blank">Skills Matrix File</a></p></div>
+                </div>
+            </div>
+            <!-- Content Row-->
+            
+                <div class="col-md-15 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">Step 1</h2>
+                            <p class="card-text">All Song resources must update ATCP Song Skills Matrix.xslx</p>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-md-15 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">Step 2</h2>
+                            <p class="card-text">Go to current FY sheet and add your details accordingly,  from columns A to CF. Primary Skill is pre-populated.</p>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-md-15 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">Step 3</h2>
+                            <p class="card-text">Indicate your experience on all skills in months.</p>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-md-15 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">Step 4</h2>
+                            <p class="card-text">If you have other skills that are not mentioned, indicate in the Other skills column (ex. Skillname - 6 months). </p>
+                        </div>
+                        
+                    </div>
+                </div>
+           
+
+<button class="btn btn-success"
+(click)="markCompleted()"
+[disabled]="isWaiting">
+{{ isWaiting ? 'Processing...' : 'COMPLETE' }}
+</button>
+</div>
+<p *ngIf="isWaiting">
+Updating status... redirecting in 5 seconds
+</p>
+
+</body>

@@ -1,0 +1,51 @@
+<!-- Practice Leads -->
+<div class="divider-row">
+  <div class="line"></div>
+  <span class="label">Practice Leads</span>
+  <div class="line"></div>
+</div>
+<div class="offering-grid">
+  @for (lead of practiceLeads(); track lead.id) {
+    <div class="offering-cell">
+      <div class="offering-label">{{ lead.category }}</div>
+      <div class="offering-person">
+        <div class="avatar avatar-md" [style.background]="lead.avatarColor || '#7c3aed'">
+          @if (lead.photo) {
+            <img [src]="lead.photo" [alt]="lead.name" (error)="onImgError($event, lead.initials)" />
+          } @else {
+            {{ lead.initials }}
+          }
+        </div>
+        <div class="person-name">{{ lead.name }}</div>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Capability Leads -->
+<div class="divider-row">
+  <div class="line"></div>
+  <span class="label">Capability Leads</span>
+  <div class="line"></div>
+</div>
+<div class="offering-grid">
+  @for (cap of capabilityLeads(); track cap.id) {
+    <div class="offering-cell">
+      <div class="offering-label">{{ cap.category }}</div>
+      <div class="multi-avatars">
+        @for (g of cap.groups; track $index) {
+          @for (m of g.members; track m.name) {
+            <div class="avatar avatar-sm" [style.background]="m.avatarColor || '#7c3aed'">
+              @if (m.photo) {
+                <img [src]="m.photo" [alt]="m.name" (error)="onImgError($event, m.initials)" />
+              } @else {
+                {{ m.initials }}
+              }
+            </div>
+          }
+        }
+      </div>
+      <div class="cap-names" [innerHTML]="capNamesHtml(cap)"></div>
+    </div>
+  }
+</div>

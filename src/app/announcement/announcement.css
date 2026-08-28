@@ -1,0 +1,495 @@
+.announcement-page {
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: 'Graphik', Arial, sans-serif;
+}
+
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero-section {
+  background: radial-gradient(circle at 60% 40%, #2a0050 0%, #0d001a 50%, #000 100%);
+  padding: 140px 80px 80px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(161,0,255,0.25) 0%, transparent 8%),
+    radial-gradient(circle at 85% 15%, rgba(161,0,255,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 25% 60%, rgba(150,0,210,0.22) 0%, transparent 7%),
+    radial-gradient(circle at 75% 75%, rgba(161,0,255,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 40% 30%, rgba(180,50,220,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 60% 50%, rgba(140,20,180,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 10% 80%, rgba(161,0,255,0.21) 0%, transparent 7%),
+    radial-gradient(circle at 90% 45%, rgba(150,0,210,0.23) 0%, transparent 6%),
+    radial-gradient(circle at 50% 15%, rgba(161,0,255,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 70% 25%, rgba(130,0,190,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 35% 75%, rgba(161,0,255,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 80% 60%, rgba(150,20,200,0.22) 0%, transparent 7%),
+    radial-gradient(circle at 20% 40%, rgba(170,10,220,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 65% 80%, rgba(140,0,200,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 45% 65%, rgba(161,0,255,0.21) 0%, transparent 6%),
+    radial-gradient(circle at 55% 35%, rgba(150,0,210,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 30% 10%, rgba(161,0,255,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 75% 90%, rgba(130,0,190,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 15% 50%, rgba(180,30,230,0.22) 0%, transparent 6%),
+    radial-gradient(circle at 95% 70%, rgba(140,0,200,0.20) 0%, transparent 5%);
+  pointer-events: none;
+}
+
+.hero-section h1 {
+  font-size: 52px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px;
+  position: relative;
+}
+
+.hero-section > p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 620px;
+  line-height: 1.6;
+  margin: 0;
+  position: relative;
+}
+
+/* ─── CAROUSEL SECTION ──────────────────────────────────── */
+.carousel-section {
+  background: radial-gradient(circle at top, #1a0033 0%, #000 55%);
+  padding: 0 80px 60px;
+  position: relative;
+}
+
+.section-header {
+  padding: 50px 0 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.section-header h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #f5f2ff;
+  text-shadow: 0 0 15px rgba(161, 0, 255, 0.35);
+  margin: 0;
+  text-align: left;
+}
+
+/* CAROUSEL CONTAINER */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  z-index: 1;
+}
+
+/* CAROUSEL STAGE */
+.carousel-stage {
+  position: relative;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+}
+
+/* CARD BASE */
+.carousel-card {
+  position: absolute;
+  width: 600px;
+  height: 350px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(88, 0, 168, 0.7), rgba(20, 5, 40, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 35px rgba(161, 0, 255, 0.18);
+  transition: all 0.7s ease;
+  transform-style: preserve-3d;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* IMAGE */
+.card-image {
+  width: 100%;
+  height: 100%;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* OVERLAY */
+.card-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.1));
+}
+
+.card-overlay h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.card-overlay p {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255,255,255,0.78);
+}
+
+/* CENTER CARD */
+.carousel-card.center {
+  opacity: 1;
+  transform: translateX(0) scale(1.08) rotateY(0deg);
+  z-index: 3;
+  pointer-events: auto;
+  box-shadow: 0 0 40px rgba(161, 0, 255, 0.35);
+}
+
+/* LEFT CARD */
+.carousel-card.left {
+  opacity: 0.55;
+  transform: translateX(-360px) scale(0.86) rotateY(18deg);
+  z-index: 2;
+}
+
+/* RIGHT CARD */
+.carousel-card.right {
+  opacity: 0.55;
+  transform: translateX(360px) scale(0.86) rotateY(-18deg);
+  z-index: 2;
+}
+
+/* HIDDEN CARDS */
+.carousel-card.hidden {
+  opacity: 0;
+  transform: scale(0.6);
+  z-index: 1;
+}
+
+/* NAV BUTTONS */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(161, 0, 255, 0.16);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.nav-btn:hover {
+  background: #a100ff;
+  box-shadow: 0 0 18px rgba(161, 0, 255, 0.45);
+}
+
+.left-btn {
+  left: 0;
+}
+
+.right-btn {
+  right: 0;
+}
+
+/* DOTS */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  width: 20px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #d48cff, #8d2bff);
+  box-shadow: 0 0 12px rgba(161, 0, 255, 0.45);
+}
+
+/* ─── IMPORTANT TRAININGS ───────────────────────────────── */
+.trainings-section {
+  background: #000;
+  padding: 60px 80px;
+  color: #fff;
+}
+
+.trainings-inner {
+  padding: 0;
+}
+
+.trainings-section h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 32px;
+  line-height: 1.5;
+}
+
+.trainings-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.training-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 200px;
+  transition: box-shadow 0.2s ease;
+}
+
+.training-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.training-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.training-card p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+.training-card a {
+  font-size: 13px;
+  color: #0061a8;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.training-card a:hover {
+  text-decoration: underline;
+}
+
+.link-icon {
+  font-size: 14px;
+}
+
+/* ─── NEW FEATURES AND NOTICES ──────────────────────────── */
+.notices-section {
+  background: radial-gradient(circle at 30% 70%, #1a0033 0%, #000 60%);
+  padding: 60px 80px;
+  color: #fff;
+}
+
+.notices-inner {
+  padding: 0;
+}
+
+.notices-section h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px;
+}
+
+.notice-card {
+  background: #fff;
+  color: #111;
+  border-radius: 8px;
+  padding: 24px 28px;
+  max-width: 100%;
+  border: 1px solid #e5e7eb;
+}
+
+.notice-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px;
+}
+
+.notice-card p {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── REMINDER ──────────────────────────────────────────── */
+.reminder-section {
+  background: linear-gradient(135deg, #0d001a 0%, #000 100%);
+  padding: 60px 80px;
+  color: #fff;
+}
+
+.reminder-inner {
+  padding: 0;
+}
+
+.reminder-section h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 12px;
+}
+
+.reminder-section p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 800px;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .trainings-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  .carousel-card {
+    width: 430px;
+    height: 260px;
+  }
+
+  .carousel-card.left {
+    transform: translateX(-260px) scale(0.82) rotateY(16deg);
+  }
+
+  .carousel-card.right {
+    transform: translateX(260px) scale(0.82) rotateY(-16deg);
+  }
+
+  .trainings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-section {
+    padding: 120px 40px 60px;
+  }
+
+  .hero-section h1 {
+    font-size: 40px;
+  }
+
+  .section-header,
+  .trainings-inner,
+  .notices-inner,
+  .reminder-inner {
+    padding: 0 40px;
+  }
+
+  .carousel-container {
+    padding: 0 50px 20px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 100px 24px 50px;
+  }
+
+  .hero-section h1 {
+    font-size: 32px;
+  }
+
+  .section-header {
+    padding: 30px 24px 10px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+
+  .carousel-stage {
+    height: 320px;
+  }
+
+  .carousel-card,
+  .carousel-card.center {
+    width: 300px;
+    height: 200px;
+  }
+
+  .carousel-card.left,
+  .carousel-card.right {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  .carousel-container {
+    padding: 0 40px 20px;
+  }
+
+  .trainings-section,
+  .notices-section,
+  .reminder-section {
+    padding: 40px 0;
+  }
+
+  .trainings-inner,
+  .notices-inner,
+  .reminder-inner {
+    padding: 0 24px;
+  }
+
+  .trainings-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .hero-section h1 {
+    font-size: 28px;
+  }
+}

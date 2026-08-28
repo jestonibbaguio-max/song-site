@@ -1,0 +1,138 @@
+<div class="page">
+  <app-navbar></app-navbar>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Welcome to ATCP Song Bench</h1>
+      <p class="hero-subtitle">You are part of a community that values collaboration, continuous learning, and impact. We're excited to grow and succeed together.</p>
+      <a routerLink="/my-journey" class="btn-primary">Start my Bench Journey</a>
+    </div>
+  </section>
+
+  <!-- SPOTLIGHT -->
+  <section class="spotlight">
+    <div class="spotlight-header">
+      <div class="spotlight-header-left">
+        <h2>ATCP Song Bench Spotlight</h2>
+      </div>
+      <div class="spotlight-header-right">
+        <a href="" class="btn-primary" (click)="$event.preventDefault()">
+          <span>View the Certificate Gallery</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    @if (spotlight()) {
+      <div class="spotlight-content">
+        <!-- Carousel: main image + dot controls -->
+        <div class="spotlight-carousel">
+          <img
+            [src]="spotlight()!.persons[selectedIndex()].image"
+            [alt]="spotlight()!.persons[selectedIndex()].fullName"
+            onerror="this.src='assets/images/placeholder.svg'"
+          />
+          <div class="carousel-controls">
+            @for (person of spotlight()!.persons; track person.id; let i = $index) {
+              <button
+                class="carousel-dot"
+                [class.active]="selectedIndex() === i"
+                (click)="selectPerson(i)"
+                [attr.aria-label]="person.fullName"
+              ></button>
+            }
+          </div>
+        </div>
+        <!-- Card: title + scrollable person list -->
+        <div class="spotlight-card">
+          <div class="spotlight-slot">
+            <h3 class="spotlight-title">{{ spotlight()!.title }}</h3>
+            <div class="spotlight-list-group">
+              @for (person of spotlight()!.persons; track person.id; let i = $index) {
+                <div class="person-item" [class.active]="selectedIndex() === i" (click)="selectPerson(i)">
+                  <div class="person-slot-left">
+                    <div class="avatar">
+                      @if (person.headshot) {
+                        <img [src]="person.headshot" [alt]="person.fullName"
+                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <svg style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="8" r="4"/>
+                          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                      } @else {
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="8" r="4"/>
+                          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                      }
+                    </div>
+                  </div>
+                  <span class="person-name">{{ person.displayName }}</span>
+                </div>
+              }
+            </div><!-- /.spotlight-list-group -->
+          </div><!-- /.spotlight-slot -->
+        </div><!-- /.spotlight-card -->
+      </div><!-- /.spotlight-content -->
+    } @else {
+      <div class="spotlight-loading">Loading spotlight...</div>
+    }
+  </section>
+
+  <!-- QUICK ANNOUNCEMENTS -->
+  <section class="announcements">
+    <div class="ann-container">
+      <h2>Quick Announcements</h2>
+      <div class="announcements-grid">
+        @for (item of announcements(); track item.id) {
+          <div class="announcement-card">
+            <div class="ann-icon-box">
+              @switch (item.icon) {
+                @case ('notification') {
+                  <svg class="ann-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21C12.5523 21 13 20.5523 13 20H11C11 20.5523 11.4477 21 12 21Z" fill="#111111"/>
+                    <path d="M18 16V11C18 7.68629 15.9857 4.83553 13 3.58535V3C13 2.44772 12.5523 2 12 2C11.4477 2 11 2.44772 11 3V3.58535C8.01428 4.83553 6 7.68629 6 11V16L4.70711 17.2929C4.07714 17.9229 4.52331 19 5.41421 19H18.5858C19.4767 19 19.9229 17.9229 19.2929 17.2929L18 16ZM8 11C8 8.79086 9.79086 7 12 7C14.2091 7 16 8.79086 16 11V16H8V11Z" fill="#111111"/>
+                  </svg>
+                }
+                @case ('star') {
+                  <svg class="ann-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3.5L14.4721 8.50977L20 9.31494L16 13.2139L16.9443 18.7227L12 16.123L7.05566 18.7227L8 13.2139L4 9.31494L9.52783 8.50977L12 3.5Z" stroke="#111111" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                }
+                @case ('report') {
+                  <svg class="ann-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 4H19V19H5V4Z" stroke="#111111" stroke-width="1.8"/>
+                    <path d="M9 8H11V12H9V8Z" fill="#111111"/>
+                    <path d="M13 8H15V12H13V8Z" fill="#111111"/>
+                    <path d="M9 15H15" stroke="#111111" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                }
+                @case ('bookmark') {
+                  <svg class="ann-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 4H7C5.89543 4 5 4.89543 5 6V18C5 19.1046 5.89543 20 7 20H17C18.1046 20 19 19.1046 19 18V9" stroke="#111111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 4V9H19" stroke="#111111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 2L18 4L11 11" stroke="#111111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+                @default {
+                  <svg class="ann-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21C12.5523 21 13 20.5523 13 20H11C11 20.5523 11.4477 21 12 21Z" fill="#111111"/>
+                    <path d="M18 16V11C18 7.68629 15.9857 4.83553 13 3.58535V3C13 2.44772 12.5523 2 12 2C11.4477 2 11 2.44772 11 3V3.58535C8.01428 4.83553 6 7.68629 6 11V16L4.70711 17.2929C4.07714 17.9229 4.52331 19 5.41421 19H18.5858C19.4767 19 19.9229 17.9229 19.2929 17.2929L18 16ZM8 11C8 8.79086 9.79086 7 12 7C14.2091 7 16 8.79086 16 11V16H8V11Z" fill="#111111"/>
+                  </svg>
+                }
+              }
+            </div>
+            <h3 class="ann-title">{{ item.title }}</h3>
+            <p class="ann-body">{{ item.body }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</div>

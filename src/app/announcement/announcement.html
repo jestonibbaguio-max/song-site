@@ -1,0 +1,94 @@
+<app-navbar></app-navbar>
+
+<div class="announcement-page">
+
+  <!-- HERO -->
+  <div class="hero-section">
+    <h1>Announcements</h1>
+    <p>Please stay updated with the latest changes and announcements to ensure the best experience while using the application.</p>
+  </div>
+
+  <!-- CAROUSEL SECTION -->
+  <div class="carousel-section">
+    <div class="section-header">
+      <h2>Congratulations to our newly-certified Full Stack Developers</h2>
+    </div>
+
+    <div class="carousel-container"
+         (mouseenter)="stopAutoSlide()"
+         (mouseleave)="startAutoSlide()">
+
+      <button class="nav-btn left-btn" (click)="prev()">&#10094;</button>
+
+      <div class="carousel-stage">
+        <div
+          *ngFor="let cert of certificates; let i = index"
+          class="carousel-card"
+          [ngClass]="getCardClass(i)">
+
+          <div class="card-image">
+            <img [src]="cert.image" [alt]="cert.name">
+          </div>
+
+          <div class="card-overlay">
+            <h3>{{ cert.name }}</h3>
+            <p>Certified Full Stack Developer</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-btn right-btn" (click)="next()">&#10095;</button>
+    </div>
+
+    <!-- DOTS -->
+    <div class="carousel-dots">
+      <span
+        *ngFor="let cert of certificates; let i = index"
+        class="dot"
+        [class.active]="i === activeIndex"
+        (click)="setIndex(i)">
+      </span>
+    </div>
+  </div>
+
+  <!-- IMPORTANT TRAININGS -->
+  <div class="trainings-section">
+    <div class="trainings-inner">
+      <h2>Important Trainings</h2>
+      <p class="section-subtitle">Please complete important required training modules to stay updated.</p>
+      <div class="trainings-grid">
+        @for (item of trainings; track item.title) {
+          <div class="training-card">
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.description }}</p>
+            <a [href]="item.link" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon">&#10697;</span> {{ item.linkLabel }}
+            </a>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW FEATURES AND IMPORTANT NOTICES -->
+  <div class="notices-section">
+    <div class="notices-inner">
+      <h2>New Features and Important Notices</h2>
+      <p class="section-subtitle">Please stay updated with the latest changes and announcements to ensure the best experience while using the application.</p>
+      <div class="notice-card">
+        <h4>New feature: Carousel</h4>
+        <p>Certificate Gallery have been added to make your experience more interactive and engaging.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- REMINDER -->
+  <div class="reminder-section">
+    <div class="reminder-inner">
+      <h2>Reminder</h2>
+      <p>Don't forget to check your latest updates and complete pending tasks to stay up to date with the system.</p>
+    </div>
+  </div>
+
+</div>
+<app-footer></app-footer>

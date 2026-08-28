@@ -1,0 +1,32 @@
+:host { display: block; }
+
+.market-leads-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 608px));
+  gap: 16px;
+}
+
+.market-lead-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  padding: 21px 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+
+.avatar {
+  border-radius: 50%;
+  background: #7c3aed;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff;
+  flex-shrink: 0; overflow: hidden;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-xl { width: 56px; height: 56px; font-size: 18px; }
+
+.person-name { font-size: 16px; font-weight: 700; line-height: 20px; color: #111; }
+.person-role { font-size: 14px; color: #555; margin-top: 3px; line-height: 18px; }
+
+@media (max-width: 680px) {
+  .market-leads-grid { grid-template-columns: 1fr; }
+}

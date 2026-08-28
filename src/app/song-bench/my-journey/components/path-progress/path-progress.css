@@ -1,0 +1,22 @@
+.path-wrap {
+  width: 100%;
+  display: block;
+  overflow: hidden; /* prevents tiny overflow on some SVG exports */
+}
+
+/* Full-width, responsive image */
+.path-svg {
+  width: 100%;
+  height: auto;         /* preserve aspect ratio */
+  display: block;       /* remove bottom whitespace gap */
+  max-width: 100%;
+}
+
+/* Optional: if you want a stable banner height on very wide screens */
+@media (min-width: 1200px) {
+  .path-svg {
+    /* keeps it from getting too tall if the SVG is very “vertical” */
+    max-height: 320px;
+    object-fit: contain;
+  }
+}

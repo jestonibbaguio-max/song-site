@@ -1,0 +1,110 @@
+<div class="task-grid">
+  <div class="task-card" *ngFor="let task of tasks"
+    [ngClass]="getStatus(task.status)"
+    (click)="goToTask(task)">
+
+<!-- MODAL TEMPLATE -->
+<ng-template #completeTpl let-modal class="top-center-modal">
+<div class="modal-header">
+<h5 class="modal-title">Confirm</h5>
+<button type="button" class="btn-close" (click)="modal.dismiss('cancel')"></button>
+</div>
+
+<div class="modal-body">
+<p>
+  Are you sure all tasks under
+<b>{{ selectedTask?.title }}</b>
+  are already completed?
+</p>
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-secondary" (click)="modal.dismiss('cancel')">
+    Cancel
+</button>
+
+<button class="btn btn-success" (click)="confirmComplete(modal, $event)">
+    Confirm
+</button>
+</div>
+</ng-template>
+
+<div class="card-header">
+<!-- status icon -->
+<svg class="status-icon"
+    [ngClass]="task.status.toLowerCase().replace(' ', '')"
+    width="25" height="24" viewBox="0 0 25 24">
+<rect width="25" height="24" rx="4"/>
+<path d="M6 13.5L10 17L18 9"
+    stroke="white" stroke-width="3"
+    stroke-linecap="round" stroke-linejoin="round"
+    fill="none"/>
+</svg>
+<h3>{{task.title}}</h3>
+</div>
+
+<div class="duration">
+<strong>Est duration:</strong>
+  {{ task.actualDuration ? formatDuration(task.actualDuration) : '—' }}
+</div>
+
+<p class="description">
+  {{ task.description }}
+</p>
+
+<hr class="card-divider">
+
+<div class="dates">
+<span><strong>Start:</strong> {{task.startDate || '—'}}</span>
+<span><strong>End:</strong> {{task.endDate || '—'}}</span>
+</div>
+
+<p class="status">
+  <img src="./assets/icons/Calendar.png" class="calendar-icon">
+  <span>{{task.status}}</span></p>
+
+<!-- Resource links (variable — can wrap freely) -->
+<div class="resource-links" *ngIf="task.externalLinks?.length">
+  <a
+    *ngFor="let link of task.externalLinks"
+    class="resource-link"
+    [href]="link.url"
+    target="_blank"
+    (click)="$event.stopPropagation()">
+    <img src="assets/icons/Launch_External_Link.png" class="external-link-icon">
+    <span>{{ link.text }}</span>
+  </a>
+</div>
+
+<!-- Action buttons — own grid row, always at same position -->
+<div class="actions" (click)="$event.stopPropagation()">
+  <button class="btn start-btn"
+      *ngIf="task.status==='Not Started'"
+      (click)="startTask(task, $event)">
+      Start
+  </button>
+
+  <button class="btn resume-btn"
+      *ngIf="task.status==='In Progress'"
+      (click)="goToTask(task); $event.stopPropagation()">
+      Resume Task
+  </button>
+
+  <button class="btn complete-btn"
+      *ngIf="task.status==='In Progress'"
+      [disabled]="task.url === '/training-tracker' && !allTrainingCompleted"
+      (click)="openCompleteModal(completeTpl, task)">
+      ✔ Mark as Completed
+  </button>
+
+  <button class="btn update-btn"
+      *ngIf="task.status==='Completed'"
+      (click)="updateTask(task, $event)">
+      Update task
+  </button>
+
+  <span class="task-completed-badge" *ngIf="task.status==='Completed'">
+    <span class="completed-check">&#10003;</span> Task Completed
+  </span>
+</div>
+</div>

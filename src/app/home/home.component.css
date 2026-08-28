@@ -1,0 +1,538 @@
+:host {
+  display: block;
+  background: #000;
+  font-family: 'Graphik', Arial, sans-serif;
+}
+
+.page {
+  position: relative;
+  background: #000;
+}
+
+/* Dust speckle overlay */
+.page::before {
+  content: '';
+  position: absolute;
+  top: 88px;
+  left: 0;
+  width: 100%;
+  height: 1078px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(161,0,255,0.25) 0%, transparent 8%),
+    radial-gradient(circle at 85% 15%, rgba(161,0,255,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 25% 60%, rgba(150,0,210,0.22) 0%, transparent 7%),
+    radial-gradient(circle at 75% 75%, rgba(161,0,255,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 40% 30%, rgba(180,50,220,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 60% 50%, rgba(140,20,180,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 10% 80%, rgba(161,0,255,0.21) 0%, transparent 7%),
+    radial-gradient(circle at 90% 45%, rgba(150,0,210,0.23) 0%, transparent 6%),
+    radial-gradient(circle at 50% 15%, rgba(161,0,255,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 70% 25%, rgba(130,0,190,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 35% 75%, rgba(161,0,255,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 80% 60%, rgba(150,20,200,0.22) 0%, transparent 7%),
+    radial-gradient(circle at 20% 40%, rgba(170,10,220,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 65% 80%, rgba(140,0,200,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 45% 65%, rgba(161,0,255,0.21) 0%, transparent 6%),
+    radial-gradient(circle at 55% 35%, rgba(150,0,210,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 30% 10%, rgba(161,0,255,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 75% 90%, rgba(130,0,190,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 15% 50%, rgba(180,30,230,0.22) 0%, transparent 6%),
+    radial-gradient(circle at 95% 70%, rgba(140,0,200,0.20) 0%, transparent 5%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── HERO ── */
+
+.hero {
+  position: relative;
+  height: 840px;
+  overflow: hidden;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              url('../../assets/images/hero-background.png') top right / cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 370px 84px 0;
+  z-index: 2;
+}
+
+.hero-overlay {
+  display: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1160px;
+  width: 100%;
+}
+
+.hero-content h1 {
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 68px;
+  letter-spacing: -1.92px;
+  color: #fff;
+  margin: 0 0 24px;
+}
+
+.hero-subtitle {
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 42px;
+  letter-spacing: -0.28px;
+  color: #fff;
+  margin: 0 0 48px;
+}
+
+/* ── BUTTONS ── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #a100ff;
+  color: #fff;
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.16px;
+  width: 239px;
+  min-width: 120px;
+  height: 52px;
+  min-height: 52px;
+  max-height: 52px;
+  padding: 8px 12px;
+  border-radius: 0;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #8800dd;
+  color: #fff;
+}
+
+
+/* ── SPOTLIGHT ── */
+
+.spotlight {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  padding: 0 84px 80px;
+}
+
+.spotlight-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0;
+  gap: 24px;
+  width: 100%;
+}
+
+.spotlight-header-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 40px 0;
+  gap: 16px;
+  flex: 1;
+}
+
+.spotlight-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 40px 0 32px;
+  gap: 16px;
+  flex: 1;
+}
+
+.spotlight-header-right .btn-primary {
+  width: 304px;
+}
+
+.spotlight-header h2 {
+  font-size: 36px;
+  font-weight: 600;
+  color: #000;
+  line-height: 44px;
+  letter-spacing: -1.08px;
+  margin: 0;
+}
+
+.spotlight-content {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+}
+
+/* Left panel: image carousel */
+.spotlight-carousel {
+  position: relative;
+  flex: 0 0 49.3%;
+}
+
+.spotlight-carousel img {
+  width: 100%;
+  aspect-ratio: 864 / 524;
+  object-fit: cover;
+  display: block;
+}
+
+/* Dot controls — absolute, centered at bottom of carousel image */
+.carousel-controls {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 56px;
+  z-index: 2;
+  box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.3));
+}
+
+/* Each dot is a clickable container holding the visible rectangle via ::after */
+.carousel-dot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  width: 24px;
+  max-width: 24px;
+  height: 24px;
+  max-height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: width 0.25s ease;
+}
+
+.carousel-dot::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: #555555;
+  border: 2px solid #555555;
+  border-radius: 0;
+  transition: width 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.carousel-dot.active {
+  width: 32px;
+  max-width: 40px;
+}
+
+.carousel-dot.active::after {
+  width: 24px;
+  background: #7500C0;
+  border-color: #7500C0;
+}
+
+/* Right panel: card container */
+.spotlight-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px;
+  gap: 16px;
+}
+
+/* Slot: title + list, 40px gap between them */
+.spotlight-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+}
+
+.spotlight-title {
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 34px;
+  letter-spacing: -0.84px;
+  color: #000;
+  margin: 0;
+}
+
+/* Scrollable person list */
+.spotlight-list-group {
+  width: 100%;
+  max-height: 354px;
+  overflow-y: auto;
+}
+
+.person-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  height: 80px;
+  padding: 0 16px;
+  border-bottom: 1px solid #cfcfcf;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.person-item:first-child {
+  border-top: 1px solid #cfcfcf;
+}
+
+.person-item.active,
+.person-item:hover {
+  background: rgba(161, 0, 255, 0.06);
+}
+
+/* Avatar slot wrapper */
+.person-slot-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px 8px 0;
+  gap: 10px;
+  flex-shrink: 0;
+  width: 48px;
+  height: 80px;
+  box-sizing: border-box;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ede9ff;
+  color: #7c3aed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.avatar svg {
+  width: 18px;
+  height: 18px;
+}
+
+.person-name {
+  font-family: 'Graphik', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.16px;
+  color: #000000;
+  flex: 1;
+}
+
+.spotlight-loading {
+  padding: 40px 0;
+  color: #555;
+  font-size: 16px;
+}
+
+/* ── ANNOUNCEMENTS ── */
+
+.announcements {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(90deg, #7d17c6 0%, #5b0c8f 100%);
+  padding: 40px 84px;
+  min-height: 331px;
+}
+
+.ann-container {
+  width: 100%;
+}
+
+.announcements h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.announcements-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.announcement-card {
+  aspect-ratio: 420 / 377;
+  background: #f3f3f3;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ann-icon-box {
+  width: 40px;
+  height: 40px;
+  margin: 0 0 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ann-icon {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.ann-title {
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 34px;
+  letter-spacing: -0.84px;
+  margin: 0 0 8px;
+}
+
+.ann-body {
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 32px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 1199px) {
+  .hero {
+    padding: 0 48px;
+  }
+
+  .hero-content h1 {
+    font-size: 44px;
+    line-height: 50px;
+  }
+
+  .hero-subtitle {
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .spotlight {
+    padding: 0 48px 64px;
+  }
+
+  .spotlight-header {
+    gap: 16px;
+  }
+
+  .spotlight-carousel {
+    flex: 0 0 50%;
+  }
+
+  .announcements {
+    padding: 40px 48px;
+  }
+
+  .announcements-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    min-height: 90vh;
+    padding: 120px 24px 60px;
+    align-items: center;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    line-height: 26px;
+    margin-bottom: 32px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .spotlight {
+    padding: 0 24px 48px;
+  }
+
+  .spotlight-header {
+    flex-direction: column;
+  }
+
+  .spotlight-header-left,
+  .spotlight-header-right {
+    padding: 16px 0;
+    width: 100%;
+  }
+
+  .spotlight-header h2 {
+    font-size: 26px;
+  }
+
+  .spotlight-content {
+    flex-direction: column;
+  }
+
+  .spotlight-carousel {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .spotlight-card {
+    padding: 24px 0;
+    width: 100%;
+  }
+
+  .spotlight-header-left,
+  .spotlight-header-right {
+    padding: 16px 0;
+    width: 100%;
+  }
+
+  .announcements {
+    padding: 24px 16px 32px;
+  }
+
+  .announcements-grid {
+    grid-template-columns: 1fr;
+  }
+}

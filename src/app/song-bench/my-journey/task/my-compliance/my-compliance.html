@@ -1,0 +1,83 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">Check your Workstation Compliance and Admin Rights</span>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Check your Workstation Compliance and Admin Rights</h1>
+
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/Checking@2x.png" class="hero-img" alt="Compliance illustration" />
+  </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Don't miss out on important compliance actions as well as admin rights privilege
+        to ensure that your capability building and bench journey continues smoothly.
+      </p>
+
+      <div class="btn-wrapper">
+        <!-- Not completed -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Completed -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Check your workstation compliance by accessing the Devices &amp; Equipments page
+          in the Accenture Support site by Accenture Support &gt; Devices tab.</p>
+        <a href="https://support.accenture.com/support_portal?id=acn_my_devices" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> Accenture Support: Devices &amp; Equipment
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>Your current workstation is compliant if you see a green check and a compliance note
+          on your workstation's photo. If your workstation is non-compliant, remediate the issue
+          as soon as possible, and check on the individual issues in the Compliance tab and
+          follow the instructions.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 3</div>
+        <p>Throughout your stay in bench, you may be required to install apps that require
+          elevated access. If needed, request a temporary elevated access to proceed with the
+          installation, and make sure that you only install standard Accenture software only.</p>
+        <p>You can also navigate to this Support topic: Topics &gt; Technology Support &gt;
+          View All Tech &gt; Topics &gt; Privileged Access Management &gt; Privileged Access -
+          Workstation. You can also use Amethyst, and ask it about Admin Rights.</p>
+        <a href="https://support.accenture.com/support_portal?id=it_services2&articleNumber=KB0072214" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> Accenture Support: Privileged Access for Workstation
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<app-footer></app-footer>

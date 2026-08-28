@@ -1,0 +1,39 @@
+<app-navbar></app-navbar>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>ATCP Song Links</h1>
+    <p>Learn more about Accenture and ATCP Song as well as access relevant websites for new joiners and laterals.</p>
+  </div>
+</section>
+
+<!-- Sections -->
+<div class="page-body">
+  <div *ngFor="let section of sections()" class="link-section">
+
+    <h2 class="section-title">{{ section.title }}</h2>
+
+    <div class="card-grid">
+      <div *ngFor="let card of section.cards" class="link-card">
+
+        <h3 class="card-title">{{ card.title }}</h3>
+
+        <p class="card-description">{{ card.description }}</p>
+
+        <hr class="card-divider">
+
+        <a [href]="card.url"
+           [target]="card.external === false ? '_self' : '_blank'"
+           class="card-link"
+           rel="noopener noreferrer">
+          <img src="assets/icons/Launch_External_Link.png" class="link-icon" alt="">
+          <span>{{ card.linkText }}</span>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<app-footer></app-footer>

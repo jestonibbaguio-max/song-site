@@ -1,0 +1,15 @@
+<div style="text-align:center">
+  <h1>Resource Journey Tracker</h1>
+</div>
+
+<!-- Path progress visualization -->
+<app-path-progress
+  src="assets/journey/path-progress.svg"
+  alt="Resource journey tracker path"
+></app-path-progress>
+
+<!-- Task grid -->
+<app-task-grid [tasks]="tasks"></app-task-grid>
+
+<!-- Task summary -->
+<app-task-summary [tasks]="tasks" [totalOverride]="20"></app-task-summary>

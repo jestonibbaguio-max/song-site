@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+
+<section class="hero">
+  <div class="hero-content">
+
+    <h1>ATCP Training Tracker</h1>
+
+    <h2>
+      Track your learning journey and complete all required trainings.
+    </h2>
+
+    <p>
+      Monitor your training progress, launch learning resources,
+      and complete all assigned courses to prepare for your next opportunity.
+    </p>
+
+  </div>
+</section>
+
+<section class="training-content">
+
+  <div class="training-header">
+
+    <h2>Training Milestones</h2>
+
+    <div class="progress-counter">
+      {{ getCompletedCount() }} / {{ tasks.length }}
+      Tasks completed
+    </div>
+
+  </div>
+
+  <app-task-grid [tasks]="tasks" (tasksChanged)="loadTasks()"></app-task-grid>
+
+</section>
+<app-footer></app-footer>

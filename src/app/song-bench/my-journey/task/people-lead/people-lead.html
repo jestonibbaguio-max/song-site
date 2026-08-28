@@ -1,0 +1,73 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">Update your People Lead in Workday</span>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Update your People Lead in Workday</h1>
+
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/360VR.png" class="hero-img" alt="Update your People Lead in Workday" />
+  </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + target + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Update your People Lead in Workday and ensure that you are aligned to your Capability or Market Bench Lead.
+      </p>
+
+      <div class="btn-wrapper">
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete Later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Launch Workday and navigate to your Profile page.</p>
+        <a class="step-link" href="https://wd103.myworkday.com/accenture/d/home.htmld" target="_blank" (click)="$event.stopPropagation()">
+          <img src="assets/icons/Launch_External_Link.png" class="link-icon">
+          <span >Workday</span>
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>Check if the assigned People Lead is aligned to the Capability or Maket Bench Lead.</p>
+      <br>
+        <p>If not, please reach out to your previous People Lead indicated in your Workday and request to update it in Workday.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 3 (for new hires only)</div>
+        <p>If you are newly hired, please contact you HRPA, provide the EID of your Capability Lead, and request to have it updated in Workday.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<app-footer></app-footer>

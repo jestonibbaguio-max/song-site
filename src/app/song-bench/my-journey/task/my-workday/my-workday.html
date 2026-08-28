@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">Update Priorities in Workday Guidelines</span>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Update Priorities in Workday Guidelines</h1>
+
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/createacv.png" class="hero-img" alt="Update Priorities in Workday Guidelines" />
+  </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + target + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Set clear, actionable priorities in Workday that support your development journey as well as take trainings and required learnings.
+      </p>
+      <p class="bold-text">
+        As part of our performance goals, all team members are expected to reach minimum proficiency by August 31, 2026:
+      </p>
+       <div class="target-section">
+        <ul class="target-list">
+          <li>CL10 and above → P3</li>
+          <li>CL11 and below → P2</li>
+        </ul>
+      </div>
+
+      <div class="btn-wrapper">
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Launch Workday and navigate to Priorities page: Profile > Performance > Priorities Homepage tab.</p>
+        <p><a href="https://wd103.myworkday.com/accenture/d/task/2998$46108.htmld" target="_blank"><span class="link-icon">&#x1F5D7;> Workday</span></a></p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>On the Priorities Homepage tab, make sure that you have priorities on the four (4) categories:</p>
+        <ul>
+           <li><b>Client Value Creation</b>
+            <p>How you create or contribute to success for our clients by delivering 360° value, building and nurturing trusted key client relationships and creating a collaborative and exceptional client experience.</p>
+            <p>Example: Maintain a four-day-in-office schedule during bench period.</p><br>
+           </li>
+           <li><b>AI Enablement</b>
+            <p>How you use AI individually, how you develop your AI skills and those of your team, and how, depending on your role, you embed AI into offerings, assets, and processes at our clients and Accenture.</p>
+            <p>Example: Complete all required AI + Agentic AI trainings (including Virtual Workshop Training, TQ Agentic AI)</p><br>
+           </li>
+           <li><b>A Great Place to Work for Reinventors</b>
+            <p>How you create / contribute to exceptional teams.</p>
+            <p>Example: Engage in community and organizational activities by either attending the Town Hall or volunteering for a designated program.</p><br>
+           </li>
+           <li><b>Community</b>
+            <p>How you make an impact in the areas of corporate citizenship and responsible business, supporting and enhancing the communities in which we work and live.</p>
+            <p>Example: Support social innovation inside and outside Accenture, in-person or virtually.</p><br>
+           </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div> 
+<app-footer></app-footer>

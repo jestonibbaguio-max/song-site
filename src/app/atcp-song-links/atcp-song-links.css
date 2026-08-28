@@ -1,0 +1,174 @@
+/* ── Host ───────────────────────────────────────────────── */
+:host {
+  display: block;
+  position: relative;
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+}
+
+/* Dust background: covers hero + card sections, fades to black */
+:host::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1800px;
+  background: url('/assets/images/dust-background.png') center top / cover no-repeat;
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+}
+
+/* ── Hero — matches my-journey design ──────────────────── */
+.hero {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  padding: 160px 60px 40px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 850px;
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 300;
+  max-width: 720px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ── Page body ──────────────────────────────────────────── */
+.page-body {
+  position: relative;
+  z-index: 1;
+  padding: 0 60px 80px;
+  box-sizing: border-box;
+}
+
+/* ── Section ────────────────────────────────────────────── */
+.link-section {
+  margin-top: 48px;
+}
+
+.link-section + .link-section {
+  margin-top: 96px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 20px;
+}
+
+/* ── Card grid ──────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* ── Card ───────────────────────────────────────────────── */
+.link-card {
+  background: #ffffff;
+  color: #111;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  padding: 20px 20px 16px;
+  box-sizing: border-box;
+  border-bottom: 4px solid #e2e0e8;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  aspect-ratio: 4 / 3;
+
+  /* Flex column so description grows and link stays at bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+.link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* ── Card title ─────────────────────────────────────────── */
+.card-title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Graphik', Arial, sans-serif;
+  line-height: 1.4;
+  color: #111;
+}
+
+/* ── Card description ───────────────────────────────────── */
+.card-description {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: #555;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* ── Divider ────────────────────────────────────────────── */
+.card-divider {
+  border: 0;
+  border-top: 1px solid #d0d0d0;
+  margin: auto 0 12px;
+}
+
+/* ── Link ───────────────────────────────────────────────── */
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7c3aed;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.card-link:hover {
+  color: #5b21b6;
+  text-decoration: underline;
+}
+
+.link-icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .hero { padding: 100px 24px 40px; }
+  .hero h1 { font-size: 38px; letter-spacing: 0; }
+  .card-grid { grid-template-columns: 1fr; }
+}

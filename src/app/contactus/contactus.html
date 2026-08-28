@@ -1,0 +1,176 @@
+<app-navbar></app-navbar>
+<section class="contact-section">
+  <div class="container-fluid h-custom contactus">
+    <!-- Contact Us Title -->
+    <div class="title-container">
+      <h2>Contact Us</h2>
+      <p>Inquire information, raise a concern, or send a feedback on ATCP Song Bench by contacting us.</p>
+    </div>
+    <div class="row d-flex">
+      <div class="form-container">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <div class="first-row">
+            <div class="col-lg-12 col-md-12">
+                <div class="form-outline">
+                  <label class="form-label" for="lastName"><span class="required-label">*</span>Last Name</label>
+                  <input type="text" formControlName="lastName" id="lastName" class="form-control form-control-lg contactus" 
+                    required  />
+                  <span class="text-danger"
+                      *ngIf="(registerFormControl['lastName'].touched || isSubmit) && registerFormControl['lastName'].errors?.['required']">
+                      Last Name is required
+                  </span>
+                </div>
+                <div class="form-outline">
+                  <label class="form-label" for="firstName"><span class="required-label">*</span>First Name</label>
+                  <input type="text" formControlName="firstName" id="firstName" class="form-control form-control-lg contactus" 
+                    required />
+                  <span class="text-danger"
+                      *ngIf="(registerFormControl['firstName'].touched || isSubmit) && registerFormControl['firstName'].errors?.['required']">
+                      First Name is required
+                  </span>
+                </div>
+            </div>
+          
+            <div class="col-lg-12 col-md-12">
+              <!-- Email input -->
+              <div class="form-outline">
+                <label class="form-label" for="email"><span class="required-label">*</span>Accenture Email</label>
+                <input type="email" formControlName="email" id="email" class="form-control form-control-lg contactus"
+                required  />
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['required']">
+                    Email Address is required
+                </span>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['email'].touched || isSubmit) && registerFormControl['email'].errors?.['pattern']">
+                    Please enter a valid email address
+                </span>
+              </div>
+      
+              <div class="form-outline">
+                <label class="form-label" for="phoneNumber"><span class="required-label">*</span>Phone Number</label>
+                <input type="number" formControlName="phoneNumber" id="phoneNumber" class="form-control form-control-lg contactus"
+                required  />
+                <span class="text-danger"
+                  *ngIf="(registerFormControl['phoneNumber'].touched || isSubmit) && registerFormControl['phoneNumber'].errors?.['required']">
+                  Phone Number is required
+                </span>
+              </div>
+            </div>
+            <hr>
+          </div>
+          
+          <div class="second-row">
+            <div class="col-lg-12 col-md-12">
+              <!-- Country -->
+              <div class="form-outline">
+                <label class="form-label" for="country"><span class="required-label">*</span>Country/Location</label>
+                <select formControlName="country" id="country" class="form-control form-control-lg contactus" placeholder="Select country">
+                    <option disabled value="">Select Country</option>
+                    <option *ngFor="let country of countries" value="{{ country.code }}">
+                        {{ country.name }}
+                    </option>
+                </select>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['country'].touched || isSubmit) && registerFormControl['country'].errors?.['required']">
+                    Country Type is required
+                </span>
+              </div>
+
+              <div class="form-outline">
+                <label class="form-label" for="reinvention"><span class="required-label">*</span>Reinvention Partner</label>
+                <select formControlName="reinvention" id="reinvention" class="form-control form-control-lg contactus">
+                    <option disabled value="">Select Reinvention</option>
+                    <option *ngFor="let reinvention of reinventions" value="{{ reinvention }}">
+                        {{ reinvention }}
+                    </option>
+                </select>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['reinvention'].touched || isSubmit) && registerFormControl['reinvention'].errors?.['required']">
+                    Reinvention Partner is required
+                </span>
+              </div>
+            </div>
+            
+            <div class="col-lg-12 col-md-12">
+              <div class="form-outline">
+                <label class="form-label" for="industry"><span class="required-label">*</span>Industry</label>
+                <select formControlName="industry" id="industry" class="form-control form-control-lg contactus">
+                    <option disabled value="">Select Industry</option>
+                    <option *ngFor="let industry of industries" value="{{ industry }}">
+                        {{ industry }}
+                    </option>
+                </select>
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['industry'].touched || isSubmit) && registerFormControl['industry'].errors?.['required']">
+                    Industry Type is required
+                </span>
+              </div>
+
+              <div class="form-outline">
+                <label class="form-label" for="role"><span class="required-label">*</span>Job role</label>
+                <input type="text" formControlName="role" id="role" class="form-control form-control-lg contactus"
+                required  />
+                <span class="text-danger"
+                    *ngIf="(registerFormControl['role'].touched || isSubmit) && registerFormControl['role'].errors?.['required']">
+                    Your role/function is required
+                </span>
+              </div>
+            </div>
+            <hr>
+          </div>
+         
+          <div class="third-row">
+            <!-- Message -->
+            <div class="form-group">
+              <label for="msg"><span class="required-label">*</span>Inquiry, Concern, or Feedback</label>
+              <textarea formControlName="message" id="message" class="form-control p-4" contactus rows="3"
+                required></textarea>
+              <span class="text-danger"
+                  *ngIf="(registerFormControl['message'].touched || isSubmit) && registerFormControl['message'].errors?.['required']">
+                  Message is required
+              </span>
+            </div>
+            <div class="privacy-container">
+              <input type="checkbox" id="agree" name="agree" formControlName="agree" value="true">
+              <label for="agree">By checking this box, I agree to the use of my personal information by Accenture for the purpose of fulfilling this request and in accordance with Accenture’s <a href="" class="privacy-link">privacy statement</a>.</label><br>
+
+               <div class="submit-btn-contaier">
+                <button type="submit" [disabled]="contactForm.invalid" class="btn btn-primary btn-lg">Submit</button>
+                <p *ngIf="isSubmit"> {{submitMessage}}</p>
+              </div>
+            </div>
+            <span class="text-danger checkbox-error"
+              *ngIf="(registerFormControl['agree'].touched || isSubmit) && registerFormControl['agree'].errors?.['required']">
+              This is required
+            </span>
+          </div>
+          
+
+         
+        </form>
+      </div>
+       <div class="col-md-9 col-lg-6 col-xl-4 image-container ">
+        <div class="circular-sliding-image">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+<div class="modal fade" [class.show]="isModalVisible" [style.display]="isModalVisible ? 'block' : 'none'" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Submitted</h5>
+      </div>
+      <div class="modal-body">
+        Your inquiry was submitted. Thank you.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<app-footer></app-footer>

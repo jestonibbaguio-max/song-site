@@ -1,0 +1,80 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">ATCP Song Skills Matrix</span>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">ATCP Song Skills Matrix</h1>
+
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/Circ@.png" class="hero-img" alt="ATCP Song Skills Matrix" />
+  </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + target + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        The ATCP Song Skills is an internal Accenture Song tracking document used specifically for Song Bench resources to capture, standardize, and maintain visibility of individual technical and functional skills.
+      </p>
+      <p class="bold-text">
+        It serves as single source of truth for capability profiling within ATCP Song Bench.
+      </p>
+
+
+      <div class="btn-wrapper">
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Open the ATCP Song Skills Matrix File.xslx and select the current FY sheet.</p>
+        <p><a href="https://ts.accenture.com/:x:/r/sites/InteractiveBench/_layouts/15/Doc.aspx?sourcedoc=%7BD0BFCA08-72A7-4D98-A4DE-C4BBA8E1F9CE%7D&file=ATCP%20Song%20Skills%20Matrix.xlsx&action=default&mobileredirect=true" target="_blank">
+          <img src="assets/icons/Launch_External_Link.png" class="link-icon">ATCP Song Bench Skills Matrix</a></p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>Complete your resource details from columns A to CF.</p>
+        <p>Your primary skill is already pre-populated.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 3</div>
+        <p>For each listed skill, enter your experience in months in corresponding column.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 4</div>
+        <p>If you have skills that are not listed, add them to the Oher Skills column using this format: Skill Name - X months.</p>
+      </div>
+
+
+    </div>
+  </div>
+</div> 
+<app-footer></app-footer>
+ 

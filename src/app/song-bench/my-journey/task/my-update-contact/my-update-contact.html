@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">Update Contact Details</span>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Update Contact Details</h1>
+
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/Rocket2.png" class="hero-img" alt="Update Contact Details" />
+  </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + target + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Update your primary and emergency contact details in our bench repository so we can reach out to you for important news and reminders.
+      </p>
+
+      <div class="btn-wrapper">
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete Later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Bench Resources Contact Details.xslx and fill up all relevant fields.</p>
+        <a class="step-link" href="https://ts.accenture.com/:x:/s/InteractiveBench/Ea8eyvc-Nz9Jp4VZXt7BJC0BQphNTKjF7J1OAkX3wWLOsQ?e=CMYbAo." target="_blank" (click)="$event.stopPropagation()">
+          <img src="assets/icons/Launch_External_Link.png" class="link-icon">
+          <span >Bench Resources Contact Details</span>
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>Update using your current contact details so we can reach out to you for important news and or reminders.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 3</div>
+        <p>Make sure to update the location details as well as your emergency contact so we can account you for BCM purposes.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<app-footer></app-footer>

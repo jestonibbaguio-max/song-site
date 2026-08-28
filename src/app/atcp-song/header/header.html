@@ -1,0 +1,17 @@
+<div class="market-leads-grid">
+  @for (lead of marketLeads(); track lead.id) {
+    <div class="market-lead-card">
+      <div class="avatar avatar-xl" [style.background]="lead.avatarColor || '#7c3aed'">
+        @if (lead.photo) {
+          <img [src]="lead.photo" [alt]="lead.name" (error)="onImgError($event, lead.initials)" />
+        } @else {
+          {{ lead.initials }}
+        }
+      </div>
+      <div>
+        <div class="person-name">{{ lead.name }}</div>
+        <div class="person-role">{{ lead.role }}</div>
+      </div>
+    </div>
+  }
+</div>

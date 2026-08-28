@@ -1,0 +1,94 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">Register to Percipio, Pluralsight, and Udacity</span>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Register to Percipio, Pluralsight, and Udacity</h1>
+
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/360VR@2x.png" class="hero-img" alt="Learning platform illustration" />
+  </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Access thousands of training materials and build your capability by registering
+        your Accenture account with our learning partners Percipio, Pluralsight, and Udacity.
+      </p>
+
+      <div class="btn-wrapper">
+        <!-- Not completed -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Completed -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Visit the Percipio learning site and sign-in with your Accenture account by clicking
+          "Accenture Employee" on the SSO page. You will be redirected to Accenture Percipio,
+          where you can take thousands of courses and acquire certifications.</p>
+        <p>Check the My Learning tab to see your learning assignments.</p>
+        <a href="https://accenture.percipio.com" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> Accenture Percipio site
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>Log in to Pluralsight by visiting the site. Click "Login" then "Sign in with company
+          or school (SSO)" and use your Accenture email to sign in. Once successful, you can now
+          take courses, labs, and assessments in Pluralsight.</p>
+        <p>Accenture Pluralsight access is only on the free tier. Switch to a different learning
+          provider if the training you want to take needs a Paid-tier upgrade.</p>
+        <a href="https://app.pluralsight.com/library/free" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> Pluralsight site
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 3</div>
+        <p>For TQ courses, register or log-in to Udacity. Visit the Udacity site, click
+          Login &gt; Sign-in &gt; Sign-in with your organization. Enter your Accenture email
+          on the address field then hit "Continue". From there, you can search for various
+          courses or go to your dashboard and click "Learning Plan: TQ at Accenture" to
+          start taking required TQ courses.</p>
+        <p>Udacity offers quality learning materials as well as comprehensive introduction
+          on new tech trends via TQ Learning.</p>
+        <a href="https://www.udacity.com/dashboard" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> Udacity site
+        </a>
+        <br>
+        <a href="https://www.udacity.com/learning-plan/tq-at-accenture" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> Udacity: TQ at Accenture
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<app-footer></app-footer>

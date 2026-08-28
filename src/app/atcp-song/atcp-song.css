@@ -1,0 +1,146 @@
+:host {
+  display: block;
+  background: #000;
+  font-family: 'Graphik', Arial, sans-serif;
+}
+
+.page { position: relative; background: #000; }
+
+/* Dust background image from Figma */
+.dust-bg {
+  position: absolute;
+  top: 88px; left: 0;
+  width: 100%; height: 1078px;
+  object-fit: cover;
+  object-position: top left;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative image — bottom, flipped, 20% opacity */
+.deco-bg {
+  position: absolute;
+  bottom: 120px; left: 0;
+  width: 100%; height: 652px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.2;
+  transform: scaleY(-1) rotate(180deg);
+}
+.deco-bg img {
+  position: absolute;
+  height: 154.6%;
+  left: 13.36%;
+  width: 87.51%;
+  top: 0;
+  object-fit: cover;
+}
+
+/* Purple dust speckle overlay */
+.page::before {
+  content: '';
+  position: absolute;
+  top: 88px; left: 0;
+  width: 100%; height: 1078px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(161,0,255,0.25) 0%, transparent 8%),
+    radial-gradient(circle at 85% 15%, rgba(161,0,255,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 25% 60%, rgba(150,0,210,0.22) 0%, transparent 7%),
+    radial-gradient(circle at 75% 75%, rgba(161,0,255,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 40% 30%, rgba(180,50,220,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 60% 50%, rgba(140,20,180,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 10% 80%, rgba(161,0,255,0.21) 0%, transparent 7%),
+    radial-gradient(circle at 90% 45%, rgba(150,0,210,0.23) 0%, transparent 6%),
+    radial-gradient(circle at 50% 15%, rgba(161,0,255,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 70% 25%, rgba(130,0,190,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 35% 75%, rgba(161,0,255,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 80% 60%, rgba(150,20,200,0.22) 0%, transparent 7%),
+    radial-gradient(circle at 20% 40%, rgba(170,10,220,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 65% 80%, rgba(140,0,200,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 45% 65%, rgba(161,0,255,0.21) 0%, transparent 6%),
+    radial-gradient(circle at 55% 35%, rgba(150,0,210,0.18) 0%, transparent 5%),
+    radial-gradient(circle at 30% 10%, rgba(161,0,255,0.20) 0%, transparent 6%),
+    radial-gradient(circle at 75% 90%, rgba(130,0,190,0.19) 0%, transparent 5%),
+    radial-gradient(circle at 15% 50%, rgba(180,30,230,0.22) 0%, transparent 6%),
+    radial-gradient(circle at 95% 70%, rgba(140,0,200,0.20) 0%, transparent 5%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── HERO ──────────────────────────────────────────────────── */
+.hero {
+  position: relative; z-index: 2;
+  padding: 88px 676px 0 84px;
+  min-height: 280px;
+  display: flex; align-items: center;
+}
+
+.hero-card {
+  width: 100%; max-width: 1160px;
+  padding: 40px 0;
+  display: flex; flex-direction: column; gap: 24px;
+}
+
+.hero-org {
+  font-size: 12px; font-weight: 600;
+  color: #a100ff; text-transform: uppercase;
+  line-height: 18px;
+}
+
+.hero h1 {
+  font-size: 64px; font-weight: 600;
+  line-height: 68px; letter-spacing: -1.92px; color: #fff;
+}
+
+.hero-subtitle {
+  font-size: 16px; color: rgba(255,255,255,0.75);
+  line-height: 1.6; max-width: 960px;
+}
+
+/* ── SECTIONS ──────────────────────────────────────────────── */
+.section {
+  position: relative; z-index: 2;
+  padding: 56px 32px;
+}
+
+.section-heading {
+  font-size: 22px; font-weight: 700;
+  color: #fff; margin-bottom: 32px;
+}
+
+.offering-section { position: relative; z-index: 2; padding: 0 32px 56px; }
+.offering-heading { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 28px; }
+
+/* ── LOADING / ERROR ───────────────────────────────────────── */
+.state-center {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 5rem 2rem;
+  color: rgba(255,255,255,0.7);
+  gap: 1rem;
+}
+
+.state-center p { margin: 0; font-size: 0.95rem; }
+.state-error { color: #f87171; }
+
+.spinner {
+  width: 38px; height: 38px;
+  border: 4px solid rgba(255,255,255,0.15);
+  border-top-color: #a100ff;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .hero { padding-right: 84px; }
+}
+@media (max-width: 700px) {
+  .hero { padding: 88px 16px 0; }
+  .hero h1 { font-size: 40px; line-height: 1.1; }
+  .section, .offering-section { padding-left: 16px; padding-right: 16px; }
+}

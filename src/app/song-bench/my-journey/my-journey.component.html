@@ -1,0 +1,50 @@
+<app-navbar></app-navbar>
+
+<section class="hero">
+  <div class="hero-content">
+
+    <h1>ATCP Song Bench Journey</h1>
+
+    <h2>
+      Transition to your next project as smooth as possible.
+    </h2>
+
+    <p>
+      Begin your bench journey by completing your milestone
+      activities. Track your progress and learn more details
+      on how to complete each journey.
+    </p>
+
+  </div>
+</section>
+
+<section class="milestones">
+
+  <div class="milestone-header">
+
+    <h2>Journey Milestones</h2>
+
+    <div class="progress-counter">
+      {{ getCompletedCount() }} / {{ tasks.length }}
+      Tasks completed
+    </div>
+
+  </div>
+
+  <app-task-grid [tasks]="tasks" [allTrainingCompleted]="allTrainingCompleted" (tasksChanged)="loadTasks()"></app-task-grid>
+
+</section>
+
+<!-- Congratulations Modal -->
+<div *ngIf="showCongratsModal" class="congrats-overlay" (click)="closeCongratsModal()">
+  <div class="congrats-modal" (click)="$event.stopPropagation()">
+    <h1 class="congrats-title">Congratulations</h1>
+    <div class="congrats-trophy">
+      <img src="assets/images/CongratsTrophy.png" alt="Trophy" />
+    </div>
+    <p class="congrats-message">You have now completed all {{ tasks.length }} tasks under ATCP Song Bench Journey. To proceed, you may click the close button.</p>
+    <button class="congrats-close-btn" (click)="closeCongratsModal()">Close</button>
+  </div>
+</div>
+
+<app-footer></app-footer>

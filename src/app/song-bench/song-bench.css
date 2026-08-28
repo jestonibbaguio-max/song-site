@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    min-height: 100vh;
+}
+
+
+.song-bench-header img {
+    width: 100%;
+    height: 220px;
+    display: block;
+}
+
+/* TEXT STYLING */
+.center-text {
+    text-align: center;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: bold;
+    margin-top: 20px;
+    color: #f2f2f2;
+    
+}
+
+.center-text1 {
+    text-align: center;
+    font-size: clamp(16px, 2vw, 18px);
+    margin: 10px auto;
+    max-width: 800px;
+    padding: 0 16px;
+    color: #f2f2f2;
+}
+
+/* BUTTON */
+.btn {
+    display: block;
+    margin: 20px auto;
+    border-radius: 15px;
+    color: white;
+    background-color: purple;
+    border: 2px solid white;
+    padding: 10px 18px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* OPTIONAL HOVER */
+.btn1:hover {
+    background-color: purple;
+    color: white;
+}
+
+
+.header1 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 20px;
+}
+.home-btn1 {
+  text-decoration: none;
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.home-btn1:hover {
+  background: #0056b3;
+}
+.atcp-link {
+  color: blue;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.header img {
+   width: 100%;
+  height: auto;
+  margin-top: 5%;
+}

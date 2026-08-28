@@ -1,0 +1,106 @@
+<app-navbar></app-navbar>
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" (click)="goBack()">ATCP Song Bench Journey</span>
+    <span class="breadcrumb-sep"> / </span>
+    <span class="breadcrumb-current">myCompetency</span>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="page-title">myCompetency</h1>
+
+  <!-- Hero Image -->
+  <div class="hero-section">
+    <img src="assets/images/Rocket2.png" class="hero-img" alt="myCompetency illustration" />
+  </div>
+
+  <!-- Two-column main content -->
+  <div class="main-content">
+
+    <!-- Left: description + target + buttons -->
+    <div class="left-col">
+      <p class="bold-text">
+        Your skills represent what you know and what you want to be known for at Accenture.
+        Keeping your skills profile current — updating it each time you roll-off a project or
+        every six months — is the easiest way to showcase your expertise.
+      </p>
+      <p class="bold-text">
+        Think of your skills as your digital passport, showcasing your strengths and opening
+        doors to meaningful learning and career opportunities. By highlighting what you do best,
+        your skills help connect you to pathways that truly fit your career goals.
+      </p>
+
+      <div class="target-section">
+        <p class="target-label">Target:</p>
+        <ul class="target-list">
+          <li>CL10 and above → P3</li>
+          <li>CL11 and below → P2</li>
+        </ul>
+      </div>
+
+      <div class="btn-wrapper">
+        <!-- Not yet completed: show both buttons -->
+        <ng-container *ngIf="!isCompleted">
+          <button class="later-btn" (click)="goBack()">Complete later</button>
+          <button class="complete-btn" (click)="goBack()">Complete Task &rarr;</button>
+        </ng-container>
+
+        <!-- Already completed: show badge + update button -->
+        <ng-container *ngIf="isCompleted">
+          <span class="completed-badge">
+            <span class="completed-icon">&#10003;</span> Task Completed
+          </span>
+          <button class="update-btn" (click)="updateTask()">Update Task &rarr;</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Right: step cards -->
+    <div class="right-col">
+
+      <div class="step-card">
+        <div class="step-label">Step 1</div>
+        <p>Open the myCompetency site and check if you have assigned a Primary and a Secondary skill.</p>
+        <a href="https://mycompetency.accenture.com/#/home" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> myCompetency site
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 2</div>
+        <p>If you don't have an assigned Primary skill, assign by searching a skill in the site,
+          and or verify if the skill exists by checking the catalog. The assigned Primary skill needs
+          to have an assessment to proceed. If you already have an assigned Primary skill, skip this step.</p>
+        <a href="https://mycompetency.accenture.com/#/home" target="_blank" class="step-link">
+          <span class="link-icon">&#x1F5D7;</span> ATCP Skill list
+        </a>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 3</div>
+        <p>After assigning a skill, prepare to take the assessment. Follow the important guidelines
+          displayed. You can only attempt one (1) assessment per session so do make sure that you have
+          an uninterrupted network and environment to complete the test. If you already have taken the
+          assessment, you may skip this step.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 4</div>
+        <p>You can retake your primary skill assessment in gap of 2-4-2 weeks until you reach expert
+          (or P3) proficiency.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-label">Step 5</div>
+        <p>Assign your Secondary Skill in the myCompetency homepage, and take the assessment if
+          available. If you already assigned a Primary skill you are proficient with, and an assigned
+          Secondary skill, your myCompetency journey is complete.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<app-footer></app-footer>

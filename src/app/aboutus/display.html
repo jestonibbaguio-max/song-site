@@ -1,0 +1,45 @@
+<div class="display">
+  <div *ngFor="let item of items; let i = index" class="accordion-item">
+
+    <button class="toggle-btn"
+      [class.highlight-current]="item.highlightCurrentClick || item.highlightCurrentHover"
+      [class.highlight-top-next]="item.highlightTopDuePrevClick || item.highlightTopDuePrevHover"
+
+      [class.dimmed]="hasActiveOrHover() &&
+        !(item.highlightCurrentClick || item.highlightCurrentHover ||
+          item.highlightTopDuePrevClick || item.highlightTopDuePrevHover)"
+
+      (click)="toggle(i)"
+      (mouseenter)="hover(i)"
+      (mouseleave)="leaveHover()">
+
+      {{ item.label }}
+      <span class="sign">{{ item.isExpanded ? '-' : '+' }}</span>
+    </button>
+
+    <div class="content" *ngIf="item.isExpanded">
+
+  <div class="content-wrapper">
+
+    <!-- LEFT: TEXT -->
+    <div class="text-container">
+      <p class="text" *ngIf="item.text">{{ item.text }}</p>
+
+      <ng-container *ngIf="item.sections">
+        <div *ngFor="let section of item.sections">
+          <p class="text">{{ section.text }}</p>
+
+          <ul *ngIf="section.points" class="purple-bullets">
+            <li *ngFor="let point of section.points">{{ point }}</li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- RIGHT: IMAGE -->
+    <div class="image-container" *ngIf="item.image">
+      <img [src]="item.image" alt="{{ item.label }}" />
+    </div>
+
+  </div>
+  </div>

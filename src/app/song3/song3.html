@@ -1,0 +1,42 @@
+<app-navbar></app-navbar>
+<!-- <img src="assets/images/technologies_image.png" style="width:100%; height:auto;"> -->
+<div class="page">
+    <div class="container">
+
+        <div class="hero text-center">
+            <h1>
+                <span class="heroBlue">ATCP SONG</span>
+                <span class="heroWhite"> TECHNOLOGIES</span>
+            </h1>
+        </div>
+
+        <div class="desc">
+            Since Song is the fastest-growing Capability in Accenture, it is no surprise that there is an overwhelming
+            number of
+            resources. As a result, the Song Bench resources are divided into six (6) groups based on their primary
+            skill and
+            current training.
+        </div>
+
+        <!-- ✅ 2 ROWS LIKE THE PICTURE -->
+        <div class="twoRowGrid">
+            <section class="groupBox" *ngFor="let s of sections" [ngClass]="s.area">
+
+                <div class="groupHeader">{{ s.key }}</div>
+
+                <div class="techRow">
+                    <!-- each tech in the group -->
+                    <div class="techItem" *ngFor="let t of s.items">
+                        <div class="logos">
+                            <img *ngFor="let logo of t.logos" [src]="logo" [alt]="t.title">
+                        </div>
+                        <div class="techTitle">{{ t.title }}</div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+</div>
+<app-footer></app-footer>

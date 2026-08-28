@@ -1,0 +1,303 @@
+/* ── Host / page background ─────────────────────────────── */
+:host {
+  display: block;
+  background: #000;
+}
+
+/* ── Grid layout ────────────────────────────────────────── */
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 400px;
+  gap: 24px;
+  width: 92%;
+  margin: 40px auto 60px;
+}
+
+/* ── Card shell ─────────────────────────────────────────── */
+.task-card {
+  background: #ffffff;
+  color: #111;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  padding: 22px 22px 20px;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-bottom: 4px solid #d9d9d9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  /* CSS Grid — locks every section to the same row position across all cards */
+  display: grid;
+  grid-template-rows:
+    auto   /* .card-header     */
+    auto   /* .duration        */
+    1fr    /* .description     — absorbs all variable space */
+    auto   /* .card-divider    */
+    auto   /* .dates           */
+    auto   /* .status          */
+    40px   /* .resource-links  — fixed, clips overflow links */
+    44px;  /* .actions         — fixed, buttons always aligned */
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* Status-based bottom accent only */
+.task-card.notstarted { border-bottom-color: #d9d9d9; }
+.task-card.inprogress { border-bottom-color: #f59e0b; }
+.task-card.completed  { border-bottom-color: #22c55e; }
+
+/* ── Card header (icon + title) ─────────────────────────── */
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+/* Override inline SVG size so icon is compact */
+.status-icon {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.status-icon rect {
+  stroke: none;
+}
+
+.status-icon.completed  rect { fill: #22c55e; }
+.status-icon.inprogress rect { fill: #f59e0b; }
+.status-icon.pending    rect { fill: #FEC22B; }
+.status-icon.notstarted rect { fill: #d9d9d9; }
+
+.task-card h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  font-family: 'Graphik', Arial, sans-serif;
+  line-height: 1.4;
+  color: #111;
+}
+
+/* ── Duration ───────────────────────────────────────────── */
+.duration {
+  font-size: 14px;
+  color: #888;
+  margin: 4px 0 10px;
+  font-family: 'Graphik', Arial, sans-serif;
+}
+
+/* ── Description ────────────────────────────────────────── */
+.description {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #555;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* ── Divider ────────────────────────────────────────────── */
+.card-divider {
+  border: 0;
+  border-top: 1px solid #ebebeb;
+  margin: 14px 0 10px;
+}
+
+/* ── Dates row ──────────────────────────────────────────── */
+.dates {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 5px;
+}
+
+/* ── Status row ─────────────────────────────────────────── */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.calendar-icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  opacity: 0.6;
+}
+
+/* ── Resource links ─────────────────────────────────────── */
+.resource-links {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  padding-top: 6px;
+  padding-bottom: 8px;
+  overflow: hidden;
+}
+
+/* Show icon only on the first link */
+.resource-link:not(:first-child) .external-link-icon {
+  display: none;
+}
+
+/* Add comma after each link except the last <a> */
+.resource-link:not(:last-of-type)::after {
+  content: ',';
+  color: #7c3aed;
+  margin-right: 3px;
+}
+
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #7c3aed;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.resource-link:hover {
+  color: #5b21b6;
+  text-decoration: underline;
+}
+
+.external-link-icon {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ── Action buttons — own grid row, always at same position ─ */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-self: center;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 0;
+  font-family: 'Graphik', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  color: #fff;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Start button */
+.start-btn {
+  background: #a100ff;
+}
+.start-btn:hover {
+  background: #8500d4;
+}
+
+/* Resume button */
+.resume-btn {
+  background: #a100ff;
+}
+.resume-btn:hover {
+  background: #8500d4;
+}
+
+/* Mark as Completed button */
+.complete-btn {
+  background: #22c55e;
+  font-size: 12px;
+  padding: 8px 12px;
+}
+.complete-btn:hover {
+  background: #16a34a;
+}
+.complete-btn:disabled {
+  background: #a8a8a8;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.7;
+}
+
+/* Update task button — outlined */
+.update-btn {
+  background: transparent;
+  color: #a100ff;
+  border: 1.5px solid #bbb;
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.update-btn:hover {
+  border-color: #a100ff;
+  background: rgba(161, 0, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Task Completed badge */
+.task-completed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+}
+
+.completed-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #22c55e;
+  color: #22c55e;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Responsive grid ────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .task-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 400px;
+  }
+}
+@media (max-width: 900px) {
+  .task-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 400px;
+  }
+}
+@media (max-width: 600px) {
+  .task-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+}

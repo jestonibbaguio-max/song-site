@@ -1,0 +1,97 @@
+<app-navbar></app-navbar>
+
+<div class="page">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-card">
+      <h1 class="hero-title">About Us</h1>
+      <p class="hero-subtitle">Accenture in the Philippines</p>
+      <p class="hero-body">
+        By combining 40 years of industry and technical experience with disruptive technologies
+        and our people's deep expertise, Accenture in the Philippines is able to help organizations
+        outperform the competition and unlock epic growth.
+      </p>
+    </div>
+  </section>
+
+  <!-- Who We Are — white section -->
+  <section class="section section--white">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Who we are</h2>
+        <p class="section-desc">
+          We are a bold and generous group of creatives, designers, consultants, technologists,
+          strategists and engineers working together to serve the modern customer and their
+          ever-evolving needs.
+        </p>
+      </div>
+
+      <div class="video-wrapper">
+        @if (!videoError) {
+          <video class="video-player" controls (error)="onVideoError()">
+            <source src="assets/videos/v3_UIUX Credentials_PPT.mp4" type="video/mp4">
+          </video>
+        }
+        @if (videoError) {
+          <div class="video-fallback">
+            <button class="play-btn" aria-label="Video unavailable">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="16,10 42,24 16,38" fill="#FFFFFF"/>
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Creating Positive Change — black section -->
+  <section class="section section--black">
+    <div class="section-inner">
+      <div class="section-header section-header--narrow">
+        <h2 class="section-title section-title--white">Creating Positive Change</h2>
+        <p class="section-desc section-desc--white">
+          We're committed to creating positive change around the world and ensuring we act as
+          responsible business leaders for our people, our clients, and the communities we call home.
+        </p>
+      </div>
+
+      <div class="cards-stack">
+        @for (card of positiveChangeCards; track card.title) {
+          <div class="info-card">
+            <h3 class="info-card__title">{{ card.title }}</h3>
+            <p class="info-card__body">{{ card.description }}</p>
+
+            @if (card.subtext) {
+              <p class="info-card__body">{{ card.subtext }}</p>
+            }
+
+            @if (card.achievements.length) {
+              <ul class="info-card__list">
+                @for (item of card.achievements; track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            }
+
+            @if (card.socialImpactTitle) {
+              <p class="info-card__impact-title">{{ card.socialImpactTitle }}</p>
+            }
+
+            @if (card.socialImpact.length) {
+              <ul class="info-card__list">
+                @for (item of card.socialImpact; track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<app-footer></app-footer>
