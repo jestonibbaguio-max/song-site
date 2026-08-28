@@ -124,7 +124,7 @@ export class AuthService {
 }
 
 function getEnv(name: string, fallback: string): string {
-  return import.meta.env[name as keyof ImportMetaEnv] ?? fallback;
+  return (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.[name] ?? fallback;
 }
 
 function getErrorMessage(error: unknown, fallback: string): string {
