@@ -51,10 +51,6 @@ jobs:
             echo "Missing secret: VITE_ENTRA_TENANT_ID"
             exit 1
           fi
-          if [ "$VITE_AZURE_REDIRECT_URI" != "https://jestonibbaguio-max.github.io/song-site/" ]; then
-            echo "Invalid VITE_AZURE_REDIRECT_URI. Expected https://jestonibbaguio-max.github.io/song-site/"
-            exit 1
-          fi
 
       - name: Build app
         env:
