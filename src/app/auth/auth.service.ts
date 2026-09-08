@@ -10,7 +10,7 @@ import {
 } from '@azure/msal-browser';
 
 const env = (import.meta as ImportMeta & { env?: ImportMetaEnv }).env;
-const redirectUri = env?.VITE_AZURE_REDIRECT_URI ?? 'http://localhost:4200/';
+const redirectUri = resolveRedirectUri(env);
 const clientId = env?.VITE_ENTRA_CLIENT_ID ?? '8b6a9386-67b2-4d05-9966-6f20a67713f8';
 const tenantId = env?.VITE_ENTRA_TENANT_ID ?? 'b647a764-1b83-4076-8305-ff4ee0fbbcdf';
 
@@ -130,4 +130,50 @@ function getErrorMessage(error: unknown, fallback: string): string {
   }
 
   return fallback;
+}
+
+function isLocalhostHost(hostname: string): boolean {
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+}
+
+function normalizeRedirectUri(rawUrl: string): string | null {
+  try {
+    const parsed = new URL(rawUrl.trim());
+    const path = parsed.pathname.replace(/\/index\.html$/i, '/');
+    const normalizedPath = path.endsWith('/') ? path : `${path}/`;
+    return `${parsed.origin}${normalizedPath}`;
+  } catch {
+    return null;
+  }
+}
+
+export function resolveRedirectUri(
+  runtimeEnv: ImportMetaEnv,
+  currentLocationHref = typeof window !== 'undefined' ? window.location.href : '',
+): string {
+  const configured = runtimeEnv?.VITE_AZURE_REDIRECT_URI?.trim();
+  const runtimeResolved = normalizeRedirectUri(currentLocationHref);
+
+  if (configured) {
+    const configuredResolved = normalizeRedirectUri(configured);
+    if (configuredResolved) {
+      const configuredHost = new URL(configuredResolved).hostname;
+      const runtimeHost = runtimeResolved ? new URL(runtimeResolved).hostname : null;
+
+      // If production is running on a non-localhost host, ignore a localhost env override.
+      if (isLocalhostHost(configuredHost) && runtimeHost && !isLocalhostHost(runtimeHost)) {
+        return runtimeHost === null ? configuredResolved : runtimeResolved ?? configuredResolved;
+      }
+
+      return configuredResolved;
+    }
+
+    return configured;
+  }
+
+  if (runtimeResolved) {
+    return runtimeResolved;
+  }
+
+  return 'http://localhost:4200/';
 }
