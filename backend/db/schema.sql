@@ -71,3 +71,83 @@ CREATE INDEX IF NOT EXISTS idx_user_task_progress_user
 
 CREATE INDEX IF NOT EXISTS idx_user_task_progress_user_status
   ON user_task_progress (user_id, status);
+
+-- Content tables for JSON-backed pages that are still not represented in the DB.
+CREATE TABLE IF NOT EXISTS home_announcements (
+  id BIGSERIAL PRIMARY KEY,
+  icon VARCHAR(50),
+  title VARCHAR(255) NOT NULL,
+  body TEXT NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (sort_order)
+);
+
+CREATE TABLE IF NOT EXISTS home_spotlights (
+  id BIGSERIAL PRIMARY KEY,
+  display_name VARCHAR(255),
+  full_name VARCHAR(255) NOT NULL,
+  certification VARCHAR(255),
+  headshot_url TEXT,
+  bio TEXT,
+  image_url TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (sort_order)
+);
+
+CREATE TABLE IF NOT EXISTS leadership_members (
+  id BIGSERIAL PRIMARY KEY,
+  section VARCHAR(40) NOT NULL CHECK (section IN ('marketLeads', 'practiceLeads', 'capabilityLeads', 'enablementChampions')),
+  category VARCHAR(100),
+  subcategory VARCHAR(100),
+  group_name VARCHAR(255),
+  member_name VARCHAR(255) NOT NULL,
+  title VARCHAR(255),
+  initials VARCHAR(10),
+  photo_url TEXT,
+  avatar_color VARCHAR(32),
+  co_lead_name VARCHAR(255),
+  co_lead_initials VARCHAR(10),
+  co_lead_photo_url TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (section, sort_order)
+);
+
+CREATE INDEX IF NOT EXISTS idx_leadership_members_section
+  ON leadership_members (section, category, subcategory, sort_order);
+
+CREATE TABLE IF NOT EXISTS song_link_groups (
+  id BIGSERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (sort_order)
+);
+
+CREATE TABLE IF NOT EXISTS song_links (
+  id BIGSERIAL PRIMARY KEY,
+  group_id BIGINT NOT NULL REFERENCES song_link_groups(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  link_text VARCHAR(255) NOT NULL,
+  url TEXT NOT NULL,
+  external_link BOOLEAN NOT NULL DEFAULT FALSE,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (group_id, sort_order)
+);
+
+CREATE INDEX IF NOT EXISTS idx_song_links_group
+  ON song_links (group_id, sort_order);
