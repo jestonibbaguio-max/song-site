@@ -6,38 +6,7 @@
 
 .page { position: relative; background: #000; }
 
-/* Dust background image from Figma */
-.dust-bg {
-  position: absolute;
-  top: 88px; left: 0;
-  width: 100%; height: 1078px;
-  object-fit: cover;
-  object-position: top left;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Decorative image — bottom, flipped, 20% opacity */
-.deco-bg {
-  position: absolute;
-  bottom: 120px; left: 0;
-  width: 100%; height: 652px;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.2;
-  transform: scaleY(-1) rotate(180deg);
-}
-.deco-bg img {
-  position: absolute;
-  height: 154.6%;
-  left: 13.36%;
-  width: 87.51%;
-  top: 0;
-  object-fit: cover;
-}
-
-/* Purple dust speckle overlay */
+/* Local decorative gradient overlay; do not depend on design-tool asset URLs. */
 .page::before {
   content: '';
   position: absolute;

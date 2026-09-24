@@ -8,7 +8,7 @@
 
 ## Context
 
-The application already supports Microsoft Entra SSO through the frontend authentication service. Leadership and organizational-chart maintenance must not replace, bypass, or regress that SSO flow.
+The application already supports Microsoft Entra SSO through the frontend authentication service. Leadership maintenance must not replace, bypass, or regress that SSO flow. Organizational-chart maintenance is deferred by `ADR-0027`.
 
 The product needs two distinct access experiences:
 
@@ -25,13 +25,12 @@ Use permissions as the enforcement unit and roles as permission bundles:
 
 - `leadership:read`: read leadership content when the resource is public or the user is otherwise entitled to it.
 - `leadership:manage`: create, update, reorder, or retire leadership records.
-- `orgchart:manage`: create, update, reorder, or retire organizational-chart nodes.
 
 The initial role guidance is:
 
 - `guest`: no authenticated edit permissions; may see public menus and public leadership reads.
 - `member`: authenticated user with normal product access; no leadership maintenance by default.
-- `leadership-editor`: approved content maintainer with `leadership:manage` and `orgchart:manage`.
+- `leadership-editor`: approved content maintainer with `leadership:manage`.
 - `admin`: platform administrator with the leadership permissions only where explicitly assigned by policy; administrator status must not be inferred from client UI state.
 
 Role-to-permission mapping must be sourced from approved identity claims or group mappings defined by the identity authority. Display name, email address alone, frontend state, hidden links, and route guards must never grant edit access.
@@ -59,9 +58,10 @@ The leadership editor role is narrower than a platform administrator, reducing t
 The implementation is complete only when tests demonstrate that:
 
 - an unauthenticated guest can access permitted public navigation/content;
-- an unauthenticated guest cannot mutate leadership or org-chart records;
+- an unauthenticated guest cannot mutate leadership records;
 - an authenticated member without the required permission receives `403`;
 - an approved leadership editor can perform permitted mutations;
 - an administrator follows the approved mapping and does not receive implicit unrestricted access;
+- organizational-chart permissions remain unavailable while `ADR-0027` is deferred;
 - invalid, expired, wrong-audience, or unmapped SSO tokens fail closed;
 - existing SSO login, redirect, logout, and authenticated navigation behavior remains intact.

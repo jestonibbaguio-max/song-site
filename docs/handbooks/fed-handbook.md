@@ -51,20 +51,11 @@ The application uses MSAL browser redirect flow. Do not replace it with a local 
 - A signed-in user may still be read-only; render edit controls only when the permission contract says they are allowed.
 - Always handle initialization and redirect-loading states so the UI does not briefly show the wrong access state.
 
-## 5. Leadership and org chart UI
+## 5. Leadership UI
 
-The leadership diagram is an org-chart presentation only. Do not copy branding, logos, or decorative labels from the mock image into the product.
+The current FED experience renders grouped leadership content from `GET /api/leadership`. Preserve that response shape and rendering behavior. The previously supplied organizational-chart image is not a product specification; do not copy its branding, logos, decorative labels, or footer into the product.
 
-The UI should:
-
-- load the chart from the leadership API;
-- preserve parent-child relationships and sort order;
-- show a read-only view to guests and users without edit permission;
-- show create, edit, and delete affordances only to users with the matching permission;
-- report API validation and authorization errors without silently losing edits; and
-- refresh or reconcile the view after a successful mutation.
-
-The backend is the source of truth for permission checks. Hiding a button is only a usability improvement, not a security control.
+Any future leadership editor must show controls only to users with the matching permission, but the backend remains the source of truth. Hiding a button is only a usability improvement, not a security control. Organizational-chart UI is deferred and must not be added implicitly as part of normal leadership maintenance.
 
 ## 6. Angular implementation standards
 
@@ -106,4 +97,3 @@ The current repository has Playwright coverage for production/SSO skip behavior 
 - Relevant Playwright coverage exists or the pull request records why it is deferred.
 - Production build passes without introducing avoidable warnings.
 - No secrets, tokens, generated databases, or local environment files are committed.
-

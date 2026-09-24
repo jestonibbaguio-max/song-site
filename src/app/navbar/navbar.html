@@ -64,7 +64,8 @@
 
       <!-- Search input (expands on click) -->
       <div class="nav__search-box" [class.active]="isSearchOpen">
-        <input type="text" placeholder="Search..." class="nav__search-input" #searchInput />
+        <input id="site-search" name="site-search" type="search" placeholder="Search..."
+               autocomplete="off" aria-label="Search site" class="nav__search-input" #searchInput />
       </div>
 
     </div>

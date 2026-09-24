@@ -5,11 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "node --test",
-    "db:migrate": "node scripts/db-cli.js migrate",
-    "db:seed": "node scripts/db-cli.js seed",
-    "db:check": "node scripts/db-cli.js check",
+    "db:migrate": "node scripts/database.js migrate",
+    "db:seed": "node scripts/database.js seed",
+    "db:check": "node scripts/database.js check",
     "db:postgres:check": "node scripts/postgres-check.js",
-    "db:reset": "node scripts/db-cli.js reset",
+    "db:reset": "node scripts/database.js reset",
     "start": "node server.js",
     "start:dev": "node server.js"
   },

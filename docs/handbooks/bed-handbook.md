@@ -52,14 +52,13 @@ Production targets PostgreSQL 14 or higher with `pgvector`. Local development ma
 - Verify the `vector` extension in PostgreSQL environments that require embeddings.
 - Do not silently fall back from PostgreSQL to SQLite when `DB_DRIVER=postgres`.
 
-## 5. Leadership and org chart API
+## 5. Leadership API
 
-Leadership reads are available through the leadership API. Org-chart mutations use the existing leadership storage boundary and require the configured administrative/content permission.
+The supported leadership contract is `GET /api/leadership` and the existing leadership-item update route. Preserve its response shape and storage behavior. Organizational-chart CRUD is deferred and is not an approved production API.
 
-For each mutation:
+For existing leadership mutations:
 
-- validate name, role, parent relationship, and sort order;
-- reject malformed or circular parent relationships;
+- validate the section, identifier, and payload;
 - enforce authorization on the server;
 - return a stable status code and response shape;
 - preserve SSO identity context for audit and future role evaluation; and
@@ -119,4 +118,3 @@ Use the Compose runbook for full PostgreSQL-backed API verification.
 - Unit and integration checks pass.
 - Logs and errors are safe for production.
 - Runbook and rollback notes exist for operationally meaningful changes.
-
