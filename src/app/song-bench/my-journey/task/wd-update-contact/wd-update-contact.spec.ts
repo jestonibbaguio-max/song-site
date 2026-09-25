@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WDUpdateContact } from './wd-update-contact';
+import { provideTaskServiceStub, provideTestRouter } from '../../../../../testing/test-providers';
 
 describe('WDUpdateContact', () => {
   let component: WDUpdateContact;
@@ -9,6 +10,7 @@ describe('WDUpdateContact', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WDUpdateContact],
+      providers: [provideTestRouter(), provideTaskServiceStub()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WDUpdateContact);

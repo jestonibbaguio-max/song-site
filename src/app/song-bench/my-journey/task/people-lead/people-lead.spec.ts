@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-
 import { PeopleLead } from './people-lead';
+import { provideTaskServiceStub, provideTestRouter } from '../../../../../testing/test-providers';
 
 describe('PeopleLead', () => {
   let component: PeopleLead;
@@ -10,7 +9,7 @@ describe('PeopleLead', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PeopleLead],
-      providers: [provideRouter([])]
+      providers: [provideTestRouter(), provideTaskServiceStub()]
     }).compileComponents();
  
     fixture = TestBed.createComponent(PeopleLead);
