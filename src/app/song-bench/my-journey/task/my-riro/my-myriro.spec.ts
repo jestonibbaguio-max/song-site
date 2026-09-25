@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-
 import { MyMyRiro } from './my-myriro';
+import { provideTaskServiceStub, provideTestRouter } from '../../../../../testing/test-providers';
 
 describe('MyMyRiro', () => {
   let component: MyMyRiro;
@@ -10,7 +9,7 @@ describe('MyMyRiro', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MyMyRiro],
-      providers: [provideRouter([])]
+      providers: [provideTestRouter(), provideTaskServiceStub()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MyMyRiro);

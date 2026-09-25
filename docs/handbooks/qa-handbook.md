@@ -39,18 +39,17 @@ For every feature, record:
 - data cleanup requirements; and
 - evidence: test output, screenshots, logs, or Playwright trace.
 
-## 4. Leadership/org chart checklist
+## 4. Leadership checklist
 
 - Guest can see the intended leadership menu/view.
-- Unauthenticated users cannot create, update, or delete nodes.
+- Unauthenticated users cannot perform protected leadership mutations.
 - Authenticated read-only users can view but do not receive edit capability.
-- Authorized users can create a root or child node with valid data.
-- Invalid names, roles, parent IDs, and sort orders are rejected clearly.
-- Circular or missing parent relationships cannot be created.
-- Update and delete reflect in the next read.
+- Authorized users can update an existing leadership record with valid data.
+- Invalid leadership payloads and identifiers are rejected clearly.
+- Updates reflect in the next read.
 - Existing SSO login/logout behavior remains intact.
 - Empty, loading, error, and slow-network states are usable.
-- The visual result represents the org chart only and does not reproduce mock branding.
+- The visual result preserves the existing leadership page and does not reproduce mock branding.
 
 ## 5. Playwright guidance
 
@@ -94,5 +93,4 @@ Before release, QA checks:
 
 ## 8. Test data and safety
 
-Use synthetic users and records. Do not copy production personal data into local databases or screenshots. Clean up created org-chart nodes after tests unless the environment is disposable. Redact tokens, cookies, connection strings, and personal data from evidence.
-
+Use synthetic users and records. Do not copy production personal data into local databases or screenshots. Clean up created leadership records after tests unless the environment is disposable. Redact tokens, cookies, connection strings, and personal data from evidence.

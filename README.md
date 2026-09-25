@@ -8,8 +8,8 @@ Song Site is an Angular frontend with an Express backend for the ATCP Song Bench
 
 ## Prerequisites
 
-- Node.js 22 or newer.
-- npm 11 or compatible npm version.
+- Node.js 20.20.2 (the version pinned in `.nvmrc`).
+- npm 10.8.2 (bundled with the pinned Node.js release).
 - Local identity configuration when working on SSO.
 
 Do not commit `.env`, database files, credentials, tokens, or identity secrets.
@@ -19,14 +19,22 @@ Do not commit `.env`, database files, credentials, tokens, or identity secrets.
 From the repository root:
 
 ```powershell
-npm install --legacy-peer-deps
+nvm use
+npm ci
 cd backend
-npm install
+npm ci
 cd ..
 Copy-Item .env.example .env
 ```
 
-On macOS/Linux, use `cp .env.example .env` instead of `Copy-Item`. Use `npm` instead of `npm.cmd` when working outside PowerShell.
+Install Node.js 20.20.2 first if `nvm use` reports that it is unavailable. On macOS/Linux, use `cp .env.example .env` instead of `Copy-Item`. Use `npm` instead of `npm.cmd` when working outside PowerShell.
+
+Frontend CI verification requires normal child-process and IPC access for Angular's esbuild and Vitest workers. Run these commands in a regular terminal or CI runner rather than a process-restricted sandbox:
+
+```powershell
+npm run build:ci
+npm run test:ci
+```
 
 Set local values in `.env`, especially:
 

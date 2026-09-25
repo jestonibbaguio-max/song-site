@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-
 import { MyMyCompetency } from './my-mycompetency';
+import { provideTaskServiceStub, provideTestRouter } from '../../../../../testing/test-providers';
 
 describe('MyMyCompetency', () => {
   let component: MyMyCompetency;
@@ -10,7 +9,7 @@ describe('MyMyCompetency', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MyMyCompetency],
-      providers: [provideRouter([])]
+      providers: [provideTestRouter(), provideTaskServiceStub()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MyMyCompetency);

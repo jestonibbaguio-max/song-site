@@ -26,23 +26,22 @@ docker compose exec -T postgres pg_isready -U song_site -d song_site
 docker compose exec -T postgres psql -U song_site -d song_site -c "select version();"
 docker compose exec -T postgres psql -U song_site -d song_site -c "select extname from pg_extension where extname = 'vector';"
 curl http://localhost:4200/api/leadership
-curl http://localhost:4200/api/leadership/orgchart
 ```
 
 Confirm backend logs do not show a SQLite adapter being selected. The backend container must have `DB_DRIVER=postgres` and a `DATABASE_URL` using the `postgres` service name.
 
-## Local content mutation
+## Local leadership content mutation
 
-Compose uses a temporary local content key for the current leadership mutation path:
+Compose uses a temporary local content key for the current leadership mutation path. Use it only to verify the existing leadership record update route:
 
 ```bash
-curl -X POST http://localhost:4200/api/leadership/orgchart \
+curl -X PUT http://localhost:4200/api/leadership/marketLeads/1 \
   -H 'content-type: application/json' \
   -H 'x-admin-key: compose-local-content-key' \
-  -d '{"name":"Example Lead","role":"Practice Lead","parentId":1,"sortOrder":1}'
+  -d '{"name":"Example Lead","role":"Practice Lead"}'
 ```
 
-This key is not a production identity or RBAC solution. Do not reuse it outside the disposable local stack.
+This key is not a production identity or RBAC solution. Do not reuse it outside the disposable local stack. Organizational-chart routes are deferred.
 
 ## Stop and reset
 
@@ -70,4 +69,3 @@ The second command is destructive to local Compose data. Confirm that no needed 
 | Frontend shows 502 | Check backend logs and that PostgreSQL passed its healthcheck. |
 | `databasePath` appears in diagnostics | This is a default config field; adapter selection is controlled by `DB_DRIVER`. |
 | Port already in use | Stop the conflicting process or change the frontend host port in Compose. |
-

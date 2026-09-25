@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyLearningPlatform } from './my-learning-platform';
+import { provideTaskServiceStub, provideTestRouter } from '../../../../../testing/test-providers';
 
 describe('MyLearningPlatform', () => {
   let component: MyLearningPlatform;
@@ -9,6 +10,7 @@ describe('MyLearningPlatform', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MyLearningPlatform],
+      providers: [provideTestRouter(), provideTaskServiceStub()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MyLearningPlatform);
