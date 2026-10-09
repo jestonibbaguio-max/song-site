@@ -1,0 +1,107 @@
+<main class="admin-shell">
+  <aside class="admin-sidebar" aria-label="Admin maintenance navigation">
+    <div class="sidebar-heading">
+      <p class="eyebrow">SONG SITE</p>
+      <h1>Admin</h1>
+    </div>
+    <nav>
+      <div class="nav-group" *ngFor="let group of navigationGroups">
+        <p class="nav-label">{{ group.label }}</p>
+        <button
+          *ngFor="let item of group.items"
+          type="button"
+          class="nav-item"
+          [class.active]="item.enabled"
+          [disabled]="!item.enabled">
+          <span class="nav-glyph" [attr.data-icon]="item.icon" aria-hidden="true"></span>
+          <span>{{ item.label }}</span>
+          <span *ngIf="!item.enabled" class="nav-lock" aria-label="Permission service pending">Pending</span>
+        </button>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="admin-content">
+    <section class="admin-hero" aria-labelledby="admin-title">
+      <div>
+        <p class="eyebrow">CONTROL ROOM / OVERVIEW</p>
+        <h2 id="admin-title">Site at a glance</h2>
+        <p class="hero-copy">
+          Monitor the Song Site, then maintain people, access policy, organizational scopes, and approved content.
+        </p>
+      </div>
+      <div class="hero-status" role="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Authorization services pending</span>
+      </div>
+    </section>
+
+    <section class="notice" aria-label="Authorization status">
+      <div class="notice-icon" aria-hidden="true">i</div>
+      <div>
+        <strong>Read-only dashboard preview.</strong>
+        <p>
+          Site counts come from existing read APIs. Maintenance actions stay disabled until identity, permission,
+          scope, and audit APIs are connected.
+        </p>
+      </div>
+    </section>
+
+    <section class="stats-section" aria-labelledby="stats-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SITE HEALTH</p>
+          <h2 id="stats-title">Operational snapshot</h2>
+        </div>
+        <span class="section-count">{{ stats().length }} signals</span>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card" *ngFor="let stat of stats()" [attr.data-state]="stat.state">
+          <p>{{ stat.label }}</p>
+          <strong>{{ stat.value }}</strong>
+          <span>{{ stat.detail }}</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="dashboard-section" aria-labelledby="maintenance-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">MAINTENANCE</p>
+          <h2 id="maintenance-title">Keep the system coherent</h2>
+        </div>
+        <span class="section-count">{{ maintenanceAreas.length }} areas</span>
+      </div>
+
+      <div class="area-grid">
+        <article class="area-card" *ngFor="let area of maintenanceAreas">
+          <div class="area-topline">
+            <div class="area-icon" [attr.data-icon]="area.icon" aria-hidden="true"></div>
+            <span class="area-status">{{ area.status }}</span>
+          </div>
+          <h3>{{ area.title }}</h3>
+          <p>{{ area.description }}</p>
+          <ul>
+            <li *ngFor="let item of area.items">{{ item }}</li>
+          </ul>
+          <button type="button" class="area-action" disabled>
+            Open workspace
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-title">
+      <div>
+        <p class="eyebrow">GUARDRAILS</p>
+        <h2 id="principles-title">Every change leaves a trail</h2>
+      </div>
+      <div class="principle-list">
+        <div><strong>Scoped</strong><span>Leads see only their assigned market, practice, capability, or team.</span></div>
+        <div><strong>Audited</strong><span>Role, permission, scope, and onboarding changes record actor and reason.</span></div>
+        <div><strong>Reversible</strong><span>Referenced codes are deactivated instead of deleted.</span></div>
+      </div>
+    </section>
+  </div>
+</main>

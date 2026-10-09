@@ -38,6 +38,8 @@ This directory contains architecture decision records (ADRs), API contracts, and
 - [ADR-0032: Microsoft Entra SSO and API Token Integration](adr/0032-entra-api-token-integration.md) - Proposed for project-owner review
 - [ADR-0033: GitHub Actions Azure Deployment Automation](adr/0033-github-actions-azure-deployment-automation.md) - Proposed for project-owner review
 - [ADR-0034: API-Backed Announcement Page Content](adr/0034-api-backed-announcement-page-content.md) - Proposed for project-owner review
+- [ADR-0035: Authoring Mode and User Onboarding RBAC](adr/0035-authoring-and-user-onboarding-rbac.md) - Proposed for project-owner review
+- [ADR-0036: Local Playwright and OpenAPI Test Fixtures](adr/0036-local-playwright-and-openapi-test-fixtures.md) - Proposed for project-owner review
 
 ## Ownership
 

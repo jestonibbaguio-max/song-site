@@ -13,6 +13,11 @@ export const routes: Routes = [
       import('./home/home.component').then(m => m.HomeComponent)
   },
   {
+    path: 'admin',
+    loadComponent: () =>
+      import('./admin/admin-dashboard').then(m => m.AdminDashboard)
+  },
+  {
     path: 'atcp-song',
     loadComponent: () =>
       import('./atcp-song/atcp-song').then(m => m.AtcpSong)

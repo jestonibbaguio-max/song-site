@@ -12,6 +12,8 @@ The frontend already uses Microsoft Entra ID through `@azure/msal-browser` for i
 
 The backend does not validate Entra tokens. Production mutation routes currently use a temporary `X-Admin-Key` bridge, while the frontend also exposes a guest `Skip SSO` path. This is not sufficient for identity-backed authorization, leadership maintenance, or user-owned Journey operations.
 
+The current SSO integration may be unavailable to developers or may authenticate a user who has not yet been assigned the required Entra application role or group. Development and review work therefore needs a controlled way to exercise authenticated permission states without weakening the production trust boundary.
+
 The proposed change may involve a new Entra tenant, app registration, or API registration. Azure/Entra is already present in the frontend; the migration is primarily an identity configuration and backend trust-boundary change rather than a replacement of the client authentication library.
 
 ## Decision
@@ -27,8 +29,11 @@ The target integration must use:
 - backend validation of JWT signature, issuer, audience, expiry, tenant, and required claims using Entra's published signing keys;
 - stable identity mapping based on issuer and subject, with approved group or app-role claims mapped to application permissions;
 - fail-closed behavior for invalid, expired, wrong-audience, wrong-tenant, unmapped, or missing-permission tokens;
-- guest access only for explicitly public reads. Guest navigation must never authorize mutations;
-- a controlled non-production test identity or fixture that cannot be enabled in production.
+- guest access only for explicitly public reads. Guest navigation, including `Skip SSO`, MUST never authorize mutations;
+- a controlled non-production test identity or fixture with explicit roles/permissions for local development and automated tests;
+- development test identities MUST be enabled only by non-production configuration, MUST be clearly marked as fixtures, and MUST be rejected or unavailable when the backend runs in production;
+- the temporary `X-Admin-Key` bridge MUST remain an operational local/development mechanism and MUST NOT be embedded in Angular code, browser storage, or a public client bundle;
+- local development MUST support at least guest/read-only, member, lead, and admin permission scenarios so authorization behavior can be developed before Entra role assignment is available.
 
 The temporary `X-Admin-Key` mutation bridge must be retired only after bearer-token validation, permission mapping, audit behavior, migration of callers, and negative authorization tests are verified. The API contract and deployment configuration must be updated before production promotion.
 
@@ -38,7 +43,7 @@ The frontend gains an explicit API token lifecycle and must handle consent, expi
 
 Entra app registrations, API scopes, redirect URIs, allowed origins, tenant settings, group/app-role assignments, and environment-specific configuration become release-managed infrastructure. Existing cached browser accounts and tokens may become invalid after a tenant or client migration and must be treated as disposable session state.
 
-Public GET behavior can remain guest-compatible, but protected API operations will require authenticated claims. This decision does not select the exact Azure hosting service; that remains covered by `ADR-0031`.
+Public GET behavior can remain guest-compatible, but protected API operations will require authenticated claims. The local test identity is a development and test substitute for Entra claims, not a production authentication mechanism. This decision does not select the exact Azure hosting service; that remains covered by `ADR-0031`.
 
 ## Implementation boundary
 
@@ -55,5 +60,7 @@ Implementation is complete only when tests demonstrate:
 - authenticated users without the required permission receive `403`;
 - unauthenticated users cannot mutate protected resources;
 - guest public reads continue to work;
+- `Skip SSO` can access only explicitly public reads and cannot mutate protected resources;
+- development test identities can exercise each documented permission scenario while production rejects the fixture configuration;
 - user identity reconciliation and role changes are auditable;
 - the temporary admin-key bridge is disabled after the replacement path is verified.
