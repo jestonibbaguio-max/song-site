@@ -41,6 +41,8 @@ test('guest cannot mutate and author cannot publish, while publisher can publish
   const draftVersion = result.json.version;
   result = await request('POST', '/api/v1/authoring/pages/announcement-page/publish', { expectedVersion: draftVersion }, cookie, csrf);
   assert.equal(result.response.status, 403);
+  result = await request('PUT', '/api/tasks/1/status', { action: 'start' }, cookie, csrf);
+  assert.equal(result.response.status, 200);
   await request('DELETE', '/api/v1/dev/session', undefined, cookie);
   result = await request('POST', '/api/v1/dev/session', { fixture: 'publisher' });
   const publisherCookie = result.cookie.split(';')[0];

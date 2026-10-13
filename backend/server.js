@@ -197,7 +197,7 @@ app.put("/api/journey/items/:id", ...requireMutation("journey:manage"), requireO
   } catch (error) { next(error); }
 });
 
-app.put("/api/tasks/:id/status", ...requireMutation("journey:manage"), requireObjectBody, requireStatusAction, requireNumericParams("id"), async (req, res, next) => {
+app.put("/api/tasks/:id/status", ...requireMutation("journey:progress"), requireObjectBody, requireStatusAction, requireNumericParams("id"), async (req, res, next) => {
   try {
   const task = await database.updateTaskStatus("tasks", Number(req.params.id), req.body.action);
   if (!task) return res.status(404).json({ error: "Task not found" });
@@ -227,7 +227,7 @@ app.get("/api/training-progress-status", async (req, res, next) => {
   try { res.json({ progress: await database.getProgress("training_tasks") }); } catch (error) { next(error); }
 });
 
-app.put("/api/training-tasks/:id/status", ...requireMutation("journey:manage"), requireObjectBody, requireStatusAction, requireNumericParams("id"), async (req, res, next) => {
+app.put("/api/training-tasks/:id/status", ...requireMutation("journey:progress"), requireObjectBody, requireStatusAction, requireNumericParams("id"), async (req, res, next) => {
   try {
   const task = await database.updateTaskStatus("training_tasks", Number(req.params.id), req.body.action);
   if (!task) return res.status(404).json({ error: "Task not found" });

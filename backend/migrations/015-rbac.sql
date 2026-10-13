@@ -50,14 +50,15 @@ INSERT OR IGNORE INTO rbac_permissions (permission_key, display_name) VALUES
   ('content:announcement-page:publish', 'Publish announcement page'),
   ('content:history:read', 'Read content history'), ('content:restore', 'Restore content'),
   ('leadership:edit', 'Edit leadership'), ('leadership:publish', 'Publish leadership'),
-  ('journey:read', 'Read Journey'), ('journey:manage', 'Manage Journey'),
+  ('journey:read', 'Read Journey'), ('journey:progress', 'Update personal Journey progress'), ('journey:manage', 'Manage Journey'),
   ('rbac:users:read', 'Read users'), ('rbac:users:manage', 'Manage user roles');
 
 INSERT OR IGNORE INTO rbac_role_permissions (role_id, permission_id)
 SELECT r.id, p.id FROM rbac_roles r CROSS JOIN rbac_permissions p
 WHERE (r.role_key = 'developer' AND p.permission_key IN ('content:announcement-page:edit', 'content:history:read', 'journey:read'))
-   OR (r.role_key = 'author' AND p.permission_key IN ('content:announcement-page:edit', 'content:history:read', 'leadership:edit'))
-   OR (r.role_key = 'publisher' AND p.permission_key IN ('content:announcement-page:edit', 'content:announcement-page:publish', 'content:history:read', 'content:restore', 'leadership:edit', 'leadership:publish'))
+  OR (r.role_key = 'author' AND p.permission_key IN ('content:announcement-page:edit', 'content:history:read', 'leadership:edit', 'journey:progress'))
+  OR (r.role_key = 'publisher' AND p.permission_key IN ('content:announcement-page:edit', 'content:announcement-page:publish', 'content:history:read', 'content:restore', 'leadership:edit', 'leadership:publish', 'journey:progress'))
+  OR (r.role_key = 'developer' AND p.permission_key = 'journey:progress')
    OR (r.role_key = 'administrator');
 
 INSERT OR IGNORE INTO users (id, external_id, email, display_name, role)
