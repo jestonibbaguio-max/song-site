@@ -1,3 +1,19 @@
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'users' AND column_name = 'id' AND data_type = 'uuid'
+  ) THEN
+    ALTER TABLE user_task_progress DROP CONSTRAINT IF EXISTS user_task_progress_user_id_fkey;
+    ALTER TABLE user_task_progress ALTER COLUMN user_id TYPE TEXT USING user_id::text;
+    ALTER TABLE users ALTER COLUMN id DROP DEFAULT;
+    ALTER TABLE users ALTER COLUMN id TYPE TEXT USING id::text;
+    ALTER TABLE users ALTER COLUMN id SET DEFAULT gen_random_uuid()::text;
+    ALTER TABLE user_task_progress ADD CONSTRAINT user_task_progress_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+  END IF;
+END $$;
+
 ALTER TABLE users ADD COLUMN IF NOT EXISTS provider TEXT NOT NULL DEFAULT 'entra';
 ALTER TABLE users ADD COLUMN IF NOT EXISTS subject TEXT;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT TRUE;
@@ -12,7 +28,13 @@ CREATE TABLE IF NOT EXISTS authorization_audit_events (id BIGSERIAL PRIMARY KEY,
 INSERT INTO rbac_roles (role_key, display_name) VALUES ('developer','Local Developer'),('author','Content Author'),('publisher','Content Publisher'),('administrator','Administrator') ON CONFLICT (role_key) DO NOTHING;
 INSERT INTO rbac_permissions (permission_key, display_name) VALUES
  ('content:announcement-page:edit','Edit announcement page'),('content:announcement-page:publish','Publish announcement page'),('content:history:read','Read content history'),('content:restore','Restore content'),('leadership:edit','Edit leadership'),('leadership:publish','Publish leadership'),('journey:read','Read Journey'),('journey:manage','Manage Journey'),('rbac:users:read','Read users'),('rbac:users:manage','Manage user roles') ON CONFLICT (permission_key) DO NOTHING;
-INSERT INTO rbac_role_permissions (role_id, permission_id) SELECT r.id,p.id FROM rbac_roles r CROSS JOIN rbac_permissions p WHERE r.role_key='administrator' ON CONFLICT DO NOTHING;
+INSERT INTO rbac_role_permissions (role_id, permission_id)
+SELECT r.id, p.id FROM rbac_roles r CROSS JOIN rbac_permissions p
+WHERE (r.role_key = 'developer' AND p.permission_key IN ('content:announcement-page:edit', 'content:history:read', 'journey:read'))
+   OR (r.role_key = 'author' AND p.permission_key IN ('content:announcement-page:edit', 'content:history:read', 'leadership:edit'))
+   OR (r.role_key = 'publisher' AND p.permission_key IN ('content:announcement-page:edit', 'content:announcement-page:publish', 'content:history:read', 'content:restore', 'leadership:edit', 'leadership:publish'))
+   OR (r.role_key = 'administrator')
+ON CONFLICT DO NOTHING;
 INSERT INTO users (id, external_id, email, display_name, role, provider, subject, is_active) VALUES
  ('dev-developer','dev-developer','developer@local.song-site','Local Developer','developer','development','dev-developer',TRUE),('dev-author','dev-author','author@local.song-site','Local Author','author','development','dev-author',TRUE),('dev-publisher','dev-publisher','publisher@local.song-site','Local Publisher','publisher','development','dev-publisher',TRUE),('dev-administrator','dev-administrator','administrator@local.song-site','Local Administrator','administrator','development','dev-administrator',TRUE) ON CONFLICT (id) DO UPDATE SET provider=EXCLUDED.provider, subject=EXCLUDED.subject, is_active=EXCLUDED.is_active;
 INSERT INTO rbac_user_roles (user_id, role_id) SELECT u.id,r.id FROM users u JOIN rbac_roles r ON r.role_key=u.role WHERE u.provider='development' ON CONFLICT DO NOTHING;

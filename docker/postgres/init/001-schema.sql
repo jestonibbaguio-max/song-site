@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS vector;
 
 CREATE TABLE IF NOT EXISTS users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   external_id VARCHAR(255) UNIQUE,
   email VARCHAR(255) NOT NULL UNIQUE,
   display_name VARCHAR(255) NOT NULL,
@@ -47,7 +47,7 @@ CREATE INDEX IF NOT EXISTS idx_task_links_task ON task_links (task_id, sort_orde
 
 CREATE TABLE IF NOT EXISTS user_task_progress (
   id BIGSERIAL PRIMARY KEY,
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   task_id BIGINT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
   status VARCHAR(30) NOT NULL DEFAULT 'Not Started'
     CHECK (status IN ('Not Started', 'Pending', 'In Progress', 'Completed')),
