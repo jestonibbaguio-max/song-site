@@ -344,3 +344,7 @@ Production authentication and authorization are verified in protected staging, t
 7. `WP-041` Production Entra Integration and Release Qualification.
 
 `WP-035` through most of `WP-040` can proceed without access to the organization's Entra configuration after the proposed ADRs and product decisions are approved. Entra-specific registration, claim mapping, tenant integration, and production release qualification in `WP-041` remain blocked by organizational access.
+
+## Relationship to WP-042
+
+`WP-042` is maintained separately because route ownership is not part of the authoring lifecycle. It separates the existing home experience from the new dashboard route and may proceed independently of `WP-041`, provided its dashboard data and default redirect decisions are approved under `ADR-0038`.

@@ -56,8 +56,9 @@ This inventory records what is already present in the repository and connects it
 | `WP-039` | Publication and recovery qualification | Conflict, atomic publish, failure, recovery, audit, retention, and operational verification | To be assigned | Proposed planning; not implemented | `ADR-0020`, `ADR-0021`, `ADR-0037` proposed |
 | `WP-040` | Leadership and selected-page authoring expansion | Leadership editor, source-of-truth reconciliation, org-chart cleanup, and product-approved page expansion | To be assigned | Proposed planning; not implemented | `ADR-0027`, `ADR-0029`, `ADR-0036`, `ADR-0037` proposed |
 | `WP-041` | Production Entra integration and release qualification | API token validation, claim/role mapping, identity lifecycle, protected deployment, and bypass retirement | To be assigned | Proposed planning; blocked on organizational Entra and ownership decisions | `ADR-0019`, `ADR-0032`, `ADR-0035` proposed |
+| `WP-042` | Dashboard and Home route separation | Move the existing home experience to `/home` and introduce a distinct `/dashboard` page, navigation, redirect, and deep-link qualification | To be assigned | Planned; awaiting dashboard scope and default-destination decisions | `ADR-0038` proposed |
 
-Detailed scope, non-goals, requirements, acceptance criteria, API/database work, security, tests, dependencies, and Definition of Done for `WP-035` through `WP-041` are in [Authoring and Development Identity Work Packages](work-packages/authoring-development-program.md).
+Detailed scope, non-goals, requirements, acceptance criteria, API/database work, security, tests, dependencies, and Definition of Done for `WP-035` through `WP-041` are in [Authoring and Development Identity Work Packages](work-packages/authoring-development-program.md). The route-separation package is in [WP-042](work-packages/dashboard-home-route-separation.md).
 
 ## Definition of complete
 
@@ -95,3 +96,4 @@ A work package is complete only when its OpenAPI contract, implementation, migra
 28. Implement `WP-037`, use `WP-038` as the first page-specific editor, and qualify concurrency/recovery under `WP-039`.
 29. Expand to leadership and selected pages under `WP-040` only after each managed/static field inventory is approved.
 30. Defer tenant-specific Production Mode work to `WP-041`; `WP-035` through most of `WP-040` must remain buildable and testable without Entra access.
+31. Resolve `ADR-0038` before changing the meaning of `/dashboard`; implement `WP-042` with explicit route, redirect, deep-link, and authorization regression evidence.
