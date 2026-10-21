@@ -75,6 +75,26 @@ Reduced onboarding ambiguity, fewer recurring coordinator questions, visibility 
 - Blocker count and aging; unresolved tasks requiring coordinator intervention.
 - Usability and reliability: end-to-end task flows and accessibility verification.
 
+## 2.5 Current-state baseline
+
+This section records repository evidence as of 21 October 2026. It is not a statement that the target architecture is implemented.
+
+| Area | Current evidence | Status against this SAD |
+|---|---|---|
+| Landing and dashboard | `/` provides sign-in entry; `/dashboard` provides generic spotlight and announcement content | Implemented, but dashboard assignment personalization is target-only |
+| About Us | `/aboutus` renders hardcoded information cards | Implemented static content; authoring is not in the onboarding MVP unless approved |
+| My Journey | `/my-journey` reads and mutates shared task resources through the legacy task API | Implemented partial experience; not yet member-owned assignment state |
+| Training Tracker | `/training-tracker` is a separate API-backed task experience | Implemented partial experience; consolidation into onboarding is target-only |
+| Announcement | `/announcement` uses versioned published content and has draft, preview, publish, restore and audit capabilities | Implemented locally; production identity and release qualification remain incomplete |
+| Contact Us | `/contactus` provides a client-side contact form; no persisted support workflow is assumed | Implemented presentation only; target support behavior requires a decision |
+| Song links | `/atcp-song-links` reads categorized links from the API; `/other-links` remains static | Implemented content surfaces; target Resources consolidation requires approval |
+| Leadership | `/atcp-song` reads leadership content from the API | Implemented content surface; separate from onboarding unless product scope changes |
+| Coordinator workspace | No coordinator routes or assignment/verification UI exist | Target-only |
+| Template and audit administration | No onboarding template editor or general audit lookup exists; announcement authoring is page-specific | Target-only except for announcement authoring foundation |
+| Identity and storage | Development identity and SQLite are available; Entra API validation and PostgreSQL production parity are incomplete | Local foundation, not production qualification |
+
+The current Journey and Training Tracker data must not be presented as independent member completion. Legacy shared status is preserved or migrated only according to Section 16.
+
 # 3. Scope and boundaries
 
 ## 3.1 In-scope MVP
@@ -305,6 +325,36 @@ Draft → edit stages/tasks/dependencies/instructions → validate (required fie
 
 **Consolidate existing duplicated Journey and Training Tracker experiences** into a single task presentation with stage/category metadata. Avoid exposing implementation-centric page names in primary navigation.
 
+### 7.1 Existing route disposition
+
+The following routes are current product surfaces or compatibility paths. They are inputs to migration, not additional target workspaces.
+
+| Existing route | Current purpose | Target disposition | MVP decision required |
+|---|---|---|---|
+| `/aboutus` | Static corporate information cards | Retain as informational page outside onboarding workflow | Confirm content owner and whether updates require authoring |
+| `/my-journey` | Current member-looking Journey task grid | Redirect to `/onboarding` after assignment APIs are qualified | Define legacy read-only period |
+| `/training-tracker` | Separate training task grid and completion view | Consolidate as a stage/category within `/onboarding` | Define parent-task and history migration |
+| `/my-cv`, `/my-skills-matrix`, `/my-mycompetency`, `/my-myriro`, `/my-workday`, `/my-asset-tracker`, `/my-update-contact`, `/people-lead`, `/my-compliance`, `/wd-update-contact`, `/my-learning-platform` | Individual legacy task pages and external links | Redirect or render task detail from `/onboarding/tasks/:id` | Map each route to an approved template task |
+| `/announcement` | Published notices, training content and page-specific authoring | Retain as a separate content page; link from dashboard where appropriate | Confirm whether notices are onboarding resources or general site content |
+| `/atcp-song-links` and `/other-links` | Song and external resource links | Consolidate into `/resources` only after ownership and review metadata exist | Approve canonical resource catalog |
+| `/contactus` | General contact form | Retain or redirect to `/help` | Decide persistence, routing and support SLA |
+| `/atcp-song` | Leadership and capability content | Retain as a separate content surface | Confirm whether it is part of onboarding MVP |
+| `/atcp-song2`, `/song3`, `/song-bench` | Other existing site experiences | Retain, redirect, retire or exclude explicitly | Product owner disposition required |
+| `/journey`, `/cv`, `/skills-matrix`, `/mycompetency`, `/workday` | Compatibility aliases | Preserve redirects during migration, then retire after consumer verification | Define deprecation window |
+| `/navbar`, `/footer` | Layout components exposed as routes | Remove from navigable route inventory | Confirm no external consumers |
+
+No route is considered migrated until its redirect/read-only behavior, owner, target API, authorization rule, and removal evidence are documented.
+
+### 7.2 Target page states
+
+Every authenticated target page must define loading, empty, forbidden, not-found, API failure/retry, expired-session, and read-only states. In addition:
+
+- `/dashboard` and `/onboarding` show **No onboarding assigned**, not false zero progress.
+- Task detail shows dependency blocking, awaiting verification, returned-for-rework, waived, completed, and stale-version conflict states.
+- Coordinator pages show out-of-scope denial without revealing whether an inaccessible member exists.
+- Template editing shows validation errors, dependency-cycle errors, publish conflicts, preview, and immutable-version confirmation.
+- `/resources` and `/help` show stale or unavailable links honestly and provide an owned escalation path.
+
 # 8. Logical application architecture
 
 ```mermaid
@@ -531,6 +581,12 @@ These observations are **not** target design requirements. They identify what ma
 - Existing route names include `/journey` and `/my-journey`; the new user model must deliberately migrate or redirect rather than preserve conflicting semantics.
 - Separate SQLite/PostgreSQL schema evolution has parity risks; production behavior needs dedicated PostgreSQL integration tests.
 
+### Existing page and content decisions
+
+`/resources` is the target authenticated resource directory. It may reuse `/atcp-song-links` and `/other-links` content only after records have an owner, canonical URL, review date and lifecycle status. `/help` is the target onboarding support surface; `/contactus` may provide its presentation only if a support owner, routing behavior and data-retention rule are approved. General corporate pages such as `/aboutus`, `/announcement` and `/atcp-song` remain separate content surfaces unless the product owner explicitly moves them into the onboarding MVP.
+
+The accepted user-administration design in [ADR-0015](adr/0015-user-administration-experience.md) remains distinct from onboarding template administration. `/admin/users` manages identities, roles and account state; `/admin/templates` manages onboarding definitions; `/admin/audit` is a restricted investigation surface across approved event types. These routes require separate permissions and must not be merged by navigation convenience.
+
 # 16. Migration strategy from the current application
 
 **Phase 0 — Baseline and stop scope growth.** Approve business flows, task catalog owners, template/assignment lifecycle, privacy review, and this SAD. Freeze unrelated page features. Capture current data for migration study.
@@ -542,6 +598,8 @@ These observations are **not** target design requirements. They identify what ma
 **Phase 3 — Coordinator and administration.** Add assignment, review, blockers, waiver, closure, template draft/publish, scoped reporting and immutable change history.
 
 **Phase 4 — Qualification and cutover.** Enterprise auth integration, PostgreSQL staging, security/privacy testing, cross-user E2E, backup/restore and smoke test. Redirect legacy URLs. Remove unsafe mutation endpoints after audit. Announce controlled pilot.
+
+**Phase 5 — Legacy retirement and content governance.** Confirm zero approved consumers of compatibility routes, publish deprecation notices, preserve required history read-only, retire unsafe shared-task mutations, assign owners to resources/help/content pages, and verify stale-link review. No legacy route is removed solely because a replacement page exists.
 
 ### Data migration decision
 
@@ -582,6 +640,22 @@ ADR-0001 (baseline), ADR-0003 (DB), ADR-0005 (RBAC), ADR-0006 (Journey), ADR-001
 
 Prioritize a **vertical slice**, not a large infrastructure-first sequence: template → assign to A and B → individual task state → coordinator view → refresh/restart proof. Build the minimum schema, auth and UI needed for that slice before advancing.
 
+### 18.1 Mapping to repository work packages
+
+The work packages below are the repository delivery record. The WP-01 through WP-10 sequence above is a SAD delivery grouping and does not replace the identifiers or statuses in `docs/work-packages.md`.
+
+| SAD delivery grouping | Repository work packages | Exit evidence |
+|---|---|---|
+| Baseline and decisions | WP-018, WP-019, WP-020, WP-021, WP-022, WP-023 | Approved identity, hosting, privacy, operations and API lifecycle decisions |
+| Domain and persistence | WP-006, WP-008, WP-011, WP-014, WP-015, WP-017 | Migration-backed entities, SQLite/PostgreSQL parity and repeatable lifecycle tests |
+| Identity and authorization | WP-007, WP-018, WP-030, WP-033, WP-035, WP-036, WP-041 | Production token validation, ownership/cohort checks and 401/403 negative tests |
+| Journey consolidation | WP-002, WP-003, WP-004, WP-031 | Member-owned assignment state, task transitions, compatibility migration and audit |
+| Templates and authoring | WP-024, WP-037, WP-038, WP-039, WP-040 | Draft/publish/restore concurrency, version pinning, content ownership and recovery evidence |
+| Admin and coordinator workspaces | WP-016 plus new coordinator implementation scope | Assignment, verification, closure, user administration and restricted audit lookup |
+| Qualification and release | WP-009, WP-017, WP-029, WP-032, WP-034 | Two-member E2E, accessibility, PostgreSQL CI, deployment smoke tests, rollback and restore evidence |
+
+Owners and statuses remain governed by `docs/work-packages.md`; any new coordinator package must be added there before implementation is described as planned or in progress.
+
 # 19. Risks, assumptions, issues and dependencies
 
 | Type | Description | Action/owner |
@@ -599,6 +673,10 @@ Prioritize a **vertical slice**, not a large infrastructure-first sequence: temp
 | Open decision | Which tasks require independent verification? | Bench owner/security |
 | Open decision | Cohort definition, retention period, notifications | Operations/privacy/business |
 | Open decision | Approved cloud topology and RPO/RTO | Platform/operations |
+| Open decision | Whether `/contactus` becomes persisted `/help` support workflow | Product/support/privacy |
+| Open decision | Whether `/atcp-song-links` and `/other-links` become the `/resources` catalog | Product/content owner |
+| Open decision | Retention and read-only treatment of legacy Journey and Training records | Product/privacy/engineering |
+| Open decision | Separate `/admin/users`, `/admin/templates` and `/admin/audit` permission boundaries | Product/security/identity |
 
 # 20. Approval checklist and next steps
 
@@ -610,6 +688,10 @@ Prioritize a **vertical slice**, not a large infrastructure-first sequence: temp
 - [ ] Operations approves environment topology, runbooks and release gates.
 - [ ] Architecture owner records approved decisions as ADRs and maps implementation work packages.
 - [ ] Team demonstrates a functioning two-member vertical slice before further site expansion.
+- [ ] Existing routes have an approved disposition and tested redirect/read-only behavior.
+- [ ] Every target screen has defined loading, empty, error, forbidden and accessibility behavior.
+- [ ] `/resources`, `/help`, announcements and existing content pages have named owners and review rules.
+- [ ] SAD claims are reconciled with `docs/work-packages.md`, `docs/navigation-flows.md`, OpenAPI and current ADR status.
 
 ---
 
