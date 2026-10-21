@@ -187,6 +187,65 @@ No stage should be renamed to imply that the portal certifies external-system co
 - Visible options follow roles, while the backend remains the actual security boundary.
 - Empty/no-plan state must say *No onboarding assigned* and provide the correct coordinator contact, not show misleading 0% progress.
 
+### 6.1.1 Navigation map
+
+This map shows the target navigation together with the existing pages that remain
+visible during migration. Solid paths are target navigation; dashed paths are
+legacy redirects or separate content surfaces. Role visibility is a usability
+decision only; every destination remains server-authorized.
+
+```mermaid
+flowchart TD
+  START([Open Song Bench]) --> LANDING[/ / Welcome and sign-in]
+  LANDING --> AUTH{Authenticated?}
+  AUTH -- No --> SIGNIN[Enterprise sign-in or approved local development mode]
+  SIGNIN --> AUTH
+  AUTH -- Yes --> DASH[/dashboard/ Member dashboard]
+
+  DASH --> ONBOARD[/onboarding/ My onboarding]
+  ONBOARD --> TASK[/onboarding/tasks/:id/ Task detail]
+  TASK --> ONBOARD
+  DASH --> RESOURCES[/resources/ Resources]
+  DASH --> HELP[/help/ Help and coordinator contact]
+  DASH --> ANNOUNCEMENT[/announcement/ Published announcements]
+  DASH --> PROFILE[Profile and sign out]
+
+  DASH --> COORD[/coordinator/ Coordinator dashboard]
+  COORD --> MEMBERS[/coordinator/members/ Scoped member roster]
+  MEMBERS --> MEMBER[/coordinator/members/:id/ Member plan]
+  MEMBER --> VERIFY[Verify, resolve, waive, reopen or close]
+  COORD --> ASSIGN[Assignment management]
+
+  DASH --> ADMIN[/admin/ Authorized administration]
+  ADMIN --> USERS[/admin/users/ User administration]
+  ADMIN --> TEMPLATES[/admin/templates/ Template list]
+  TEMPLATES --> EDITOR[/admin/templates/:id/ Draft and publish]
+  ADMIN --> AUDIT[/admin/audit/ Restricted audit lookup]
+
+  MYJOURNEY[/my-journey/] -. migrate or redirect .-> ONBOARD
+  TRAINING[/training-tracker/] -. consolidate .-> ONBOARD
+  LEGACYTASKS[Legacy task routes] -. redirect after mapping .-> TASK
+  ALIASES[Legacy aliases: /journey, /cv, /skills-matrix, /workday] -. redirect .-> ONBOARD
+
+  ABOUT[/aboutus/]
+  ATCP[/atcp-song/]
+  LINKS[/atcp-song-links/]
+  OTHER[/other-links/]
+  CONTACT[/contactus/]
+  DASH -. separate content .-> ABOUT
+  DASH -. separate content .-> ATCP
+  LINKS -. candidate source .-> RESOURCES
+  OTHER -. candidate source .-> RESOURCES
+  CONTACT -. candidate source .-> HELP
+
+  NAVBAR[/navbar/] -. layout only, remove as route .-> DASH
+  FOOTER[/footer/] -. layout only, remove as route .-> DASH
+```
+
+The dashed content relationships are not automatic conversions. Each requires a
+named owner, canonical API, authorization rule, review lifecycle and approved
+redirect or retention decision before the existing route is changed.
+
 ## 6.2 Flow A: First visit and assignment
 
 **Preconditions:** User has an identity-provider account and is eligible for onboarding; template published.
