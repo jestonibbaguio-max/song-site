@@ -196,51 +196,51 @@ decision only; every destination remains server-authorized.
 
 ```mermaid
 flowchart TD
-  START([Open Song Bench]) --> SIGNIN[/ / Sign-in page]
-  SIGNIN --> AUTH[Enterprise sign-in or approved local development mode]
-  AUTH --> AUTHORIZED{Authentication accepted?}
-  AUTHORIZED -- No --> SIGNIN_ERROR[Safe sign-in error and support path]
+  START["Open Song Bench"] --> SIGNIN["/ - Sign-in page"]
+  SIGNIN --> AUTH["Enterprise sign-in or approved local development mode"]
+  AUTH --> AUTHORIZED{"Authentication accepted?"}
+  AUTHORIZED -- No --> SIGNIN_ERROR["Safe sign-in error and support path"]
   SIGNIN_ERROR --> SIGNIN
-  AUTHORIZED -- Yes --> DASH[/dashboard/ Member dashboard]
+  AUTHORIZED -- Yes --> DASH["/dashboard - Member dashboard"]
 
-  DASH --> ONBOARD[/onboarding/ My onboarding]
-  ONBOARD --> TASK[/onboarding/tasks/:id/ Task detail]
+  DASH --> ONBOARD["/onboarding - My onboarding"]
+  ONBOARD --> TASK["/onboarding/tasks/:id - Task detail"]
   TASK --> ONBOARD
-  DASH --> RESOURCES[/resources/ Resources]
-  DASH --> HELP[/help/ Help and coordinator contact]
-  DASH --> ANNOUNCEMENT[/announcement/ Published announcements]
-  DASH --> PROFILE[Profile and sign out]
+  DASH --> RESOURCES["/resources - Resources"]
+  DASH --> HELP["/help - Help and coordinator contact"]
+  DASH --> ANNOUNCEMENT["/announcement - Published announcements"]
+  DASH --> PROFILE["Profile and sign out"]
 
-  DASH --> COORD[/coordinator/ Coordinator dashboard]
-  COORD --> MEMBERS[/coordinator/members/ Scoped member roster]
-  MEMBERS --> MEMBER[/coordinator/members/:id/ Member plan]
-  MEMBER --> VERIFY[Verify, resolve, waive, reopen or close]
-  COORD --> ASSIGN[Assignment management]
+  DASH --> COORD["/coordinator - Coordinator dashboard"]
+  COORD --> MEMBERS["/coordinator/members - Scoped member roster"]
+  MEMBERS --> MEMBER["/coordinator/members/:id - Member plan"]
+  MEMBER --> VERIFY["Verify, resolve, waive, reopen or close"]
+  COORD --> ASSIGN["Assignment management"]
 
-  DASH --> ADMIN[/admin/ Authorized administration]
-  ADMIN --> USERS[/admin/users/ User administration]
-  ADMIN --> TEMPLATES[/admin/templates/ Template list]
-  TEMPLATES --> EDITOR[/admin/templates/:id/ Draft and publish]
-  ADMIN --> AUDIT[/admin/audit/ Restricted audit lookup]
+  DASH --> ADMIN["/admin - Authorized administration"]
+  ADMIN --> USERS["/admin/users - User administration"]
+  ADMIN --> TEMPLATES["/admin/templates - Template list"]
+  TEMPLATES --> EDITOR["/admin/templates/:id - Draft and publish"]
+  ADMIN --> AUDIT["/admin/audit - Restricted audit lookup"]
 
-  MYJOURNEY[/my-journey/] -. migrate or redirect .-> ONBOARD
-  TRAINING[/training-tracker/] -. consolidate .-> ONBOARD
-  LEGACYTASKS[Legacy task routes] -. redirect after mapping .-> TASK
-  ALIASES[Legacy aliases: /journey, /cv, /skills-matrix, /workday] -. redirect .-> ONBOARD
+  MYJOURNEY["/my-journey"] -. migrate or redirect .-> ONBOARD
+  TRAINING["/training-tracker"] -. consolidate .-> ONBOARD
+  LEGACYTASKS["Legacy task routes"] -. redirect after mapping .-> TASK
+  ALIASES["Legacy aliases: /journey, /cv, /skills-matrix, /workday"] -. redirect .-> ONBOARD
 
-  ABOUT[/aboutus/]
-  ATCP[/atcp-song/]
-  LINKS[/atcp-song-links/]
-  OTHER[/other-links/]
-  CONTACT[/contactus/]
+  ABOUT["/aboutus"]
+  ATCP["/atcp-song"]
+  LINKS["/atcp-song-links"]
+  OTHER["/other-links"]
+  CONTACT["/contactus"]
   DASH -. separate content .-> ABOUT
   DASH -. separate content .-> ATCP
   LINKS -. candidate source .-> RESOURCES
   OTHER -. candidate source .-> RESOURCES
   CONTACT -. candidate source .-> HELP
 
-  NAVBAR[/navbar/] -. layout only, remove as route .-> DASH
-  FOOTER[/footer/] -. layout only, remove as route .-> DASH
+  NAVBAR["/navbar"] -. layout only, remove as route .-> DASH
+  FOOTER["/footer"] -. layout only, remove as route .-> DASH
 ```
 
 The dashed content relationships are not automatic conversions. Each requires a
