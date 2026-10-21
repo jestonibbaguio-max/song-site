@@ -4,7 +4,7 @@ Frontend engineering guide for Song Site. This handbook is written for associate
 
 ## 1. What you are working on
 
-Song Site is an Angular 21 standalone application in `src/`. It provides the Song Bench experience, public/guest navigation, authenticated user journeys, leadership content, and the frontend side of the SSO experience.
+Song Site is an Angular 21 standalone application in `src/`. It provides the Song Bench experience, a sign-in page, authenticated dashboard navigation, authenticated user journeys, leadership content, and the frontend side of the SSO experience.
 
 The frontend is responsible for:
 

@@ -41,7 +41,7 @@ This directory contains architecture decision records (ADRs), API contracts, and
 - [ADR-0035: Development Authentication and Identity Isolation](adr/0035-development-authentication-and-identity-isolation.md) - Accepted for implementation
 - [ADR-0036: Page Authoring Architecture](adr/0036-page-authoring-architecture.md) - Accepted for implementation
 - [ADR-0037: Content Versioning and Publication Lifecycle](adr/0037-content-versioning-and-publication-lifecycle.md) - Accepted for implementation
-- [ADR-0038: Use `/welcome` for the Authenticated Entry Page](adr/0038-welcome-route.md) - Accepted for implementation
+- [ADR-0038: Song Site Dashboard Management Hub](adr/0038-welcome-route.md) - Accepted for implementation
 
 ## Ownership
 
@@ -62,7 +62,7 @@ See [Authoring and Development Identity Work Packages](work-packages/authoring-d
 
 See [API and data inventory](api-data-inventory.md) for the complete site review.
 
-See [Navigation flows](navigation-flows.md) for the implemented main flow and planned admin dashboard flow.
+See [Navigation flows](navigation-flows.md) for the authenticated dashboard management flow and planned administration tools.
 
 ## Engineering handbooks
 

@@ -1,98 +1,102 @@
-# ADR-0038: Use `/welcome` for the Authenticated Entry Page
+# ADR-0038: Song Site Dashboard Management Hub
 
 - Status: Accepted for implementation
 - Date: 2026-10-21
 - Owner: To be assigned
-- Related work packages: `WP-001`, `WP-002`, `WP-009`, `WP-031`
+- Related work packages: `WP-001`, `WP-002`, `WP-009`, `WP-031`, `WP-042`
 - Related ADRs: `ADR-0001`, `ADR-0006`, `ADR-0022`, `ADR-0030`, `ADR-0035`
 
 ## Context
 
-The authenticated entry page is currently exposed at `/dashboard`, even though it is the first welcome and orientation surface after sign-in. The name `dashboard` implies an operational summary or personalized progress view, while the current page primarily provides the Song Bench home experience, spotlight content, announcements and navigation into Journey and other site areas.
+The authenticated Song Site needs one consistent management hub after sign-in. The current `/dashboard` route already serves the shared home experience, but its target responsibilities are underspecified. The dashboard must show useful status summaries and provide role-aware access to administrative and operational tools without becoming a second source of truth for status or permissions.
 
-The target onboarding architecture separately defines a member dashboard with assignment progress, next action, blockers and task state. Using `/dashboard` for the current entry page would make that future destination ambiguous and would require another route rename when the member dashboard is implemented.
+The dashboard must support different users without exposing tools they cannot use. It needs a sidebar that can expose tools such as user management, role and permission administration, templates, audit and settings when authorized. The sidebar must remain usable at narrow widths, support a collapsed icon-only mode, and inherit the existing Song Site theme rather than introducing a separate visual system.
 
-The sign-in page and local development sign-in path currently navigate to `/dashboard`. Existing documentation, browser tests and users may also use `/dashboard` directly.
+The sign-in page remains `/`. `/dashboard` is the authenticated destination and must remain stable for existing bookmarks and links.
 
 ## Decision
 
-Rename the authenticated entry page from `/dashboard` to `/welcome`.
+Keep `/dashboard` as the canonical authenticated Song Site management hub. Do not create or implement `/welcome` as a replacement route. The `/` route remains the sign-in page.
 
-`/welcome` is the canonical route for the post-sign-in Song Bench welcome and orientation experience. It may present shared spotlight, announcements and navigation, but it must not claim to be a personalized onboarding dashboard until the assignment model is implemented.
+The dashboard has four responsibilities:
 
-The future personalized member dashboard remains a separate target surface and may use `/dashboard` once its assignment-backed behavior is ready. That future reuse must be introduced deliberately, with an explicit migration note and tests; it must not silently change the meaning of an existing bookmarked URL.
+1. Display role-appropriate status cards using server-provided data, such as onboarding progress and blockers, pending content or template work, user/access administration status, and operational notices where the caller is authorized to see them.
+2. Provide the primary sidebar navigation for authorized Song Site tools, including user management, roles, permissions, templates, audit and other approved administration tools.
+3. Provide a lower sidebar section separated from primary tools, with a settings icon as the entry point for user and application settings that the current principal may access.
+4. Provide the shared Song Site shell, including navigation, sign-out and theme inheritance, without owning the underlying domain state or authorization decisions.
 
-Keep `/dashboard` as a compatibility redirect to `/welcome` during the migration period. The redirect must:
+Sidebar behavior is part of the dashboard contract:
 
-- preserve query parameters where supported;
-- use a client-side route redirect only for browser navigation, not as an authorization control;
-- be covered by a browser smoke test and direct-navigation test;
-- remain until approved consumer and bookmark verification is complete; and
-- be removed or reassigned only through a later ADR or an explicit implementation update to this ADR.
+- The sidebar is expanded by default when the viewport and user preference allow it and can be collapsed without changing the current route.
+- Collapsed mode shows icons only; every icon has an accessible name and a tooltip or equivalent discoverable label.
+- The separator and settings control remain identifiable in expanded and collapsed modes.
+- The collapsed/expanded preference may be presentation state stored for the current browser, but it must not contain permissions or authoritative user state.
+- Items are rendered only when the server-resolved principal has the required permission, and every destination and mutation remains server-authorized.
 
-Update the sign-in page, navigation documentation, Playwright tests, presentations and SAD references to use `/welcome` as the current entry route. External destination URLs containing the word `dashboard` are unrelated and must not be changed.
+The dashboard inherits the existing Song Site theme tokens, typography, spacing, component states and responsive behavior. It must not introduce an independent theme or hardcode role visibility in the client.
 
 ## Navigation and authorization
 
-The route rename does not change access policy. The entry page remains available only after the approved authentication flow, except for the isolated local development mode defined by `ADR-0035`. The backend remains the security boundary; hiding `/welcome` or redirecting `/dashboard` in Angular does not grant or revoke access.
+The dashboard remains available only after the approved authentication flow, except for the isolated local development mode defined by `ADR-0035`. The backend remains the security boundary; sidebar visibility does not grant access and route guards are not a substitute for API authorization.
 
 The intended navigation is:
 
 ```mermaid
 flowchart TD
     SIGNIN["/ - Sign-in page"] --> AUTH["Approved authentication"]
-    AUTH --> WELCOME["/welcome - Welcome and orientation"]
-    DASHBOARD["/dashboard - Legacy compatibility URL"] -. redirect .-> WELCOME
-    WELCOME --> ONBOARDING["/onboarding - Member onboarding"]
-    WELCOME --> ANNOUNCEMENT["/announcement - Published announcements"]
-    WELCOME --> RESOURCES["/resources - Resources"]
-    WELCOME --> HELP["/help - Help"]
+    AUTH --> DASHBOARD["/dashboard - Song Site management hub"]
+    DASHBOARD --> STATUS["Authorized status cards"]
+    DASHBOARD --> SIDEBAR["Collapsible tool sidebar"]
+    SIDEBAR --> ONBOARDING["/onboarding - Member onboarding"]
+    SIDEBAR --> USERS["/admin/users - User management"]
+    SIDEBAR --> ROLES["Roles and permissions - Authorized tools"]
+    SIDEBAR --> TEMPLATES["/admin/templates - Template management"]
+    SIDEBAR --> AUDIT["/admin/audit - Restricted audit lookup"]
+    SIDEBAR --> SEPARATOR["Lower section separator"]
+    SEPARATOR --> SETTINGS["Settings icon - Authorized settings"]
+    DASHBOARD --> ANNOUNCEMENT["/announcement - Published announcements"]
+    DASHBOARD --> RESOURCES["/resources - Resources"]
+    DASHBOARD --> HELP["/help - Help"]
 ```
 
 ## Consequences
 
 Positive consequences:
 
-- The current entry page has a name that matches its welcome/orientation role.
-- The future assignment-backed dashboard has a clear, unambiguous route.
-- Existing `/dashboard` bookmarks can continue to work during migration.
-- The SAD and navigation documentation can distinguish current welcome content from future onboarding progress.
+- `/dashboard` has one stable meaning as the authenticated Song Site management hub.
+- Users can reach status, onboarding and authorized management tools from one predictable shell.
+- Collapsed navigation supports smaller screens and users who need more content width.
+- Theme inheritance keeps the dashboard visually consistent with existing Song Site pages.
 
 Costs and risks:
 
-- The Angular route, sign-in redirects, tests and documentation need coordinated updates.
-- Search results, bookmarks and external links may continue to use `/dashboard` until the compatibility period ends.
-- The word `dashboard` remains in unrelated external URLs and domain terminology; those references must not be mechanically renamed.
-- A future `/dashboard` implementation must avoid breaking compatibility expectations without a reviewed migration plan.
+- Status cards require aggregated, permission-filtered API contracts and loading/error states.
+- Role, permission and settings tools require separate backend authorization and audit rules.
+- Sidebar state, keyboard behavior, tooltips and responsive breakpoints require dedicated frontend tests.
+- A broad tool sidebar can become an ungoverned CMS or administration surface unless each tool has an owner and work package.
 
 ## Implementation plan
 
-1. Add `/welcome` as the canonical Angular route for the current entry component.
-2. Change sign-in and local development navigation to `/welcome`.
-3. Retain `/dashboard` as a redirect to `/welcome` and add direct-navigation coverage.
-4. Update navigation flows, the SAD, README/presentation references and relevant Playwright tests.
-5. Inventory internal links and approved consumers of `/dashboard`.
-6. Monitor or verify compatibility usage before removing the redirect.
-7. Reserve `/dashboard` for the future assignment-backed member dashboard only after its API, authorization, persistence and acceptance tests exist.
+1. Define the dashboard status-card contract in OpenAPI, including per-card permission, loading, empty, stale and error behavior.
+2. Implement the shared dashboard shell with expanded/collapsed sidebar states, keyboard navigation, accessible icon labels, separator and settings entry.
+3. Reuse the existing Song Site theme tokens and responsive layout primitives; do not create dashboard-only theme values.
+4. Add authorized tool entries incrementally: onboarding, users, roles/permissions, templates, audit and settings. Each tool requires an owner, API contract, permission and work package.
+5. Keep dashboard summaries read-only and derive them from domain APIs; never calculate authoritative status or permission decisions in Angular.
+6. Add two-user and role-specific tests proving that cards and tools are filtered without leaking inaccessible status data.
+7. Add Playwright coverage for expanded/collapsed navigation, persistence of presentation preference, keyboard access, responsive behavior and direct route authorization.
 
 ## Verification requirements
 
-- Opening `/welcome` renders the current entry experience after approved authentication.
-- Opening `/dashboard` redirects to `/welcome` without exposing unauthenticated content.
-- Sign-in and local development sign-in land on `/welcome`.
-- Refreshing `/welcome` preserves the authenticated session and page state expected for the current experience.
-- Direct navigation and browser back/forward behavior are covered.
-- No external URLs containing `dashboard` are changed unintentionally.
-- Documentation distinguishes `/welcome` from the future assignment-backed `/dashboard`.
+- Approved sign-in and local development sign-in land on `/dashboard`.
+- `/dashboard` renders only status cards and tools authorized for the resolved principal.
+- Status cards show server-derived values and honest loading, empty, stale and failure states.
+- Expanding and collapsing the sidebar does not change the current route or domain state.
+- Collapsed mode exposes accessible names/tooltips for every icon, including settings.
+- The lower settings section remains separated and usable in both sidebar modes.
+- Keyboard navigation, focus order, responsive layout and inherited theme tokens are tested.
+- Direct navigation to an unauthorized tool is rejected by the backend and does not leak its status data.
+- Two different users with different permissions see correct, independent dashboard content.
 
 ## Implementation boundary
 
-This ADR records the route decision and migration contract. It does not claim that the route has already been changed, that the personalized dashboard exists, or that authentication and authorization are production-qualified.
-
-## 2026-10-21 decision amendment
-
-The product decision has changed: `/dashboard` remains the canonical authenticated route and is the Song Site management hub. The earlier `/welcome` rename described above is superseded and must not be implemented.
-
-The `/dashboard` hub owns shared spotlight, announcements, site navigation and role-specific entry points. It may include an assignment summary and next action when onboarding data is available, but detailed work remains under `/onboarding` and `/onboarding/tasks/:id`. The `/` route remains the sign-in page.
-
-Implementation must update the SAD and related navigation documentation to reflect this amendment. Existing `/dashboard` bookmarks and links remain valid; no compatibility redirect to `/welcome` is required.
+This ADR records the `/dashboard` management-hub and shell contract. It does not claim that status aggregation, all sidebar tools, role/permission administration, settings, responsive collapse behavior or production authorization are implemented. Each tool remains subject to its own API, migration, authorization, test and runbook requirements.

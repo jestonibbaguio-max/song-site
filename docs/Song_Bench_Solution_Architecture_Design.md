@@ -247,6 +247,21 @@ The dashed content relationships are not automatic conversions. Each requires a
 named owner, canonical API, authorization rule, review lifecycle and approved
 redirect or retention decision before the existing route is changed.
 
+### 6.1.2 Dashboard shell contract
+
+`/dashboard` is the authenticated Song Site management hub. It is a shared shell
+for status summaries and authorized tool navigation; it is not the source of
+truth for domain status, roles or permissions.
+
+- Status cards show server-derived summaries such as onboarding progress and blockers, pending content/template work, authorized user/access work and operational notices. A card is shown only when its data and permission are available.
+- The primary sidebar contains authorized tools such as My Onboarding, User Management, Roles, Permissions, Templates and Audit. Tool routes are added only with an API contract, permission, owner, work package and acceptance tests.
+- A visible separator divides the primary tools from the lower utility section. The lower section contains a settings icon for authorized user/application settings.
+- The sidebar expands and collapses without changing the route or domain state. Collapsed mode displays icons only; every icon has an accessible name and tooltip or equivalent discoverable label.
+- Sidebar preference is presentation state only. It may be persisted per browser, but it must not store permissions, role decisions or authoritative status.
+- The shell inherits the existing Song Site theme tokens, typography, spacing, focus styles and responsive behavior. Dashboard-specific theme forks are not permitted.
+- Status cards and tools define loading, empty, stale, failure, forbidden and unavailable states. A missing permission must not be represented as a misleading zero or empty status.
+- Keyboard navigation, visible focus, screen-reader names, responsive breakpoints and expanded/collapsed behavior are release-tested.
+
 ## 6.2 Flow A: First visit and assignment
 
 **Preconditions:** User has an identity-provider account and is eligible for onboarding; template published.
@@ -411,6 +426,7 @@ No route is considered migrated until its redirect/read-only behavior, owner, ta
 Every authenticated target page must define loading, empty, forbidden, not-found, API failure/retry, expired-session, and read-only states. In addition:
 
 - `/dashboard` and `/onboarding` show **No onboarding assigned**, not false zero progress.
+- `/dashboard` status cards and sidebar tools are filtered by server-resolved permissions; unavailable data is not rendered as a zero or success state.
 - Task detail shows dependency blocking, awaiting verification, returned-for-rework, waived, completed, and stale-version conflict states.
 - Coordinator pages show out-of-scope denial without revealing whether an inaccessible member exists.
 - Template editing shows validation errors, dependency-cycle errors, publish conflicts, preview, and immutable-version confirmation.
@@ -682,7 +698,7 @@ Do **not** blindly reinterpret shared legacy `tasks.status` as member completion
 
 ## 17.1 Existing ADRs to reconcile
 
-ADR-0001 (baseline), ADR-0003 (DB), ADR-0005 (RBAC), ADR-0006 (Journey), ADR-0011/0012 (domain), ADR-0019/0020 (identity/data), ADR-0030 (Journey truth), ADR-0032/0035 (identity modes), ADR-0036/0037 (authoring) require cross-reference updates, supersession notes or scope alignment as appropriate. Do not silently overwrite historical decisions.
+ADR-0001 (baseline), ADR-0003 (DB), ADR-0005 (RBAC), ADR-0006 (Journey), ADR-0011/0012 (domain), ADR-0019/0020 (identity/data), ADR-0030 (Journey truth), ADR-0032/0035 (identity modes), ADR-0036/0037 (authoring), and ADR-0038 (dashboard management hub) require cross-reference updates, supersession notes or scope alignment as appropriate. Do not silently overwrite historical decisions.
 
 # 18. Delivery work packages and release plan
 
