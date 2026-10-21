@@ -133,7 +133,7 @@ The current Journey and Training Tracker data must not be presented as independe
 
 | Actor | Can view | Can change | Cannot do |
 |---|---|---|---|
-| Guest/not signed in | Sign-in/help information only | Nothing persisted | Read member/coordinator records |
+| Unauthenticated visitor | Sign-in page and approved authentication error/help information only | Nothing persisted | Read member/coordinator records or access authenticated pages |
 | Member | Own active plan, own task history and public resources | Own eligible task states, support request | Edit templates, approve own verification, see another member's plan |
 | Coordinator | Authorized cohort/assigned member plans, blockers and reports | Assign template; verify/reopen tasks; close onboarding with reason | Edit global role grants or bypass policy |
 | Administrator | Published/draft templates and resource catalog | Draft/publish templates and manage authorized settings | Fabricate member completion or bypass auditable approvals |
@@ -196,11 +196,12 @@ decision only; every destination remains server-authorized.
 
 ```mermaid
 flowchart TD
-  START([Open Song Bench]) --> LANDING[/ / Welcome and sign-in]
-  LANDING --> AUTH{Authenticated?}
-  AUTH -- No --> SIGNIN[Enterprise sign-in or approved local development mode]
-  SIGNIN --> AUTH
-  AUTH -- Yes --> DASH[/dashboard/ Member dashboard]
+  START([Open Song Bench]) --> SIGNIN[/ / Sign-in page]
+  SIGNIN --> AUTH[Enterprise sign-in or approved local development mode]
+  AUTH --> AUTHORIZED{Authentication accepted?}
+  AUTHORIZED -- No --> SIGNIN_ERROR[Safe sign-in error and support path]
+  SIGNIN_ERROR --> SIGNIN
+  AUTHORIZED -- Yes --> DASH[/dashboard/ Member dashboard]
 
   DASH --> ONBOARD[/onboarding/ My onboarding]
   ONBOARD --> TASK[/onboarding/tasks/:id/ Task detail]
@@ -369,7 +370,7 @@ Draft → edit stages/tasks/dependencies/instructions → validate (required fie
 
 | Route (proposed) | Screen | Primary functions | Access |
 |---|---|---|---|
-| `/` | Welcome / redirect | Sign in, support | Public limited |
+| `/` | Sign-in page | Enterprise sign-in, approved local development sign-in, safe support/error path | Unauthenticated entry only |
 | `/dashboard` | My dashboard | Progress, next task, announcements | Member |
 | `/onboarding` | My plan | Ordered stages, filters, status | Member |
 | `/onboarding/tasks/:id` | Task details | Instructions, links, state change, request help | Owner |
