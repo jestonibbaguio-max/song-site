@@ -771,3 +771,6 @@ Current repository: `README.md`; `src/app/app.routes.ts`; `src/app/song-bench/my
 **Cohort:** Defined set of members for scoped coordinator access.  
 **ADR:** Architecture Decision Record documenting an approved trade-off.  
 **SAD:** Solution Architecture Design defining the system end to end.
+**RPO (Recovery Point Objective):** The maximum acceptable amount of data loss measured in time. For example, an RPO of one hour means recovery may restore data from no more than one hour before the incident.
+
+**RTO (Recovery Time Objective):** The maximum acceptable time to restore the service after an incident. RTO covers service availability; RPO covers the age of the recovered data.
