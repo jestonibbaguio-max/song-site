@@ -56,7 +56,7 @@ The existing application combines generic site pages, an individual-looking jour
 
 | ID | Objective | Measurable acceptance |
 |---|---|---|
-| BO-01 | One clear starting point | Member dashboard shows assignment and next action on first authenticated visit |
+| BO-01 | One clear starting point | Song Site dashboard shows the user's available site areas, assignment summary and next action on first authenticated visit |
 | BO-02 | Consistent onboarding | Approved templates produce consistent task sets and instruction versions |
 | BO-03 | Individual accountability | Each task state and event is attributable to one assignment and actor |
 | BO-04 | Operational visibility | Coordinator can view assigned members, outstanding required tasks, and blockers |
@@ -81,7 +81,7 @@ This section records repository evidence as of 21 October 2026. It is not a stat
 
 | Area | Current evidence | Status against this SAD |
 |---|---|---|
-| Landing and dashboard | `/` provides sign-in entry; `/dashboard` provides generic spotlight and announcement content | Implemented, but dashboard assignment personalization is target-only |
+| Landing and dashboard | `/` provides sign-in entry; `/dashboard` provides the authenticated Song Site management hub with spotlight, announcements and navigation | Implemented as a shared content hub; assignment-aware onboarding summary is target-only |
 | About Us | `/aboutus` renders hardcoded information cards | Implemented static content; authoring is not in the onboarding MVP unless approved |
 | My Journey | `/my-journey` reads and mutates shared task resources through the legacy task API | Implemented partial experience; not yet member-owned assignment state |
 | Training Tracker | `/training-tracker` is a separate API-backed task experience | Implemented partial experience; consolidation into onboarding is target-only |
@@ -148,7 +148,7 @@ Coordinator assignment scope is mandatory in multi-coordinator use. Roles are no
 | ID | Capability | MVP priority | Behavior |
 |---|---|---|---|
 | FR-01 | Sign in | Must | Resolve enterprise subject to local member ID; show safe error on mismatch |
-| FR-02 | Member dashboard | Must | Stage summary, required tasks, next action, blockers, help |
+| FR-02 | Song Site dashboard | Must | Site navigation, spotlight and announcements, plus assignment summary, required tasks, next action, blockers and help when onboarding is assigned |
 | FR-03 | Assigned plan | Must | Immutable snapshot of published template/version at assignment |
 | FR-04 | Task lifecycle | Must | Mark start, self-complete, request help, add permitted completion note |
 | FR-05 | Verification | Must | Coordinator accepts/rejects tasks requiring verification; reason and actor captured |
@@ -201,7 +201,7 @@ flowchart TD
   AUTH --> AUTHORIZED{"Authentication accepted?"}
   AUTHORIZED -- No --> SIGNIN_ERROR["Safe sign-in error and support path"]
   SIGNIN_ERROR --> SIGNIN
-  AUTHORIZED -- Yes --> DASH["/dashboard - Member dashboard"]
+  AUTHORIZED -- Yes --> DASH["/dashboard - Song Site management hub"]
 
   DASH --> ONBOARD["/onboarding - My onboarding"]
   ONBOARD --> TASK["/onboarding/tasks/:id - Task detail"]
@@ -266,7 +266,7 @@ sequenceDiagram
     API->>DB: Find assigned plan
     alt Active assignment exists
       DB-->>API: Assignment and task states
-      API-->>UI: Personalized dashboard
+      API-->>UI: Song Site dashboard with onboarding summary
     else No assignment
       API-->>UI: Unassigned state and help contact
     end
@@ -282,7 +282,7 @@ sequenceDiagram
 3. System checks duplicate active cycle, eligibility and existing assignment.
 4. In a transaction, it creates assignment, copies/version-pins template tasks, and initializes all task states to `not_started`.
 5. System records who assigned, template version, date, and audit event.
-6. Member dashboard now shows the assigned journey on next refresh.
+6. The Song Site dashboard shows the assigned journey summary on next refresh.
 
 **Exceptions:** Duplicate request returns existing assignment or conflict deterministically; unpublished template rejected; out-of-scope coordinator gets 403; partial failure rolls back transaction.
 
@@ -371,7 +371,7 @@ Draft → edit stages/tasks/dependencies/instructions → validate (required fie
 | Route (proposed) | Screen | Primary functions | Access |
 |---|---|---|---|
 | `/` | Sign-in page | Enterprise sign-in, approved local development sign-in, safe support/error path | Unauthenticated entry only |
-| `/dashboard` | My dashboard | Progress, next task, announcements | Member |
+| `/dashboard` | Song Site management hub | Site navigation, spotlight, announcements, onboarding summary and role-specific workspace entry points | Authenticated user |
 | `/onboarding` | My plan | Ordered stages, filters, status | Member |
 | `/onboarding/tasks/:id` | Task details | Instructions, links, state change, request help | Owner |
 | `/resources` | Resource directory | Curated links, owner, review date | Authenticated |
@@ -391,6 +391,7 @@ The following routes are current product surfaces or compatibility paths. They a
 
 | Existing route | Current purpose | Target disposition | MVP decision required |
 |---|---|---|---|
+| `/dashboard` | Authenticated Song Site home with shared spotlight, announcements and navigation | Retain as the canonical Song Site management hub; add assignment-aware onboarding summary without making it the task-detail surface | Define role-specific cards, data loading boundaries and empty/no-assignment behavior |
 | `/aboutus` | Static corporate information cards | Retain as informational page outside onboarding workflow | Confirm content owner and whether updates require authoring |
 | `/my-journey` | Current member-looking Journey task grid | Redirect to `/onboarding` after assignment APIs are qualified | Define legacy read-only period |
 | `/training-tracker` | Separate training task grid and completion view | Consolidate as a stage/category within `/onboarding` | Define parent-task and history migration |

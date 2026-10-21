@@ -41,6 +41,7 @@ This directory contains architecture decision records (ADRs), API contracts, and
 - [ADR-0035: Development Authentication and Identity Isolation](adr/0035-development-authentication-and-identity-isolation.md) - Accepted for implementation
 - [ADR-0036: Page Authoring Architecture](adr/0036-page-authoring-architecture.md) - Accepted for implementation
 - [ADR-0037: Content Versioning and Publication Lifecycle](adr/0037-content-versioning-and-publication-lifecycle.md) - Accepted for implementation
+- [ADR-0038: Use `/welcome` for the Authenticated Entry Page](adr/0038-welcome-route.md) - Accepted for implementation
 
 ## Ownership
 
