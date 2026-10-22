@@ -56,7 +56,7 @@ The existing application combines generic site pages, an individual-looking jour
 
 | ID | Objective | Measurable acceptance |
 |---|---|---|
-| BO-01 | One clear starting point | Member dashboard shows assignment and next action on first authenticated visit |
+| BO-01 | One clear starting point | Song Site dashboard shows the user's available site areas, assignment summary and next action on first authenticated visit |
 | BO-02 | Consistent onboarding | Approved templates produce consistent task sets and instruction versions |
 | BO-03 | Individual accountability | Each task state and event is attributable to one assignment and actor |
 | BO-04 | Operational visibility | Coordinator can view assigned members, outstanding required tasks, and blockers |
@@ -74,6 +74,26 @@ Reduced onboarding ambiguity, fewer recurring coordinator questions, visibility 
 - Completion rate and elapsed time by approved template, without punitive individual rankings.
 - Blocker count and aging; unresolved tasks requiring coordinator intervention.
 - Usability and reliability: end-to-end task flows and accessibility verification.
+
+## 2.5 Current-state baseline
+
+This section records repository evidence as of 21 October 2026. It is not a statement that the target architecture is implemented.
+
+| Area | Current evidence | Status against this SAD |
+|---|---|---|
+| Landing and dashboard | `/` provides sign-in entry; `/dashboard` provides the authenticated Song Site management hub with spotlight, announcements and navigation | Implemented as a shared content hub; assignment-aware onboarding summary is target-only |
+| About Us | `/aboutus` renders hardcoded information cards | Implemented static content; authoring is not in the onboarding MVP unless approved |
+| My Journey | `/my-journey` reads and mutates shared task resources through the legacy task API | Implemented partial experience; not yet member-owned assignment state |
+| Training Tracker | `/training-tracker` is a separate API-backed task experience | Implemented partial experience; consolidation into onboarding is target-only |
+| Announcement | `/announcement` uses versioned published content and has draft, preview, publish, restore and audit capabilities | Implemented locally; production identity and release qualification remain incomplete |
+| Contact Us | `/contactus` provides a client-side contact form; no persisted support workflow is assumed | Implemented presentation only; target support behavior requires a decision |
+| Song links | `/atcp-song-links` reads categorized links from the API; `/other-links` remains static | Implemented content surfaces; target Resources consolidation requires approval |
+| Leadership | `/atcp-song` reads leadership content from the API | Implemented content surface; separate from onboarding unless product scope changes |
+| Coordinator workspace | No coordinator routes or assignment/verification UI exist | Target-only |
+| Template and audit administration | No onboarding template editor or general audit lookup exists; announcement authoring is page-specific | Target-only except for announcement authoring foundation |
+| Identity and storage | Development identity and SQLite are available; Entra API validation and PostgreSQL production parity are incomplete | Local foundation, not production qualification |
+
+The current Journey and Training Tracker data must not be presented as independent member completion. Legacy shared status is preserved or migrated only according to Section 16.
 
 # 3. Scope and boundaries
 
@@ -113,7 +133,7 @@ Reduced onboarding ambiguity, fewer recurring coordinator questions, visibility 
 
 | Actor | Can view | Can change | Cannot do |
 |---|---|---|---|
-| Guest/not signed in | Sign-in/help information only | Nothing persisted | Read member/coordinator records |
+| Unauthenticated visitor | Sign-in page and approved authentication error/help information only | Nothing persisted | Read member/coordinator records or access authenticated pages |
 | Member | Own active plan, own task history and public resources | Own eligible task states, support request | Edit templates, approve own verification, see another member's plan |
 | Coordinator | Authorized cohort/assigned member plans, blockers and reports | Assign template; verify/reopen tasks; close onboarding with reason | Edit global role grants or bypass policy |
 | Administrator | Published/draft templates and resource catalog | Draft/publish templates and manage authorized settings | Fabricate member completion or bypass auditable approvals |
@@ -128,7 +148,7 @@ Coordinator assignment scope is mandatory in multi-coordinator use. Roles are no
 | ID | Capability | MVP priority | Behavior |
 |---|---|---|---|
 | FR-01 | Sign in | Must | Resolve enterprise subject to local member ID; show safe error on mismatch |
-| FR-02 | Member dashboard | Must | Stage summary, required tasks, next action, blockers, help |
+| FR-02 | Song Site dashboard | Must | Site navigation, spotlight and announcements, plus assignment summary, required tasks, next action, blockers and help when onboarding is assigned |
 | FR-03 | Assigned plan | Must | Immutable snapshot of published template/version at assignment |
 | FR-04 | Task lifecycle | Must | Mark start, self-complete, request help, add permitted completion note |
 | FR-05 | Verification | Must | Coordinator accepts/rejects tasks requiring verification; reason and actor captured |
@@ -167,6 +187,81 @@ No stage should be renamed to imply that the portal certifies external-system co
 - Visible options follow roles, while the backend remains the actual security boundary.
 - Empty/no-plan state must say *No onboarding assigned* and provide the correct coordinator contact, not show misleading 0% progress.
 
+### 6.1.1 Navigation map
+
+This map shows the target navigation together with the existing pages that remain
+visible during migration. Solid paths are target navigation; dashed paths are
+legacy redirects or separate content surfaces. Role visibility is a usability
+decision only; every destination remains server-authorized.
+
+```mermaid
+flowchart TD
+  START["Open Song Bench"] --> SIGNIN["/ - Sign-in page"]
+  SIGNIN --> AUTH["Enterprise sign-in or approved local development mode"]
+  AUTH --> AUTHORIZED{"Authentication accepted?"}
+  AUTHORIZED -- No --> SIGNIN_ERROR["Safe sign-in error and support path"]
+  SIGNIN_ERROR --> SIGNIN
+  AUTHORIZED -- Yes --> DASH["/dashboard - Song Site management hub"]
+
+  DASH --> ONBOARD["/onboarding - My onboarding"]
+  ONBOARD --> TASK["/onboarding/tasks/:id - Task detail"]
+  TASK --> ONBOARD
+  DASH --> RESOURCES["/resources - Resources"]
+  DASH --> HELP["/help - Help and coordinator contact"]
+  DASH --> ANNOUNCEMENT["/announcement - Published announcements"]
+  DASH --> PROFILE["Profile and sign out"]
+
+  DASH --> COORD["/coordinator - Coordinator dashboard"]
+  COORD --> MEMBERS["/coordinator/members - Scoped member roster"]
+  MEMBERS --> MEMBER["/coordinator/members/:id - Member plan"]
+  MEMBER --> VERIFY["Verify, resolve, waive, reopen or close"]
+  COORD --> ASSIGN["Assignment management"]
+
+  DASH --> ADMIN["/admin - Authorized administration"]
+  ADMIN --> USERS["/admin/users - User administration"]
+  ADMIN --> TEMPLATES["/admin/templates - Template list"]
+  TEMPLATES --> EDITOR["/admin/templates/:id - Draft and publish"]
+  ADMIN --> AUDIT["/admin/audit - Restricted audit lookup"]
+
+  MYJOURNEY["/my-journey"] -. migrate or redirect .-> ONBOARD
+  TRAINING["/training-tracker"] -. consolidate .-> ONBOARD
+  LEGACYTASKS["Legacy task routes"] -. redirect after mapping .-> TASK
+  ALIASES["Legacy aliases: /journey, /cv, /skills-matrix, /workday"] -. redirect .-> ONBOARD
+
+  ABOUT["/aboutus"]
+  ATCP["/atcp-song"]
+  LINKS["/atcp-song-links"]
+  OTHER["/other-links"]
+  CONTACT["/contactus"]
+  DASH -. separate content .-> ABOUT
+  DASH -. separate content .-> ATCP
+  LINKS -. candidate source .-> RESOURCES
+  OTHER -. candidate source .-> RESOURCES
+  CONTACT -. candidate source .-> HELP
+
+  NAVBAR["/navbar"] -. layout only, remove as route .-> DASH
+  FOOTER["/footer"] -. layout only, remove as route .-> DASH
+```
+
+The dashed content relationships are not automatic conversions. Each requires a
+named owner, canonical API, authorization rule, review lifecycle and approved
+redirect or retention decision before the existing route is changed.
+
+### 6.1.2 Dashboard shell contract
+
+`/dashboard` is the authenticated Song Site management hub. It is a shared shell
+for status summaries and authorized tool navigation; it is not the source of
+truth for domain status, roles or permissions.
+
+- Status cards show server-derived summaries such as onboarding progress and blockers, pending content/template work, authorized user/access work and operational notices. A card is shown only when its data and permission are available.
+- The primary sidebar contains authorized tools such as My Onboarding, User Management, Roles, Permissions, Templates and Audit. Tool routes are added only with an API contract, permission, owner, work package and acceptance tests.
+- A visible separator divides the primary tools from the lower utility section. The lower section contains a settings icon for authorized user/application settings.
+- The sidebar expands and collapses without changing the route or domain state. Collapsed mode displays icons only; every icon has an accessible name and tooltip or equivalent discoverable label.
+- Sidebar preference is presentation state only. It may be persisted per browser, but it must not store permissions, role decisions or authoritative status.
+- The shell inherits the existing Song Site theme tokens, typography, spacing, focus styles and responsive behavior. Dashboard-specific theme forks are not permitted.
+- Status cards and tools define loading, empty, stale, failure, forbidden and unavailable states. A missing permission must not be represented as a misleading zero or empty status.
+- Keyboard navigation, visible focus, screen-reader names, responsive breakpoints and expanded/collapsed behavior are release-tested.
+
 ## 6.2 Flow A: First visit and assignment
 
 **Preconditions:** User has an identity-provider account and is eligible for onboarding; template published.
@@ -186,7 +281,7 @@ sequenceDiagram
     API->>DB: Find assigned plan
     alt Active assignment exists
       DB-->>API: Assignment and task states
-      API-->>UI: Personalized dashboard
+      API-->>UI: Song Site dashboard with onboarding summary
     else No assignment
       API-->>UI: Unassigned state and help contact
     end
@@ -202,7 +297,7 @@ sequenceDiagram
 3. System checks duplicate active cycle, eligibility and existing assignment.
 4. In a transaction, it creates assignment, copies/version-pins template tasks, and initializes all task states to `not_started`.
 5. System records who assigned, template version, date, and audit event.
-6. Member dashboard now shows the assigned journey on next refresh.
+6. The Song Site dashboard shows the assigned journey summary on next refresh.
 
 **Exceptions:** Duplicate request returns existing assignment or conflict deterministically; unpublished template rejected; out-of-scope coordinator gets 403; partial failure rolls back transaction.
 
@@ -290,8 +385,8 @@ Draft → edit stages/tasks/dependencies/instructions → validate (required fie
 
 | Route (proposed) | Screen | Primary functions | Access |
 |---|---|---|---|
-| `/` | Welcome / redirect | Sign in, support | Public limited |
-| `/dashboard` | My dashboard | Progress, next task, announcements | Member |
+| `/` | Sign-in page | Enterprise sign-in, approved local development sign-in, safe support/error path | Unauthenticated entry only |
+| `/dashboard` | Song Site management hub | Site navigation, spotlight, announcements, onboarding summary and role-specific workspace entry points | Authenticated user |
 | `/onboarding` | My plan | Ordered stages, filters, status | Member |
 | `/onboarding/tasks/:id` | Task details | Instructions, links, state change, request help | Owner |
 | `/resources` | Resource directory | Curated links, owner, review date | Authenticated |
@@ -304,6 +399,38 @@ Draft → edit stages/tasks/dependencies/instructions → validate (required fie
 | `/admin/audit` | Audit lookup | Restricted investigation | Authorized admin |
 
 **Consolidate existing duplicated Journey and Training Tracker experiences** into a single task presentation with stage/category metadata. Avoid exposing implementation-centric page names in primary navigation.
+
+### 7.1 Existing route disposition
+
+The following routes are current product surfaces or compatibility paths. They are inputs to migration, not additional target workspaces.
+
+| Existing route | Current purpose | Target disposition | MVP decision required |
+|---|---|---|---|
+| `/dashboard` | Authenticated Song Site home with shared spotlight, announcements and navigation | Retain as the canonical Song Site management hub; add assignment-aware onboarding summary without making it the task-detail surface | Define role-specific cards, data loading boundaries and empty/no-assignment behavior |
+| `/aboutus` | Static corporate information cards | Retain as informational page outside onboarding workflow | Confirm content owner and whether updates require authoring |
+| `/my-journey` | Current member-looking Journey task grid | Redirect to `/onboarding` after assignment APIs are qualified | Define legacy read-only period |
+| `/training-tracker` | Separate training task grid and completion view | Consolidate as a stage/category within `/onboarding` | Define parent-task and history migration |
+| `/my-cv`, `/my-skills-matrix`, `/my-mycompetency`, `/my-myriro`, `/my-workday`, `/my-asset-tracker`, `/my-update-contact`, `/people-lead`, `/my-compliance`, `/wd-update-contact`, `/my-learning-platform` | Individual legacy task pages and external links | Redirect or render task detail from `/onboarding/tasks/:id` | Map each route to an approved template task |
+| `/announcement` | Published notices, training content and page-specific authoring | Retain as a separate content page; link from dashboard where appropriate | Confirm whether notices are onboarding resources or general site content |
+| `/atcp-song-links` and `/other-links` | Song and external resource links | Consolidate into `/resources` only after ownership and review metadata exist | Approve canonical resource catalog |
+| `/contactus` | General contact form | Retain or redirect to `/help` | Decide persistence, routing and support SLA |
+| `/atcp-song` | Leadership and capability content | Retain as a separate content surface | Confirm whether it is part of onboarding MVP |
+| `/atcp-song2`, `/song3`, `/song-bench` | Other existing site experiences | Retain, redirect, retire or exclude explicitly | Product owner disposition required |
+| `/journey`, `/cv`, `/skills-matrix`, `/mycompetency`, `/workday` | Compatibility aliases | Preserve redirects during migration, then retire after consumer verification | Define deprecation window |
+| `/navbar`, `/footer` | Layout components exposed as routes | Remove from navigable route inventory | Confirm no external consumers |
+
+No route is considered migrated until its redirect/read-only behavior, owner, target API, authorization rule, and removal evidence are documented.
+
+### 7.2 Target page states
+
+Every authenticated target page must define loading, empty, forbidden, not-found, API failure/retry, expired-session, and read-only states. In addition:
+
+- `/dashboard` and `/onboarding` show **No onboarding assigned**, not false zero progress.
+- `/dashboard` status cards and sidebar tools are filtered by server-resolved permissions; unavailable data is not rendered as a zero or success state.
+- Task detail shows dependency blocking, awaiting verification, returned-for-rework, waived, completed, and stale-version conflict states.
+- Coordinator pages show out-of-scope denial without revealing whether an inaccessible member exists.
+- Template editing shows validation errors, dependency-cycle errors, publish conflicts, preview, and immutable-version confirmation.
+- `/resources` and `/help` show stale or unavailable links honestly and provide an owned escalation path.
 
 # 8. Logical application architecture
 
@@ -531,6 +658,12 @@ These observations are **not** target design requirements. They identify what ma
 - Existing route names include `/journey` and `/my-journey`; the new user model must deliberately migrate or redirect rather than preserve conflicting semantics.
 - Separate SQLite/PostgreSQL schema evolution has parity risks; production behavior needs dedicated PostgreSQL integration tests.
 
+### Existing page and content decisions
+
+`/resources` is the target authenticated resource directory. It may reuse `/atcp-song-links` and `/other-links` content only after records have an owner, canonical URL, review date and lifecycle status. `/help` is the target onboarding support surface; `/contactus` may provide its presentation only if a support owner, routing behavior and data-retention rule are approved. General corporate pages such as `/aboutus`, `/announcement` and `/atcp-song` remain separate content surfaces unless the product owner explicitly moves them into the onboarding MVP.
+
+The accepted user-administration design in [ADR-0015](adr/0015-user-administration-experience.md) remains distinct from onboarding template administration. `/admin/users` manages identities, roles and account state; `/admin/templates` manages onboarding definitions; `/admin/audit` is a restricted investigation surface across approved event types. These routes require separate permissions and must not be merged by navigation convenience.
+
 # 16. Migration strategy from the current application
 
 **Phase 0 — Baseline and stop scope growth.** Approve business flows, task catalog owners, template/assignment lifecycle, privacy review, and this SAD. Freeze unrelated page features. Capture current data for migration study.
@@ -542,6 +675,8 @@ These observations are **not** target design requirements. They identify what ma
 **Phase 3 — Coordinator and administration.** Add assignment, review, blockers, waiver, closure, template draft/publish, scoped reporting and immutable change history.
 
 **Phase 4 — Qualification and cutover.** Enterprise auth integration, PostgreSQL staging, security/privacy testing, cross-user E2E, backup/restore and smoke test. Redirect legacy URLs. Remove unsafe mutation endpoints after audit. Announce controlled pilot.
+
+**Phase 5 — Legacy retirement and content governance.** Confirm zero approved consumers of compatibility routes, publish deprecation notices, preserve required history read-only, retire unsafe shared-task mutations, assign owners to resources/help/content pages, and verify stale-link review. No legacy route is removed solely because a replacement page exists.
 
 ### Data migration decision
 
@@ -563,7 +698,7 @@ Do **not** blindly reinterpret shared legacy `tasks.status` as member completion
 
 ## 17.1 Existing ADRs to reconcile
 
-ADR-0001 (baseline), ADR-0003 (DB), ADR-0005 (RBAC), ADR-0006 (Journey), ADR-0011/0012 (domain), ADR-0019/0020 (identity/data), ADR-0030 (Journey truth), ADR-0032/0035 (identity modes), ADR-0036/0037 (authoring) require cross-reference updates, supersession notes or scope alignment as appropriate. Do not silently overwrite historical decisions.
+ADR-0001 (baseline), ADR-0003 (DB), ADR-0005 (RBAC), ADR-0006 (Journey), ADR-0011/0012 (domain), ADR-0019/0020 (identity/data), ADR-0030 (Journey truth), ADR-0032/0035 (identity modes), ADR-0036/0037 (authoring), and ADR-0038 (dashboard management hub) require cross-reference updates, supersession notes or scope alignment as appropriate. Do not silently overwrite historical decisions.
 
 # 18. Delivery work packages and release plan
 
@@ -582,6 +717,22 @@ ADR-0001 (baseline), ADR-0003 (DB), ADR-0005 (RBAC), ADR-0006 (Journey), ADR-001
 
 Prioritize a **vertical slice**, not a large infrastructure-first sequence: template → assign to A and B → individual task state → coordinator view → refresh/restart proof. Build the minimum schema, auth and UI needed for that slice before advancing.
 
+### 18.1 Mapping to repository work packages
+
+The work packages below are the repository delivery record. The WP-01 through WP-10 sequence above is a SAD delivery grouping and does not replace the identifiers or statuses in `docs/work-packages.md`.
+
+| SAD delivery grouping | Repository work packages | Exit evidence |
+|---|---|---|
+| Baseline and decisions | WP-018, WP-019, WP-020, WP-021, WP-022, WP-023 | Approved identity, hosting, privacy, operations and API lifecycle decisions |
+| Domain and persistence | WP-006, WP-008, WP-011, WP-014, WP-015, WP-017 | Migration-backed entities, SQLite/PostgreSQL parity and repeatable lifecycle tests |
+| Identity and authorization | WP-007, WP-018, WP-030, WP-033, WP-035, WP-036, WP-041 | Production token validation, ownership/cohort checks and 401/403 negative tests |
+| Journey consolidation | WP-002, WP-003, WP-004, WP-031 | Member-owned assignment state, task transitions, compatibility migration and audit |
+| Templates and authoring | WP-024, WP-037, WP-038, WP-039, WP-040 | Draft/publish/restore concurrency, version pinning, content ownership and recovery evidence |
+| Admin and coordinator workspaces | WP-016 plus new coordinator implementation scope | Assignment, verification, closure, user administration and restricted audit lookup |
+| Qualification and release | WP-009, WP-017, WP-029, WP-032, WP-034 | Two-member E2E, accessibility, PostgreSQL CI, deployment smoke tests, rollback and restore evidence |
+
+Owners and statuses remain governed by `docs/work-packages.md`; any new coordinator package must be added there before implementation is described as planned or in progress.
+
 # 19. Risks, assumptions, issues and dependencies
 
 | Type | Description | Action/owner |
@@ -599,6 +750,10 @@ Prioritize a **vertical slice**, not a large infrastructure-first sequence: temp
 | Open decision | Which tasks require independent verification? | Bench owner/security |
 | Open decision | Cohort definition, retention period, notifications | Operations/privacy/business |
 | Open decision | Approved cloud topology and RPO/RTO | Platform/operations |
+| Open decision | Whether `/contactus` becomes persisted `/help` support workflow | Product/support/privacy |
+| Open decision | Whether `/atcp-song-links` and `/other-links` become the `/resources` catalog | Product/content owner |
+| Open decision | Retention and read-only treatment of legacy Journey and Training records | Product/privacy/engineering |
+| Open decision | Separate `/admin/users`, `/admin/templates` and `/admin/audit` permission boundaries | Product/security/identity |
 
 # 20. Approval checklist and next steps
 
@@ -610,6 +765,10 @@ Prioritize a **vertical slice**, not a large infrastructure-first sequence: temp
 - [ ] Operations approves environment topology, runbooks and release gates.
 - [ ] Architecture owner records approved decisions as ADRs and maps implementation work packages.
 - [ ] Team demonstrates a functioning two-member vertical slice before further site expansion.
+- [ ] Existing routes have an approved disposition and tested redirect/read-only behavior.
+- [ ] Every target screen has defined loading, empty, error, forbidden and accessibility behavior.
+- [ ] `/resources`, `/help`, announcements and existing content pages have named owners and review rules.
+- [ ] SAD claims are reconciled with `docs/work-packages.md`, `docs/navigation-flows.md`, OpenAPI and current ADR status.
 
 ---
 
@@ -629,3 +788,6 @@ Current repository: `README.md`; `src/app/app.routes.ts`; `src/app/song-bench/my
 **Cohort:** Defined set of members for scoped coordinator access.  
 **ADR:** Architecture Decision Record documenting an approved trade-off.  
 **SAD:** Solution Architecture Design defining the system end to end.
+**RPO (Recovery Point Objective):** The maximum acceptable amount of data loss measured in time. For example, an RPO of one hour means recovery may restore data from no more than one hour before the incident.
+
+**RTO (Recovery Time Objective):** The maximum acceptable time to restore the service after an incident. RTO covers service availability; RPO covers the age of the recovered data.

@@ -10,9 +10,9 @@
 
 The application already supports Microsoft Entra SSO through the frontend authentication service. Leadership maintenance must not replace, bypass, or regress that SSO flow. Organizational-chart maintenance is deferred by `ADR-0027`.
 
-The product needs two distinct access experiences:
+The product needs two distinct access policies:
 
-- Guests should be able to see the permitted site menus and public leadership content.
+- Unauthenticated requests may access only explicitly approved public content APIs; the product has no guest page or guest navigation shell.
 - Authenticated users should receive only the edit capabilities granted by their roles and permissions.
 
 Leadership records are shared content. Editing them must be controlled by server-side authorization, not by whether an Angular menu item or route is visible.
@@ -35,7 +35,7 @@ The initial role guidance is:
 
 Role-to-permission mapping must be sourced from approved identity claims or group mappings defined by the identity authority. Display name, email address alone, frontend state, hidden links, and route guards must never grant edit access.
 
-Guest navigation may expose menu entries for public pages. A visible menu is not an authorization grant. Public GET endpoints may remain accessible without SSO only for content approved as public; all leadership mutations require an authenticated user with the relevant permission.
+Public GET endpoints may remain accessible without SSO only for content approved as public, but no guest-facing menu is rendered. All leadership mutations require an authenticated user with the relevant permission.
 
 Leadership mutations must also enforce request validation, audit the actor and change, and return a clear forbidden response when the user is authenticated but lacks the required permission. Unauthenticated mutation requests must be rejected.
 
@@ -51,14 +51,14 @@ Leadership mutations must also enforce request validation, audit the actor and c
 
 Guests can discover public site areas without being forced through SSO, while leadership editing is restricted to approved maintainers. The backend must gain token validation, user/role resolution, permission middleware, audit records, and negative authorization tests before leadership maintenance is production-ready.
 
-The leadership editor role is narrower than a platform administrator, reducing the risk of granting unrelated administrative access to content maintainers. The exact Entra groups/claims and approval process remain project-owner decisions.
+The leadership editor role is narrower than a platform administrator, reducing the risk of granting unrelated administrative access to content maintainers. The exact Entra groups/claims and approval process remain project-owner decisions. Public API access does not imply access to the authenticated dashboard shell.
 
 ## Verification
 
 The implementation is complete only when tests demonstrate that:
 
-- an unauthenticated guest can access permitted public navigation/content;
-- an unauthenticated guest cannot mutate leadership records;
+- an unauthenticated request can access only explicitly permitted public content APIs;
+- an unauthenticated request cannot access the dashboard shell or mutate leadership records;
 - an authenticated member without the required permission receives `403`;
 - an approved leadership editor can perform permitted mutations;
 - an administrator follows the approved mapping and does not receive implicit unrestricted access;
@@ -73,3 +73,7 @@ The implementation is complete only when tests demonstrate that:
 For versioned authoring, split the original `leadership:manage` concept into `leadership:edit` and `leadership:publish`, while retaining `leadership:manage` only as a temporary compatibility name if required during migration. Editing covers draft changes and preview; publishing changes the public version. Whether one role receives both permissions requires product-owner approval.
 
 The current `GET/POST/PUT/DELETE /api/leadership/orgchart` routes, repository methods, PostgreSQL seed, and backend test conflict with withdrawn `ADR-0027`; they are not part of leadership authoring and must be removed or explicitly isolated before this work proceeds. The existing grouped leadership read layout remains the supported public presentation.
+
+## 2026-10-21 navigation amendment
+
+The product has no guest page or guest navigation shell. `/` is the sign-in page and approved users enter through `/dashboard`. A public API or public content policy, where separately approved, does not require a guest-facing page and must not be interpreted as permission to bypass sign-in for management tools. Leadership mutation and management navigation remain authenticated and server-authorized.
