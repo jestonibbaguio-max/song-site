@@ -2,9 +2,9 @@
 ## Solution Architecture Design (SAD)
 
 **Document ID:** SONG-SAD-001  
-**Version:** 1.0 (Proposed Baseline)  
-**Status:** Proposed — requires product, security, and operations approval  
-**Date:** 20 October 2026  
+**Version:** 1.1 (Principal Architect Review)
+**Status:** Proposed bench-project baseline — requires product-owner and security approval
+**Date:** 23 October 2026
 **System:** Song Bench Onboarding Portal  
 **Classification:** Internal working design — contains no production secrets
 
@@ -21,13 +21,14 @@
 | Architecture owner | Solution architect — to assign |
 | Engineering owner | Application team — to assign |
 | Reviewers | Identity/security, data/privacy, operations, accessibility, bench coordinators |
-| Decision status | Proposed, not yet an accepted ADR |
+| Decision status | Proposed SAD; repository ADRs remain the governing decisions where accepted |
 | Approval gates | Scope and flows; security and data; MVP acceptance; deployment readiness |
 
 ### Version history
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-20 | Reconstructed product-first architecture baseline from current repository and proposed target state |
+| 1.1 | 2026-10-23 | Principal architect review of onboarding, dashboard, resource tracking, database/API evidence, ADRs and work packages; reduced scope to a bench-project MVP and recorded verified gaps |
 
 ### Reading guide
 - **Current-state observation:** directly indicated by source files or existing documents.
@@ -38,13 +39,13 @@
 
 # 1. Executive summary
 
-Song Bench Onboarding Portal is a **small, secure, task-oriented web application** for members entering Song Bench and for the coordinators managing their onboarding. It is a single entry point for the required steps, reference materials, completion evidence, and assistance. It does not replace corporate HR, learning, talent, compliance, or skill systems.
+Song Bench Onboarding Portal is a **small, secure bench-project application** for members entering Song Bench and for a limited coordinator group managing their onboarding. It should provide one clear place to find approved next steps, links and self-reported progress. It is not a general product platform, enterprise resource-management system, HR system, learning system, staffing system, or full CMS.
 
-**Primary outcome:** A person joining the bench knows what to do next, can resume where they left off, and can demonstrate completion; an authorized coordinator can assign, monitor, support, and close that person's onboarding without changing another member's task state.
+**Primary outcome:** A person joining the bench knows what to do next and can resume where they left off. A coordinator can see assigned-member progress and resolve blockers without changing another member's task state. This outcome is not yet supported by the current repository implementation; it is the target for the next approved work packages.
 
 **Architectural choice:** Angular web client + versioned Express REST API + PostgreSQL relational persistence, deployed as a modular monolith. Reuse existing identity foundations and authoring infrastructure only where they contribute to the MVP. Security, identity resolution, and authorization are enforced server-side. SQLite may remain for fast local tests, but PostgreSQL is the qualified production database.
 
-**Release gate:** Two different members must be able to complete the same template independently, through sign-out/restart, without any cross-member data leakage; a coordinator sees correct aggregated state; a member cannot assign, approve, or alter another member's onboarding.
+**Release gate:** Two different members must be able to complete the same template independently, through sign-out/restart, without cross-member data leakage; a coordinator must see correct scoped progress; and a member must not assign, approve, or alter another member's onboarding. The current task API and UI do not meet this gate because the implemented task tables are not assignment-owned.
 
 # 2. Business context and problem definition
 
@@ -77,21 +78,23 @@ Reduced onboarding ambiguity, fewer recurring coordinator questions, visibility 
 
 ## 2.5 Current-state baseline
 
-This section records repository evidence as of 21 October 2026. It is not a statement that the target architecture is implemented.
+This section records repository evidence as of 23 October 2026. It is not a statement that the target architecture is implemented.
 
 | Area | Current evidence | Status against this SAD |
 |---|---|---|
-| Landing and dashboard | `/` provides sign-in entry; `/dashboard` provides the authenticated Song Site management hub with spotlight, announcements and navigation | Implemented as a shared content hub; assignment-aware onboarding summary is target-only |
+| Landing and dashboard | `/` provides sign-in entry; `/dashboard` loads `src/app/home/home.component.ts` with spotlight, quick announcements, navbar and footer | Implemented as a shared content hub; the ADR-0038 sidebar/status-card management hub and assignment-aware summary are not implemented |
 | About Us | `/aboutus` renders hardcoded information cards | Implemented static content; authoring is not in the onboarding MVP unless approved |
-| My Journey | `/my-journey` reads and mutates shared task resources through the legacy task API | Implemented partial experience; not yet member-owned assignment state |
-| Training Tracker | `/training-tracker` is a separate API-backed task experience | Implemented partial experience; consolidation into onboarding is target-only |
+| My Journey | `/my-journey` reads and mutates the legacy `tasks` resource through `/api/tasks*` | Implemented partial experience; no member/assignment ownership model is present |
+| Training Tracker | `/training-tracker` is a separate API-backed `training_tasks` experience | Implemented partial experience; not an onboarding stage with assignment-specific state |
+| Resource monitor/tracker | `my-asset-tracker` is one task/detail route that links to an external Asset Tracker; `task_links` and external URLs are present | No implemented resource inventory, monitoring, ownership, status reconciliation, alerting, or coordinator resource dashboard |
+| Onboarding | No `/onboarding`, coordinator, assignment, member roster, resource directory, or help route exists in `src/app/app.routes.ts` | Target-only; the existing Journey is not evidence of a complete onboarding capability |
 | Announcement | `/announcement` uses versioned published content and has draft, preview, publish, restore and audit capabilities | Implemented locally; production identity and release qualification remain incomplete |
 | Contact Us | `/contactus` provides a client-side contact form; no persisted support workflow is assumed | Implemented presentation only; target support behavior requires a decision |
 | Song links | `/atcp-song-links` reads categorized links from the API; `/other-links` remains static | Implemented content surfaces; target Resources consolidation requires approval |
 | Leadership | `/atcp-song` reads leadership content from the API | Implemented content surface; separate from onboarding unless product scope changes |
 | Coordinator workspace | No coordinator routes or assignment/verification UI exist | Target-only |
 | Template and audit administration | No onboarding template editor or general audit lookup exists; announcement authoring is page-specific | Target-only except for announcement authoring foundation |
-| Identity and storage | Development identity and SQLite are available; Entra API validation and PostgreSQL production parity are incomplete | Local foundation, not production qualification |
+| Identity and storage | Backend-owned development fixtures, signed local sessions, RBAC tables, SQLite/PostgreSQL adapters and migrations exist; Entra production validation remains separate | Local foundation; PostgreSQL behavior and production identity remain qualification work |
 
 The current Journey and Training Tracker data must not be presented as independent member completion. Legacy shared status is preserved or migrated only according to Section 16.
 
@@ -771,6 +774,219 @@ Owners and statuses remain governed by `docs/work-packages.md`; any new coordina
 - [ ] SAD claims are reconciled with `docs/work-packages.md`, `docs/navigation-flows.md`, OpenAPI and current ADR status.
 
 ---
+
+## 21. Principal architect review and gap closure
+
+### 21.1 Review conclusion
+
+The repository is suitable as a **bench-project foundation**, but it should not be described as a completed onboarding product. The implemented system is currently a themed Angular site with API-backed content, legacy task and training screens, local development authentication/RBAC, and a first Announcement authoring slice. The target onboarding architecture in this SAD is materially ahead of the runtime.
+
+The highest-risk misunderstanding is treating the existing Journey, Training Tracker, or Asset Tracker link as a complete onboarding/resource-monitoring capability. They are presentation and legacy task surfaces. They do not establish member-owned assignments, coordinator scope, resource ownership, reconciliation, or operational monitoring.
+
+### 21.2 Verified capability matrix
+
+| Capability | Evidence reviewed | Finding | Priority |
+|---|---|---|---|
+| Sign-in entry | `src/app/app.routes.ts`, `src/app/index/`, `backend/auth/` | Entry route and local development identity exist. Production Entra qualification is separate. | Medium |
+| Authenticated dashboard | `src/app/home/home.component.*`, `src/app/app.routes.ts` | `/dashboard` is the current Home content hub, not the accepted ADR-0038 management hub. | High |
+| Onboarding assignment | `backend/server.js`, `backend/migrations-postgres/`, route inventory | No assignment, cohort, template-version, or member-owned task-instance runtime exists. | Critical for onboarding claim |
+| Member progress | `/api/tasks*`, `/api/training-tasks*`, task-grid components | Shared task tables and legacy mutations exist; progress is not proven to be isolated per member. | Critical |
+| Coordinator monitoring | Route inventory and backend endpoints | No coordinator dashboard, member roster, scoped assignment query, blocker queue, or closeout API exists. | Critical |
+| Resource tracker | `my-asset-tracker` task page, `task_links`, seeded external URLs | Only a task/link to an external tracker exists. No portal-owned resource monitor exists. | High |
+| Resource catalog | `song-links`, `other-links`, `task_links`, `external_resources` proposal | Links exist in several representations; review ownership/status and canonical catalog are not implemented. | High |
+| Announcement authoring | `backend/content/`, Announcement editor, authoring tests and migrations | First page-specific authoring slice exists locally; browser/PostgreSQL release qualification remains incomplete. | Medium |
+| RBAC and development mode | `backend/auth/`, RBAC migrations, security tests | Backend-owned fixtures and permission checks exist; role model still needs production Entra mapping and complete mutation inventory. | Medium |
+| PostgreSQL | `compose.yaml`, `backend/migrations-postgres/`, adapters | Local Compose and migration path exist; equivalent business behavior requires repeatable integration evidence. | High |
+
+### 21.3 Resource monitor or tracker decision
+
+For this bench project, do **not** build a general resource-monitoring platform. Treat resources as a small curated catalog of links and task references unless the product owner confirms a real operational need.
+
+The recommended MVP is:
+
+1. A `resources` catalog with title, canonical URL, purpose, owner, last reviewed date, lifecycle status and optional related task.
+2. A read-only `/resources` view for members and coordinators.
+3. A coordinator/admin review queue for stale or broken links.
+4. A task link to the canonical resource, without copying external system data into Song Site.
+5. An explicit statement that opening a link does not prove completion.
+
+Do not add inventory, live telemetry, alerting, asset ownership reconciliation, or external-system synchronization unless a named owner supplies the data contract, authority, privacy basis, failure handling and acceptance criteria. The existing “Update the Asset Tracker” task can remain as a link-based task in the bench MVP.
+
+### 21.4 Onboarding and dashboard gap
+
+The target onboarding flow requires a small vertical slice before any broader page expansion:
+
+- member identity mapping;
+- one published onboarding template version;
+- one assignment per member and cycle;
+- assignment-owned task instances;
+- member task transitions with optimistic concurrency;
+- coordinator-scoped roster and progress view;
+- blocker/help state;
+- audit events;
+- dashboard summary cards that consume those APIs.
+
+The dashboard should remain a navigation and summary shell. It must not calculate authoritative status, infer permissions, or become a second content database. ADR-0038 is therefore a target contract, not evidence of implementation. The existing `/dashboard` implementation should be treated as the legacy Home content hub until the new shell is built and verified.
+
+### 21.5 Database and API gap
+
+The repository has two useful foundations: existing task/content tables and versioned Announcement authoring tables. It does not yet have the SAD's onboarding tables (`assignments`, `assigned_tasks`, `template_versions`, `cohort_memberships`, `task_events`, and `resources`) or the proposed `/api/v1/me/onboarding`, coordinator, resources and template endpoints.
+
+The legacy endpoints remain broad and are not equivalent to the target API. Before calling the bench project onboarding-ready, the implementation must either:
+
+- add the assignment-owned API and explicitly place legacy task endpoints in compatibility/read-only mode; or
+- narrow the product claim to “personal task checklist and curated links.”
+
+PostgreSQL and SQLite may remain as development/test adapters, but the onboarding slice must have migration, restart, clean-database, repeat-startup, transaction, and parity evidence on both paths. No production Entra or tenant-specific configuration is required for this architecture review.
+
+### 21.6 ADR and work-package reconciliation
+
+The accepted ADRs relevant to this review are coherent when treated as incremental decisions:
+
+- `ADR-0005`, `ADR-0015`, `ADR-0019`, `ADR-0029`, `ADR-0032`, and `ADR-0035` define identity/RBAC direction but do not create the missing onboarding ownership model.
+- `ADR-0023` and `ADR-0034` govern Announcement content and should remain separate from transactional onboarding state.
+- `ADR-0036` and `ADR-0037` correctly define page-specific authoring and version lifecycle, but their implementation evidence is strongest for Announcement only.
+- `ADR-0038` defines the dashboard management hub and sidebar; its implementation boundary explicitly leaves status aggregation and tools incomplete.
+- `ADR-0027` is withdrawn from active organization-chart functionality; archived records must remain inaccessible through active APIs.
+
+Work packages `WP-035` through `WP-041` address secure development mode, authorization, authoring, qualification and production Entra integration. They do not by themselves deliver the SAD's onboarding assignment/coordinator domain. A new bench-focused work package is required for the first vertical onboarding slice, or the SAD must be narrowed to authoring plus legacy task navigation.
+
+### 21.7 Recommended bench-project scope
+
+The principal-architect recommendation is to approve the following narrow release:
+
+- authenticated/guest site browsing;
+- `/dashboard` shell with only implemented tools and honest placeholders for future tools;
+- one member-owned onboarding assignment and checklist;
+- curated resources and help contact;
+- a minimal coordinator view for assigned members;
+- Announcement authoring as the first authoring example;
+- backend-enforced development identities for local tests;
+- PostgreSQL-backed integration qualification;
+- no general resource monitoring, no HR/learning synchronization, no org chart, no broad administration product.
+
+This scope preserves the bench project's value while avoiding a full product platform. Any expansion must identify a product owner, data owner, security impact, API contract, migration, test evidence and work package.
+
+### 21.8 Decisions requiring product-owner approval
+
+1. Is the intended release a true member-owned onboarding checklist, or only a shared/individual-looking task site?
+2. Is the Asset Tracker only an external link, or must Song Site own resource status and reconciliation?
+3. Who is the coordinator, and what is the smallest authorized scope: all bench members, cohort, or named assignment?
+4. Should `/dashboard` be implemented now as ADR-0038 specifies, or remain the current Home content hub until onboarding APIs exist?
+5. Which existing pages are in the bench MVP, and which are explicitly informational or retired?
+6. Is the Announcement authoring slice still in scope for the same release as onboarding?
+7. What retention and privacy rules apply to task history, assignments and coordinator views?
+
+### 21.9 Immediate implementation sequence after approval
+
+1. Freeze the bench MVP scope and classify current Journey/Training Tracker routes as legacy or target.
+2. Add the assignment/template/task-event/resource schema and OpenAPI contracts.
+3. Implement member-owned task reads/transitions and coordinator-scoped monitoring.
+4. Implement the ADR-0038 dashboard shell against server-derived summaries.
+5. Qualify PostgreSQL and SQLite behavior, authorization negatives and restart/migration behavior.
+6. Keep resource handling link-based until a separate monitoring decision is approved.
+7. Complete Announcement browser/PostgreSQL qualification and then reassess selected-page authoring.
+
+## 22. New member onboarding slice
+
+This section makes the product meaning of onboarding explicit. The onboarding capability is for a **new Song member joining the bench**, not a generic resource monitor, HR system, or replacement for external learning and compliance systems.
+
+### 22.1 Member onboarding screen mockup
+
+The first member-facing screen should answer three questions immediately: who the member is onboarding as, what must happen next, and where to get help. It should not show a misleading percentage when no assignment exists.
+
+```text
++--------------------------------------------------------------------------------+
+| Song Bench                                             User  Help  Sign out    |
++----------------------+---------------------------------------------------------+
+| Dashboard            | Welcome to Song Bench, {member name}                    |
+| My onboarding        | Your onboarding plan: {template name}                  |
+| Resources            | ------------------------------------------------------- |
+| Announcements        | Progress       Next action          Blockers            |
+| Help                 | 4 of 8 tasks    Complete your CV      1 needs help       |
+|                      |                                                         |
+|                      | Current onboarding steps                             |
+|                      | [done] Welcome and orientation                         |
+|                      | [open] Personal readiness                              |
+|                      | [open] Skills and learning                             |
+|                      | [blocked] Engagement readiness      Request help       |
+|                      |                                                         |
+|                      | [Open task]       [View resources]                      |
++----------------------+---------------------------------------------------------+
+```
+
+The no-assignment state must say `No onboarding assigned` and identify the coordinator contact. A task card may show a self-attestation state, a coordinator-verification state, or a blocked state; it must not imply that an external system has confirmed completion.
+
+### 22.2 Onboarding process mockup
+
+```mermaid
+flowchart LR
+    IDENTITY["New member identity resolved"] --> ELIGIBILITY["Coordinator confirms eligibility"]
+    ELIGIBILITY --> ASSIGN["Assign published template version"]
+    ASSIGN --> SNAPSHOT["Create member-owned assignment snapshot"]
+    SNAPSHOT --> MEMBER["Member completes or requests help"]
+    MEMBER --> EVENT["Record task event and actor"]
+    EVENT --> VERIFY{"Verification required?"}
+    VERIFY -->|No| NEXT["Evaluate next eligible task"]
+    VERIFY -->|Yes| REVIEW["Coordinator accepts or rejects"]
+    REVIEW --> NEXT
+    NEXT --> CLOSE{"All required tasks complete?"}
+    CLOSE -->|No| MEMBER
+    CLOSE -->|Yes| CLOSEOUT["Coordinator closes onboarding with audit event"]
+```
+
+The published template version is immutable for an active assignment. Later template changes affect future assignments unless an explicit, audited migration is approved.
+
+### 22.3 Database mockup
+
+The minimum relational model is assignment-owned and keeps portal-specific state separate from external systems.
+
+```mermaid
+erDiagram
+    MEMBER ||--o{ ASSIGNMENT : receives
+    COHORT ||--o{ ASSIGNMENT : scopes
+    TEMPLATE ||--o{ TEMPLATE_VERSION : has
+    TEMPLATE_VERSION ||--o{ TEMPLATE_TASK : defines
+    ASSIGNMENT ||--o{ ASSIGNED_TASK : instantiates
+    TEMPLATE_TASK ||--o{ ASSIGNED_TASK : becomes
+    ASSIGNED_TASK ||--o{ TASK_EVENT : records
+    RESOURCE ||--o{ TEMPLATE_TASK : supports
+    ASSIGNMENT ||--o{ ASSIGNMENT_EVENT : audits
+
+    MEMBER { uuid id PK string enterprise_subject }
+    COHORT { uuid id string name }
+    TEMPLATE { uuid id string name string status }
+    TEMPLATE_VERSION { uuid id uuid template_id FK int version date published_at }
+    TEMPLATE_TASK { uuid id uuid template_version_id FK string title boolean required }
+    ASSIGNMENT { uuid id uuid member_id FK uuid template_version_id FK string status }
+    ASSIGNED_TASK { uuid id uuid assignment_id FK uuid template_task_id FK string status }
+    TASK_EVENT { uuid id uuid assigned_task_id FK uuid actor_id FK string event_type timestamp occurred_at }
+    RESOURCE { uuid id string url string lifecycle_status date reviewed_at }
+```
+
+Required invariants: a member cannot read or mutate another member's assignment; an assignment references one published template version; task events are append-only; and rollback or reopening creates a new event rather than rewriting history.
+
+### 22.4 API mockup
+
+The API is versioned and server-authorized. Frontend role state, route visibility, and client-supplied member IDs are never sufficient permission evidence.
+
+| Method | Endpoint | Actor | Purpose |
+|---|---|---|---|
+| `GET` | `/api/v1/onboarding/me` | Member | Return the caller's active assignment, progress, next action, blockers and allowed resources |
+| `GET` | `/api/v1/onboarding/me/tasks` | Member | Return only tasks belonging to the caller's assignment |
+| `POST` | `/api/v1/onboarding/me/tasks/{id}/events` | Member | Self-complete, reopen where allowed, or request help with an idempotency key |
+| `GET` | `/api/v1/coordinator/members` | Coordinator | Return only members within the caller's assigned cohort/scope |
+| `POST` | `/api/v1/coordinator/assignments` | Coordinator | Assign a published template version to an eligible member |
+| `POST` | `/api/v1/coordinator/tasks/{id}/verification` | Coordinator | Accept or reject a task requiring verification, with a reason |
+| `GET` | `/api/v1/templates` | Administrator | List template versions available to the caller |
+| `POST` | `/api/v1/templates/{id}/publish` | Administrator | Publish a validated template version |
+| `GET` | `/api/v1/resources` | Member, Coordinator | Return curated resource links and review metadata |
+
+Mutation responses must use the common error envelope. Expected authorization outcomes are `401` for missing/invalid identity, `403` for insufficient permission or scope, `404` for an inaccessible resource where existence must not be disclosed, and `409` for stale revision or duplicate assignment conflicts.
+
+### 22.5 Development work decomposition
+
+The implementation should proceed as one thin vertical slice: member identity and assignment ownership first, then member task events, then coordinator scope and verification, then the dashboard summary. The Teams Planner workbook accompanying this SAD turns these steps into assignable development tasks. The workbook is a planning artifact; it does not indicate implementation completion.
 
 ## Appendix A. Evidence consulted
 
