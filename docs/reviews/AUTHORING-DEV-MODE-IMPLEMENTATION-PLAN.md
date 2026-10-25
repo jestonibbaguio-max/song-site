@@ -419,4 +419,4 @@ PostgreSQL follow-up verification completed after starting the local `song-site-
 
 ## 13. Explicit non-claims
 
-This plan does not claim production Entra authorization, production deployment, complete PostgreSQL clean/upgrade/repeat migration evidence, or full WP-039/WP-041 completion. The Announcement editor is implemented locally, but WP-038/WP-039 remain open until final browser and database qualification passes are recorded.
+This plan does not claim production Entra authorization, production deployment, complete PostgreSQL clean/upgrade/repeat migration evidence, or full WP-039/WP-041 completion. Announcement Edit mode and its page-content migration are implemented locally (WP-038 complete); final browser and database recovery qualification remains open under WP-039.

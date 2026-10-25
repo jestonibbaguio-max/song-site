@@ -8,11 +8,11 @@
 
 ## Context
 
-The dedicated `/announcement` page currently stores its congratulations carousel, training content, and notice copy in Angular component and template files. The four congratulations images are hardcoded in `src/app/announcement/announcement.ts` and are not managed through an API.
+At the time this decision was proposed, the dedicated `/announcement` page stored its congratulations carousel, training content, and notice copy in Angular component and template files. The content has since been moved to the page-content API and database.
 
-The home dashboard already exposes `GET /api/home/announcements` backed by the `home_announcements` database domain. Its current records support dashboard cards with an icon, title, and body, while the dedicated page has no API-backed content contract. The dedicated page contains several sections with different data shapes: a congratulations carousel, important trainings, new features and important notices, and a reminder. Treating all of those sections as dashboard announcement rows would make the existing table a catch-all content store.
+The home dashboard exposes `GET /api/home/announcements` backed by the `home_announcements` database domain. Its records support dashboard cards with an icon, title, and body, while the dedicated page has several sections with different data shapes: a congratulations carousel, important trainings, new features and important notices, and a reminder. Treating all of those sections as dashboard announcement rows would make the existing table a catch-all content store.
 
-The current dedicated page sources these sections locally: certificate records and image paths, including `congrats1.png` through `congrats4.png`, and the `trainings` array are defined in `src/app/announcement/announcement.ts`; the hero, section headings, notice content, and reminder copy are defined in `src/app/announcement/announcement.html`. None of these sections currently comes from an API or database.
+The original implementation sourced certificate records, training links, and page copy from frontend files. The initial values now serve as migration seed data; published content is loaded from the versioned page-content store.
 
 The application must also preserve the existing announcement response shape during implementation. API changes remain OpenAPI-first, database changes must use versioned migrations, and production content writes require identity-backed authorization, validation, audit history, and publication controls. The existing temporary API-key bridge is not a production authorization model.
 
@@ -54,7 +54,7 @@ Implementation must:
 3. Apply section-specific validation, ordering, active-state behavior, and response shapes consistently across database adapters.
 4. Preserve compatibility for existing home announcement clients and keep their API separate from the page aggregate API.
 5. Add focused backend and frontend tests for the new behavior and failure states.
-6. Replace the dedicated page's hardcoded certificates, training records, notice content, and reminder copy only after the API contract and migrations are implemented.
+6. Replaced the dedicated page's hardcoded certificates, training records, notice content, and reminder copy with published page content after implementing the API contract and migrations.
 
 ## Consequences
 
@@ -66,23 +66,23 @@ The shared endpoint does not by itself solve content governance. Identity-backed
 
 The aggregate API introduces a broader implementation scope than a carousel-only endpoint, but it prevents the page from developing several incompatible APIs. It also makes the current `Important Trainings` data an explicit managed section instead of leaving it as an untracked component-local array. Static page copy may still be staged separately, but the API boundary is prepared to manage all page sections consistently.
 
-## Known implementation gaps
+## Implementation status
 
-The current page does not yet implement this decision. The following gaps are explicitly in scope for `WP-024`:
+The `/announcement` page API/database migration and page-specific Edit mode are implemented locally:
 
-- no dedicated announcement-page API, service, or OpenAPI contract exists;
-- carousel records and the four repository image paths remain hardcoded in `announcement.ts`;
-- the six Important Trainings records, including several placeholder `#` links, remain hardcoded in `announcement.ts`;
-- hero copy, section headings, notices, and reminder copy remain hardcoded in `announcement.html`;
-- carousel and training data have no stable identifiers, explicit ordering, active state, or publication metadata;
-- the page has no loading, error, or empty states, and an empty carousel requires defensive handling before navigation or auto-slide logic runs; and
-- `announcement.specs.ts` does not yet cover rendering, navigation, data loading, or failure states.
+- `GET /api/v1/content/pages/announcement-page` returns published content through the OpenAPI-described aggregate contract.
+- Versioned SQLite and PostgreSQL migrations persist the page payload, including carousel image references and training destination URLs. Their SQL seed values are initial content, not frontend runtime constants.
+- The page renderer loads published content through `AnnouncementService`; the editor uses the authoring API for draft, preview, publish, discard, version history, and restore operations.
+- The dashboard announcements API and storage remain separate.
+- Loading and error states and empty-carousel navigation guards are implemented.
+
+Final browser qualification remains tracked separately under `WP-039`; production Entra authorization and release qualification remain outside this implementation status under `WP-041`. The broader proposal for per-item active-state/content-type fields and long-term binary storage is not claimed as implemented.
 
 The shared navbar logo remains intentional static branding and is excluded from this content migration.
 
 ## Implementation boundary
 
-This ADR records the architecture decision only. It does not add the API fields, database migrations, seed records, frontend integration, authorization, or content-management UI.
+This ADR records the architecture decision and its current implementation status. The implementation uses the shared versioned page-authoring lifecycle; production identity integration and release qualification remain separate.
 
 ## Completion criteria
 
@@ -101,4 +101,4 @@ The aggregate page schema remains page-specific, but its editing workflow must u
 
 The first implementation should migrate the current component-local values into an initial published version, then switch the existing renderer to the published API without changing its layout. Edit controls belong in page-specific Announcement editor components; a generic arbitrary-HTML editor is out of scope.
 
-The proposed aggregate contract must distinguish public published reads from protected draft/history operations and define typed schemas for `hero`, `carousel`, `trainings`, `notices`, and `reminder`. Existing `additionalProperties: true` patterns are not adequate for authoring writes. This amendment records dependencies only; this ADR remains proposed and unimplemented.
+The aggregate contract distinguishes published reads from protected authoring operations and defines the `hero`, `carousel`, `trainings`, `notices`, and `reminder` payload. The API, migrations, frontend integration, and page-specific editor are now implemented locally. This amendment does not change the ADR's decision-approval status: it remains proposed pending project-owner review.
