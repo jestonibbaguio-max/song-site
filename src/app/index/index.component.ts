@@ -42,7 +42,7 @@ export class IndexComponent implements OnInit {
   }
 
   skipSso(): void {
-    void this.goToDashboard();
+    void this.router.navigateByUrl('/home');
   }
 
   private goToDashboard(): void {

@@ -31,11 +31,9 @@ paths:
   /api/v1/dashboard/summary:
     get:
       operationId: getDashboardSummary
-      summary: Get server-derived management dashboard summary
-      security: [{ developmentSession: [] }]
+      summary: Get server-derived public and authorized dashboard summary
       responses:
         '200': { description: Summary filtered by the effective principal, content: { application/json: { schema: { $ref: '#/components/schemas/DashboardSummary' } } } }
-        '401': { $ref: '#/components/responses/Unauthorized' }
   /api/v1/rbac/users:
     get:
       operationId: listRbacUsers
@@ -516,6 +514,7 @@ components:
       properties:
         identity: { nullable: true, type: object, properties: { displayName: { type: string }, email: { type: string }, role: { nullable: true, type: string }, mode: { type: string } } }
         cards: { type: array, items: { type: object, required: [key, label, value, detail], properties: { key: { type: string }, label: { type: string }, value: { oneOf: [{ type: integer }, { type: string }] }, detail: { type: string } } } }
+        charts: { type: array, items: { type: object, required: [key, title, segments], properties: { key: { type: string }, title: { type: string }, segments: { type: array, items: { type: object, required: [label, value], properties: { label: { type: string }, value: { type: integer } } } } } } }
     Task:
       type: object
       required: [id, title, status, progress]

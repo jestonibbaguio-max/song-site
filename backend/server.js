@@ -88,8 +88,7 @@ app.get("/api/v1/session", (req, res) => {
 });
 
 app.get('/api/v1/dashboard/summary', async (req, res, next) => {
-  if (!req.principal) return res.status(401).json({ error: 'Authentication is required' });
-  try { res.json(await database.getDashboardSummary(req.principal)); } catch (error) { next(error); }
+  try { res.json(await database.getDashboardSummary(req.principal || null)); } catch (error) { next(error); }
 });
 
 app.post("/api/v1/dev/session", requireObjectBody, async (req, res, next) => {

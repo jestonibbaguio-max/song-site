@@ -16,6 +16,7 @@ export type RbacUser = {
 export type DashboardSummary = {
   identity: { displayName: string; email: string; role: string | null; mode: string } | null;
   cards: Array<{ key: string; label: string; value: number | string; detail: string }>;
+  charts: Array<{ key: string; title: string; segments: Array<{ label: string; value: number }> }>;
 };
 
 @Injectable({ providedIn: 'root' })

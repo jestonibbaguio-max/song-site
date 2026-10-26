@@ -25,6 +25,8 @@ The backend must enforce the `user:manage` permission. Angular route guards can 
 
 The feature depends on the identity model and permission-based RBAC defined by ADR-0005. The initial roles remain `member`, `lead`, and `admin` until confirmed with stakeholders.
 
+User administration is an administrator-facing dashboard tool, not the default dashboard experience for ordinary members. All users may land on `/dashboard`, but members must not receive the user directory, role counts or other administrative cards. POC/lead views must be limited to their approved team or cohort scope and must not inherit administrator visibility.
+
 ## Consequences
 
 User administration has a clear landing page and API boundary separate from leadership, points of contact, and contact-us workflows. It requires authenticated identity claims, `users`, `user_identities`, `roles`, `permissions`, `user_roles`, and audit storage before implementation can be production-ready.

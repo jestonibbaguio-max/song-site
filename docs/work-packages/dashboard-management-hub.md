@@ -12,11 +12,13 @@ Deliver the first management-hub slice for the bench project:
 - Preserve the former spotlight and announcement experience at `/home`.
 - Add an inherited-theme sidebar that collapses to glyph-only navigation.
 - Add server-derived dashboard identity and summary cards.
+- Add current-data graphs for Journey and Training task status.
 - Add read-only User Management, Roles and Settings routes using existing backend session and RBAC boundaries.
+- Establish the future role-scoped dashboard contract: member self-scope, POC/lead team or cohort scope, and administrator platform scope.
 
 ## Non-goals
 
-Permissions administration, onboarding workflow, resource monitoring, audit lookup, templates, production Entra qualification, and full browser acceptance coverage are not part of this slice.
+Permissions administration, onboarding workflow, onboarding assignment/cohort analytics, resource monitoring, audit lookup, templates, production Entra qualification, and full browser acceptance coverage are not part of this slice.
 
 ## Requirements and evidence
 
@@ -27,16 +29,17 @@ Permissions administration, onboarding workflow, resource monitoring, audit look
 | Sidebar collapse is presentation-only | `dashboard.component.ts` local storage preference | Implemented locally |
 | Glyphs have accessible names | Link labels remain in DOM when expanded; `title` is supplied when collapsed; toggle has `aria-label` and `aria-expanded` | Implemented locally; browser verification pending |
 | Summary is server-derived | `backend/server.js`, both database adapters, OpenAPI path | Implemented locally |
+| Current progress and status graphs use real stores | Journey tasks, training tasks and announcements are aggregated by both database adapters | Implemented locally |
 | User access is backend-protected | Existing `auth.requirePermission('rbac:users:read')` route is consumed by the UI | Implemented locally |
 | Permissions UI is deferred | ADR-0038 and SAD implementation update | Intentional boundary |
 
 ## API and database
 
-The new `GET /api/v1/dashboard/summary` endpoint returns identity data and only the summary cards permitted by the server-resolved principal. SQLite and PostgreSQL adapters implement the same contract. No migration is required because the summary reads existing `users` and `rbac_roles` tables.
+The new `GET /api/v1/dashboard/summary` endpoint returns public-safe progress cards and status graphs without a session, plus identity and user/role cards when the server-resolved principal has the required permission. SQLite and PostgreSQL adapters implement the same contract. No migration is required because the summary reads existing task, announcement, user and role tables.
 
 ## Security
 
-The frontend does not create a principal, select a role, or grant access. The dashboard endpoint returns `401` without an authenticated principal. User Management remains protected by `rbac:users:read`. Sidebar state is browser presentation state only.
+The frontend does not create a principal, select a role, or grant access. Public-safe aggregate cards may be returned without a session; member-specific and administrative cards require a server-resolved principal. User Management remains protected by `rbac:users:read`. Future member, POC/lead and administrator summaries must enforce ownership or cohort scope in the backend. Sidebar state is browser presentation state only.
 
 ## Verification and acceptance
 

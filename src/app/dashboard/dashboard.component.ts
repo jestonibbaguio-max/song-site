@@ -43,9 +43,14 @@ export class DashboardComponent implements OnInit {
     return !item.adminOnly || this.session().identity?.permissions.includes('rbac:users:read') === true;
   }
 
+  segmentWidth(value: number, segments: Array<{ value: number }>): string {
+    const total = segments.reduce((sum, segment) => sum + segment.value, 0);
+    return `${total ? Math.round((value / total) * 100) : 0}%`;
+  }
+
   private loadSummary(): void {
     this.dashboard.getSummary().then(value => this.summary.set(value)).catch(error => {
-      this.error.set(error?.status === 401 ? 'Sign in or start a local Development Mode session to view management data.' : 'Dashboard data is currently unavailable.');
+      this.error.set('Dashboard data is currently unavailable.');
     });
   }
 }

@@ -218,14 +218,35 @@ async function listRbacUsers() {
   return result.rows;
 }
 
+async function summarizeTasks(table) {
+  const result = await getPostgresPool().query(`SELECT status, COUNT(*)::integer AS count FROM tasks WHERE task_type=$1 AND is_active=TRUE GROUP BY status`, [taskTypes[table]]);
+  const counts = { 'Not Started': 0, 'In Progress': 0, Pending: 0, Completed: 0 };
+  for (const row of result.rows) counts[row.status] = Number(row.count);
+  const total = Object.values(counts).reduce((sum, value) => sum + value, 0);
+  const score = counts.Completed + (counts['In Progress'] * 0.5) + (counts.Pending * 0.25);
+  return { total, completed: counts.Completed, inProgress: counts['In Progress'], pending: counts.Pending, notStarted: counts['Not Started'], progress: total ? Math.round((score / total) * 100) : 0 };
+}
+
 async function getDashboardSummary(principal) {
-  const cards = [];
+  const [journey, training, announcements] = await Promise.all([
+    summarizeTasks('tasks'),
+    summarizeTasks('training_tasks'),
+    getPostgresPool().query('SELECT COUNT(*)::integer AS count FROM announcements'),
+  ]);
+  const cards = [
+    { key: 'journey-progress', label: 'Journey progress', value: `${journey.progress}%`, detail: `${journey.completed} of ${journey.total} tasks completed` },
+    { key: 'training-progress', label: 'Training progress', value: `${training.progress}%`, detail: `${training.completed} of ${training.total} tasks completed` },
+    { key: 'announcements', label: 'Announcements', value: announcements.rows[0].count, detail: 'Published public notices' },
+  ];
   if (principal?.permissions?.includes('rbac:users:read')) {
     const counts = await getPostgresPool().query('SELECT (SELECT COUNT(*)::integer FROM users) AS users, (SELECT COUNT(*)::integer FROM rbac_roles) AS roles');
     cards.push({ key: 'users', label: 'Users', value: counts.rows[0].users, detail: 'Identities visible to your role' });
     cards.push({ key: 'roles', label: 'Roles', value: counts.rows[0].roles, detail: 'Defined role assignments' });
   }
-  return { identity: principal ? { displayName: principal.displayName, email: principal.email, role: principal.role, mode: principal.provider } : null, cards };
+  return { identity: principal ? { displayName: principal.displayName, email: principal.email, role: principal.role, mode: principal.provider } : null, cards, charts: [
+    { key: 'journey-status', title: 'Journey task status', segments: [{ label: 'Completed', value: journey.completed }, { label: 'In Progress', value: journey.inProgress }, { label: 'Pending', value: journey.pending }, { label: 'Not Started', value: journey.notStarted }] },
+    { key: 'training-status', title: 'Training task status', segments: [{ label: 'Completed', value: training.completed }, { label: 'In Progress', value: training.inProgress }, { label: 'Pending', value: training.pending }, { label: 'Not Started', value: training.notStarted }] },
+  ] };
 }
 
 async function assignRbacRoles(userId, roleKeys, actor) {
