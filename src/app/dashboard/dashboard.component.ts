@@ -21,10 +21,9 @@ export class DashboardComponent implements OnInit {
 
   readonly navItems = [
     { label: 'Dashboard', glyph: '⌂', route: '/dashboard' },
+    { label: 'User Management', glyph: '♙', route: '/admin/users', adminOnly: true },
     { label: 'Resources', glyph: '▤', route: '/other-links' },
     { label: 'Announcements', glyph: '◈', route: '/announcement' },
-    { label: 'User Management', glyph: '♙', route: '/admin/users', adminOnly: true },
-    { label: 'Roles', glyph: '◇', route: '/admin/roles', adminOnly: true },
     { label: 'Settings', glyph: '⚙', route: '/settings' },
   ];
 

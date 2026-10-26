@@ -13,7 +13,7 @@ Deliver the first management-hub slice for the bench project:
 - Add an inherited-theme sidebar that collapses to glyph-only navigation.
 - Add server-derived dashboard identity and summary cards.
 - Add current-data graphs for Journey and Training task status.
-- Add read-only User Management, Roles and Settings routes using existing backend session and RBAC boundaries.
+- Add User Management, Roles and Settings routes using existing backend session and RBAC boundaries; User Management in this slice is functional for profile/status administration, while roles and permissions remain deferred.
 - Establish the future role-scoped dashboard contract: member self-scope, POC/lead team or cohort scope, and administrator platform scope.
 
 ## Non-goals
@@ -39,7 +39,7 @@ The new `GET /api/v1/dashboard/summary` endpoint returns public-safe progress ca
 
 ## Security
 
-The frontend does not create a principal, select a role, or grant access. Public-safe aggregate cards may be returned without a session; member-specific and administrative cards require a server-resolved principal. User Management remains protected by `rbac:users:read`. Future member, POC/lead and administrator summaries must enforce ownership or cohort scope in the backend. Sidebar state is browser presentation state only.
+The frontend does not create a principal, select a role, or grant access. Public-safe aggregate cards may be returned without a session; member-specific and administrative cards require a server-resolved principal. User Management directory access is protected by `rbac:users:read`, and profile/status updates are protected by `rbac:users:manage`; role and permission administration remains deferred. Future member, POC/lead and administrator summaries must enforce ownership or cohort scope in the backend. Sidebar state is browser presentation state only.
 
 ## Verification and acceptance
 

@@ -1,0 +1,14 @@
+.status.inactive { background:#ffe9eb; color:#81202a; }
+.user-controls { display:flex; align-items:end; flex-wrap:wrap; gap:16px; margin:24px 0; }
+.user-controls label,.edit-grid label { display:grid; gap:6px; color:#665a6c; font-size:13px; font-weight:700; }
+.user-controls input,.user-controls select,.edit-grid input { min-height:38px; border:1px solid #d9cde0; border-radius:8px; padding:8px 10px; font:inherit; background:#fff; }
+.result-count { color:#766c7d; padding-bottom:10px; }
+.edit-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); align-items:end; gap:14px; }
+.checkbox { display:flex!important; align-items:center; gap:8px; min-height:38px; }
+.checkbox input { width:18px; height:18px; }
+.edit-actions { display:flex; gap:8px; }
+.primary-button,.secondary-button,.text-button { border:0; border-radius:8px; padding:9px 13px; font-weight:700; cursor:pointer; }
+.primary-button { background:#460073; color:#fff; }
+.secondary-button { background:#eee7f0; color:#460073; }
+.text-button { background:transparent; color:#7600b8; padding-left:0; }
+.primary-button:disabled { opacity:.6; cursor:wait; }

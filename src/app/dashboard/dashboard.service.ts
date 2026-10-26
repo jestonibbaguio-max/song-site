@@ -45,4 +45,11 @@ export class DashboardService {
       headers: { 'X-CSRF-Token': this.session.csrf },
     }));
   }
+
+  updateUser(userId: string, updates: { displayName: string; email: string; isActive: boolean }): Promise<RbacUser> {
+    return firstValueFrom(this.http.put<RbacUser>(this.api(`/v1/users/${encodeURIComponent(userId)}`), updates, {
+      withCredentials: true,
+      headers: { 'X-CSRF-Token': this.session.csrf },
+    }));
+  }
 }

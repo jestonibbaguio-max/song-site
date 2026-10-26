@@ -108,6 +108,22 @@ app.get('/api/v1/rbac/users', auth.requirePermission('rbac:users:read'), async (
   try { res.json(await database.listRbacUsers()); } catch (error) { next(error); }
 });
 
+app.put('/api/v1/users/:userId', ...requireMutation('rbac:users:manage'), requireObjectBody, async (req, res, next) => {
+  try {
+    const { displayName, email, isActive } = req.body;
+    if (displayName !== undefined && (typeof displayName !== 'string' || displayName.trim().length < 1 || displayName.length > 255)) return res.status(400).json({ error: 'displayName must be a non-empty string of 255 characters or fewer' });
+    if (email !== undefined && (typeof email !== 'string' || email.trim().length < 3 || email.length > 255 || !email.includes('@'))) return res.status(400).json({ error: 'email must be a valid email value' });
+    if (isActive !== undefined && typeof isActive !== 'boolean') return res.status(400).json({ error: 'isActive must be boolean' });
+    if (req.params.userId === req.principal.userId && isActive === false) return res.status(403).json({ error: 'An administrator cannot deactivate their own account' });
+    const updated = await database.updateUserProfile(req.params.userId, { displayName: displayName?.trim(), email: email?.trim(), isActive }, req.principal);
+    if (updated === undefined) return res.status(404).json({ error: 'User not found' });
+    res.json(updated);
+  } catch (error) {
+      if (error.code === 'SQLITE_CONSTRAINT_UNIQUE' || error.code === 'SQLITE_CONSTRAINT' || error.errcode === 2067 || error.code === '23505') return res.status(409).json({ error: 'Email is already in use' });
+    next(error);
+  }
+});
+
 app.put('/api/v1/rbac/users/:userId/roles', ...requireMutation('rbac:users:manage'), requireObjectBody, async (req, res, next) => {
   try {
     if (!Array.isArray(req.body.roles) || req.body.roles.some(role => typeof role !== 'string' || role.length > 64)) return res.status(400).json({ error: 'roles must be an array of role names' });

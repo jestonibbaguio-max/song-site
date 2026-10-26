@@ -66,7 +66,7 @@ flowchart TD
 ### Planned admin boundaries
 
 - Dashboard entry: `/dashboard`; planned user-management route: `/admin/users`.
-- Planned APIs: `GET /api/v1/users`, `GET /api/v1/users/:userId`, `GET/PUT /api/v1/users/:userId/roles`, and permitted user updates.
+- Current User Management APIs: `GET /api/v1/rbac/users` and `PUT /api/v1/users/:userId` for protected profile/status updates. User creation, user detail, and role-management APIs remain deferred.
 - Authorization must be enforced by the backend; Angular navigation is not a security boundary.
 - Role assignment and account-state changes require audit events.
 - Roles, permissions, templates, audit and settings are separate authorized tools; sidebar visibility does not grant access.

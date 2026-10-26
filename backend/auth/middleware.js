@@ -61,7 +61,7 @@ function createAuthService(authConfig, identityStore) {
     if (!session) return null;
     if (identityStore?.getPrincipalBySubject) {
       session.principal = await identityStore.getPrincipalBySubject(session.principal.subject, 'development');
-      if (!session.principal) return null;
+      if (!session.principal || !session.principal.isActive) return null;
     }
     sessions.set(session.sessionId, session);
     return session;
