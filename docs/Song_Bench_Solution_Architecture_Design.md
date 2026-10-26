@@ -887,6 +887,12 @@ This scope preserves the bench project's value while avoiding a full product pla
 6. Keep resource handling link-based until a separate monitoring decision is approved.
 7. Complete Announcement browser/PostgreSQL qualification and then reassess selected-page authoring.
 
+### 21.10 Dashboard implementation update 2026 10 26
+
+The first dashboard management slice is now being implemented on `feature/dashboard-management-hub`. The canonical `/dashboard` route renders the ADR-0038 management shell with a collapsible sidebar that reduces to accessible glyph-only navigation. The former spotlight and announcement Home experience is preserved at `/home`, so the route change does not remove the existing public experience.
+
+The implementation includes dedicated User Management, Roles and Settings routes and a server-derived `/api/v1/dashboard/summary` endpoint. Summary cards are filtered from the backend principal; the browser preference for expanded or collapsed navigation is presentation-only. Permissions administration is intentionally held for a later approved work package, and onboarding, resource monitoring, audit lookup, templates and production Entra qualification are not being represented as complete or exposed as working navigation links.
+
 ## 22. New member onboarding slice
 
 This section makes the product meaning of onboarding explicit. The onboarding capability is for a **new Song member joining the bench**, not a generic resource monitor, HR system, or replacement for external learning and compliance systems.

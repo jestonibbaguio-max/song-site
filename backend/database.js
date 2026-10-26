@@ -374,6 +374,15 @@ function listRbacUsers() {
     GROUP BY u.id ORDER BY u.display_name`).all().map(row => ({ ...row, isActive: Boolean(row.isActive), roles: row.roles ? row.roles.split(',') : [] }));
 }
 
+function getDashboardSummary(principal) {
+  const cards = [];
+  if (principal?.permissions?.includes('rbac:users:read')) {
+    cards.push({ key: 'users', label: 'Users', value: database.prepare('SELECT COUNT(*) AS count FROM users').get().count, detail: 'Identities visible to your role' });
+    cards.push({ key: 'roles', label: 'Roles', value: database.prepare('SELECT COUNT(*) AS count FROM rbac_roles').get().count, detail: 'Defined role assignments' });
+  }
+  return { identity: principal ? { displayName: principal.displayName, email: principal.email, role: principal.role, mode: principal.provider } : null, cards };
+}
+
 function assignRbacRoles(userId, roleKeys, actor) {
   const roles = [...new Set(roleKeys)];
   const placeholders = roles.map(() => '?').join(',');
@@ -410,6 +419,7 @@ module.exports = {
   updateJourneyItem,
   getPrincipalBySubject,
   listRbacUsers,
+  getDashboardSummary,
   assignRbacRoles,
   getPublishedContent,
   getDraftContent,

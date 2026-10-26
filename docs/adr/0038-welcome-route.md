@@ -97,6 +97,19 @@ Costs and risks:
 - Direct navigation to an unauthorized tool is rejected by the backend and does not leak its status data.
 - Two different users with different permissions see correct, independent dashboard content.
 
+## Implementation update 2026 10 26
+
+The first implementation slice is now in progress on `feature/dashboard-management-hub`.
+
+- `/dashboard` renders the new management shell with an expanded or glyph-only collapsible sidebar.
+- `/home` now preserves the former spotlight and announcement Home experience.
+- User Management, Roles and Settings have dedicated frontend routes.
+- `/api/v1/dashboard/summary` returns server-derived identity and permission-filtered summary cards.
+- User Management continues to use the existing backend-protected RBAC read route.
+- Permissions administration, onboarding, resource monitoring, audit lookup, templates and production Entra qualification remain deferred; deferred destinations are not exposed as working navigation links.
+
+The sidebar uses local browser storage only for presentation preference. It does not store or grant authorization. Direct routes and API calls remain backend-controlled. This update does not change the accepted decision or silently approve the deferred Permissions capability.
+
 ## Implementation boundary
 
 This ADR records the `/dashboard` management-hub and shell contract. It does not claim that status aggregation, all sidebar tools, role/permission administration, settings, responsive collapse behavior or production authorization are implemented. Each tool remains subject to its own API, migration, authorization, test and runbook requirements.

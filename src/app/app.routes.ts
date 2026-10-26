@@ -10,7 +10,27 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
+      import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
+  },
+  {
+    path: 'home',
+    loadComponent: () =>
       import('./home/home.component').then(m => m.HomeComponent)
+  },
+  {
+    path: 'admin/users',
+    loadComponent: () =>
+      import('./dashboard/admin-users.component').then(m => m.AdminUsersComponent)
+  },
+  {
+    path: 'admin/roles',
+    loadComponent: () =>
+      import('./dashboard/admin-roles.component').then(m => m.AdminRolesComponent)
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./dashboard/settings.component').then(m => m.SettingsComponent)
   },
   {
     path: 'atcp-song',

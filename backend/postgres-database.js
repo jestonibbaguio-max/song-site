@@ -218,6 +218,16 @@ async function listRbacUsers() {
   return result.rows;
 }
 
+async function getDashboardSummary(principal) {
+  const cards = [];
+  if (principal?.permissions?.includes('rbac:users:read')) {
+    const counts = await getPostgresPool().query('SELECT (SELECT COUNT(*)::integer FROM users) AS users, (SELECT COUNT(*)::integer FROM rbac_roles) AS roles');
+    cards.push({ key: 'users', label: 'Users', value: counts.rows[0].users, detail: 'Identities visible to your role' });
+    cards.push({ key: 'roles', label: 'Roles', value: counts.rows[0].roles, detail: 'Defined role assignments' });
+  }
+  return { identity: principal ? { displayName: principal.displayName, email: principal.email, role: principal.role, mode: principal.provider } : null, cards };
+}
+
 async function assignRbacRoles(userId, roleKeys, actor) {
   const roles = [...new Set(roleKeys)];
   const client = await getPostgresPool().connect();
@@ -235,4 +245,4 @@ async function assignRbacRoles(userId, roleKeys, actor) {
   } catch (error) { await client.query('ROLLBACK'); throw error; } finally { client.release(); }
 }
 
-module.exports = { createTask, getTasks, getProgress, updateTask, updateTaskStatus, getLeadership, updateLeadershipItem, getHomeSpotlight, updateHomeSpotlight, getAnnouncements, updateAnnouncement, getSongLinks, updateSongLink, getJourneyItems, updateJourneyItem, getPublishedContent, getDraftContent, previewContent, saveContentDraft, discardContentDraft, publishContent, listContentVersions, listContentAuditEvents, restoreContentVersion, getPrincipalBySubject, listRbacUsers, assignRbacRoles, close: closePostgresPool };
+module.exports = { createTask, getTasks, getProgress, updateTask, updateTaskStatus, getLeadership, updateLeadershipItem, getHomeSpotlight, updateHomeSpotlight, getAnnouncements, updateAnnouncement, getSongLinks, updateSongLink, getJourneyItems, updateJourneyItem, getPublishedContent, getDraftContent, previewContent, saveContentDraft, discardContentDraft, publishContent, listContentVersions, listContentAuditEvents, restoreContentVersion, getPrincipalBySubject, listRbacUsers, getDashboardSummary, assignRbacRoles, close: closePostgresPool };

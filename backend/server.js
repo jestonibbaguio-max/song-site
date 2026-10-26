@@ -87,6 +87,11 @@ app.get("/api/v1/session", (req, res) => {
   res.json(auth.sessionSummary(req));
 });
 
+app.get('/api/v1/dashboard/summary', async (req, res, next) => {
+  if (!req.principal) return res.status(401).json({ error: 'Authentication is required' });
+  try { res.json(await database.getDashboardSummary(req.principal)); } catch (error) { next(error); }
+});
+
 app.post("/api/v1/dev/session", requireObjectBody, async (req, res, next) => {
   if (!config.auth.isDevelopmentAuth || !auth.isLoopbackRequest(req)) {
     return res.status(404).json({ error: "Development authentication is unavailable" });

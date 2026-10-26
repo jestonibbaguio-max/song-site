@@ -28,6 +28,14 @@ paths:
       operationId: endDevelopmentSession
       security: [{ developmentSession: [] }]
       responses: { '204': { description: Local session ended } }
+  /api/v1/dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      summary: Get server-derived management dashboard summary
+      security: [{ developmentSession: [] }]
+      responses:
+        '200': { description: Summary filtered by the effective principal, content: { application/json: { schema: { $ref: '#/components/schemas/DashboardSummary' } } } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
   /api/v1/rbac/users:
     get:
       operationId: listRbacUsers
@@ -503,6 +511,11 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    DashboardSummary:
+      type: object
+      properties:
+        identity: { nullable: true, type: object, properties: { displayName: { type: string }, email: { type: string }, role: { nullable: true, type: string }, mode: { type: string } } }
+        cards: { type: array, items: { type: object, required: [key, label, value, detail], properties: { key: { type: string }, label: { type: string }, value: { oneOf: [{ type: integer }, { type: string }] }, detail: { type: string } } } }
     Task:
       type: object
       required: [id, title, status, progress]
