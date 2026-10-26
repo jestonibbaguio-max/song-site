@@ -1,9 +1,13 @@
 <main class="landing-shell">
   <section class="landing-card">
-    <div class="eyebrow">SSO-LOCAL</div>
-    <h1>Welcome to Song Site</h1>
+    <div class="signin-brand">
+      <img src="assets/images/acn-logo.svg" alt="ATCP Song logo">
+      <span>ATCP Song Bench</span>
+    </div>
+    <div class="eyebrow">SIGN IN</div>
+    <h1>Welcome back</h1>
     <p class="lede">
-      Sign in with Microsoft Entra to open the management dashboard, or continue to the public Home page without signing in.
+      Sign in to access your Song Bench dashboard, or continue to the public Home page without signing in.
     </p>
 
     @if (isAuthenticated()) {
@@ -19,7 +23,7 @@
         @if (isBusy()) {
           Signing in...
         } @else {
-          Sign in with SSO
+          Continue with Microsoft Entra
         }
       </button>
 
