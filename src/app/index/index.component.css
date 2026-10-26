@@ -7,45 +7,33 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 48px 24px;
-  background: #f6f3f8;
-  color: #151515;
+  padding: 32px;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(161, 0, 255, 0.36), transparent 32%),
+    radial-gradient(circle at 82% 18%, rgba(120, 0, 190, 0.28), transparent 34%),
+    linear-gradient(155deg, #050008 0%, #12001f 46%, #1e0033 100%);
+  color: #fff;
 }
 
 .landing-card {
-  width: min(100%, 560px);
-  padding: 42px;
-  border: 1px solid #e6dfe9;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 18px 42px rgba(70, 0, 115, 0.12);
-}
-
-.signin-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 42px;
-  color: #460073;
-  font-size: 19px;
-  font-weight: 800;
-}
-
-.signin-brand img {
-  width: 38px;
-  height: 38px;
-  object-fit: contain;
+  width: min(100%, 760px);
+  padding: 40px;
+  border: 1px solid rgba(161, 0, 255, 0.36);
+  border-radius: 28px;
+  background: rgba(18, 0, 31, 0.82);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(18px);
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   padding: 8px 12px;
   border-radius: 999px;
-  background: #f0e7f5;
-  color: #a100ff;
+  background: rgba(161, 0, 255, 0.24);
+  color: #f0ceff;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -54,16 +42,15 @@
 
 h1 {
   margin: 0;
-  color: #151515;
-  font-size: clamp(2.4rem, 6vw, 3.5rem);
-  line-height: 1;
-  letter-spacing: -0.05em;
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
 }
 
 .lede {
   max-width: 56ch;
   margin: 18px 0 0;
-  color: #665a6c;
+  color: rgba(255, 255, 255, 0.84);
   font-size: 1.08rem;
   line-height: 1.7;
 }
@@ -77,15 +64,15 @@ h1 {
 }
 
 .status-banner.success {
-  background: #eefaf2;
-  border: 1px solid #9bd1ae;
-  color: #276b43;
+  background: rgba(40, 170, 120, 0.14);
+  border: 1px solid rgba(40, 170, 120, 0.3);
+  color: #c8f5dd;
 }
 
 .status-banner.error {
-  background: #ffe9eb;
-  border: 1px solid #f4b8bd;
-  color: #81202a;
+  background: rgba(255, 83, 112, 0.12);
+  border: 1px solid rgba(255, 83, 112, 0.28);
+  color: #ffd0d8;
 }
 
 .actions {
@@ -97,11 +84,11 @@ h1 {
 
 .primary-action,
 .secondary-action {
-  min-width: 220px;
-  height: 52px;
+  min-width: 180px;
+  height: 54px;
   padding: 0 20px;
-  border-radius: 10px;
-  border: 1px solid #460073;
+  border-radius: 14px;
+  border: 1px solid transparent;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -109,45 +96,19 @@ h1 {
 }
 
 .primary-action {
-  background: #a100ff;
-  color: #fff;
+  background: linear-gradient(135deg, #69b7ff 0%, #8f7bff 100%);
+  color: #07111f;
 }
 
 .secondary-action {
-  background: #fff;
-  color: #460073;
-  border-color: #d7c5df;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f4e8ff;
+  border-color: rgba(161, 0, 255, 0.36);
 }
 
 .primary-action:hover,
 .secondary-action:hover {
   transform: translateY(-1px);
-}
-
-.primary-action:hover {
-  background: #8800dd;
-}
-
-.secondary-action:hover {
-  border-color: #a100ff;
-  background: #f8f2fb;
-}
-
-.dev-auth-panel {
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px solid #eee7f0;
-  color: #665a6c;
-}
-
-.dev-auth-panel p {
-  margin: 0 0 8px;
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.dev-auth-panel strong {
-  color: #460073;
 }
 
 .primary-action:disabled {
@@ -163,11 +124,7 @@ h1 {
 
   .landing-card {
     padding: 28px;
-    border-radius: 16px;
-  }
-
-  .signin-brand {
-    margin-bottom: 32px;
+    border-radius: 24px;
   }
 
   .actions {
