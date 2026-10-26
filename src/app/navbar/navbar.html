@@ -52,6 +52,15 @@
     ATCP Song Links
   </a>
 
+  @if (!account()) {
+    <a
+      class="signin-link"
+      routerLink="/signin"
+      routerLinkActive="active">
+      Sign In
+    </a>
+  }
+
     <div class="nav__search">
       <button class="navbar__search-btn" (click)="toggleSearch()" aria-label="Search">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -84,7 +93,13 @@
     <div class="profile-menu">
       <div class="profile-menu-name">{{ account() ? displayName() : 'Signed out' }}</div>
       <div class="profile-menu-email">{{ account() ? userEmail() : 'Use SSO login to sign in' }}</div>
-      <button type="button" class="logout-button" (click)="logout()" [disabled]="!account()">Logout</button>
+      @if (account()) {
+        <a class="profile-menu-link" routerLink="/dashboard" (click)="isProfileOpen = false">Profile</a>
+        <div class="profile-menu-separator" role="separator"></div>
+      } @else {
+        <a class="profile-menu-link" routerLink="/signin" (click)="isProfileOpen = false">Sign in</a>
+      }
+      <button type="button" class="logout-button" (click)="logout()" [disabled]="!account()">Sign off</button>
     </div>
   </div>
 </div>
