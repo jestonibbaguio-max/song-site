@@ -104,6 +104,7 @@ The first implementation slice is now in progress on `feature/dashboard-manageme
 - `/dashboard` renders the new management shell with an expanded or glyph-only collapsible sidebar.
 - `/home` now preserves the former spotlight and announcement Home experience.
 - User Management, Roles and Settings have dedicated frontend routes.
+- User Management appears immediately below Dashboard and supports protected profile/status administration; role and permission editing remain deferred.
 - `/api/v1/dashboard/summary` returns server-derived identity and permission-filtered summary cards.
 - The summary now includes Journey and Training progress cards, announcement count, and status bar graphs derived from the existing task and announcement stores.
 - Public-safe Journey, Training and announcement aggregates are available without a session; administrator-only user and role cards remain filtered by the server-resolved principal.

@@ -37,11 +37,11 @@ New APIs should be added to the OpenAPI contract under `/api/v1` while the curre
 ### Identity and access
 
 - `GET /api/v1/me`
-- `GET /api/v1/users/:userId`
-- `GET /api/v1/users/:userId/roles`
+- `GET /api/v1/rbac/users` — protected User Management directory
+- `PUT /api/v1/users/:userId` — protected profile/status update
 - `GET /api/v1/roles`
 - `GET /api/v1/permissions`
-- `PUT /api/v1/users/:userId/roles`
+- `PUT /api/v1/users/:userId/roles` — deferred role administration; not exposed in the current User Management UI
 
 ### Journey and work packages
 

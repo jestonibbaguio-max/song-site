@@ -70,6 +70,41 @@ test('administrator role assignment changes effective permissions', async () => 
   assert.equal(result.response.status, 200);
 });
 
+test('user management protects profile/status updates and records an audit event', async () => {
+  let result = await request('PUT', '/api/v1/users/dev-author', { displayName: 'Blocked' });
+  assert.equal(result.response.status, 401);
+
+  result = await request('POST', '/api/v1/dev/session', { fixture: 'author' });
+  assert.equal(result.response.status, 200);
+  const authorCookie = result.cookie.split(';')[0];
+  result = await request('PUT', '/api/v1/users/dev-author', { displayName: 'Blocked' }, authorCookie, result.json.csrfToken);
+  assert.equal(result.response.status, 403);
+
+  result = await request('POST', '/api/v1/dev/session', { fixture: 'administrator' });
+  assert.equal(result.response.status, 200);
+  const adminCookie = result.cookie.split(';')[0];
+  const adminCsrf = result.json.csrfToken;
+  result = await request('GET', '/api/v1/rbac/users', undefined, adminCookie);
+  assert.equal(result.response.status, 200);
+  const original = result.json.find((user) => user.id === 'dev-author');
+  assert.ok(original);
+
+  result = await request('PUT', '/api/v1/users/dev-author', { displayName: 'Updated Local Author', isActive: false }, adminCookie, adminCsrf);
+  assert.equal(result.response.status, 200);
+  assert.equal(result.json.displayName, 'Updated Local Author');
+  assert.equal(result.json.isActive, false);
+  result = await request('POST', '/api/v1/dev/session', { fixture: 'author' });
+  assert.equal(result.response.status, 400);
+
+  result = await request('PUT', '/api/v1/users/dev-publisher', { email: original.email }, adminCookie, adminCsrf);
+  assert.equal(result.response.status, 409);
+  result = await request('PUT', '/api/v1/users/dev-administrator', { isActive: false }, adminCookie, adminCsrf);
+  assert.equal(result.response.status, 403);
+
+  result = await request('PUT', '/api/v1/users/dev-author', { displayName: original.displayName, isActive: original.isActive }, adminCookie, adminCsrf);
+  assert.equal(result.response.status, 200);
+});
+
 test('non-admin Journey users can start and complete tasks with CSRF protection', async () => {
   let result = await request('GET', '/api/tasks');
   assert.equal(result.response.status, 200);

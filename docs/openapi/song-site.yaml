@@ -61,6 +61,23 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '403': { $ref: '#/components/responses/Forbidden' }
         '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/users/{userId}:
+    put:
+      operationId: updateUserProfile
+      summary: Update a user's profile or active status without changing roles
+      security: [{ developmentSession: [] }]
+      parameters:
+        - { name: userId, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/UserProfileUpdate' } } }
+      responses:
+        '200': { description: Updated user, content: { application/json: { schema: { $ref: '#/components/schemas/RbacUser' } } } }
+        '400': { $ref: '#/components/responses/Error' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
   /api/v1/content/pages/{pageKey}:
     get:
       operationId: getPublishedPageContent
@@ -515,6 +532,13 @@ components:
         identity: { nullable: true, type: object, properties: { displayName: { type: string }, email: { type: string }, role: { nullable: true, type: string }, mode: { type: string } } }
         cards: { type: array, items: { type: object, required: [key, label, value, detail], properties: { key: { type: string }, label: { type: string }, value: { oneOf: [{ type: integer }, { type: string }] }, detail: { type: string } } } }
         charts: { type: array, items: { type: object, required: [key, title, segments], properties: { key: { type: string }, title: { type: string }, segments: { type: array, items: { type: object, required: [label, value], properties: { label: { type: string }, value: { type: integer } } } } } } }
+    UserProfileUpdate:
+      type: object
+      minProperties: 1
+      properties:
+        displayName: { type: string, minLength: 1, maxLength: 255 }
+        email: { type: string, format: email, maxLength: 255 }
+        isActive: { type: boolean }
     Task:
       type: object
       required: [id, title, status, progress]

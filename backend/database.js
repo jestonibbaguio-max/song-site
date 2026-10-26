@@ -356,7 +356,7 @@ function updateJourneyItem(id, updates) {
 }
 
 function getPrincipalBySubject(subject, provider = 'development') {
-  const rows = database.prepare(`SELECT u.id, u.email, u.display_name, 1 AS is_active, 'development' AS provider, u.id AS subject,
+  const rows = database.prepare(`SELECT u.id, u.email, u.display_name, u.is_active, 'development' AS provider, u.id AS subject,
     r.role_key, p.permission_key FROM users u
     LEFT JOIN rbac_user_roles ur ON ur.user_id = u.id
     LEFT JOIN rbac_roles r ON r.id = ur.role_id
@@ -368,10 +368,26 @@ function getPrincipalBySubject(subject, provider = 'development') {
 }
 
 function listRbacUsers() {
-  return database.prepare(`SELECT u.id, u.email, u.display_name AS displayName, 'development' AS provider, u.id AS subject, 1 AS isActive,
+  return database.prepare(`SELECT u.id, u.email, u.display_name AS displayName, 'development' AS provider, u.id AS subject, u.is_active AS isActive,
     COALESCE(GROUP_CONCAT(DISTINCT r.role_key), '') AS roles FROM users u
     LEFT JOIN rbac_user_roles ur ON ur.user_id = u.id LEFT JOIN rbac_roles r ON r.id = ur.role_id
     GROUP BY u.id ORDER BY u.display_name`).all().map(row => ({ ...row, isActive: Boolean(row.isActive), roles: row.roles ? row.roles.split(',') : [] }));
+}
+
+function updateUserProfile(userId, updates, actor) {
+  const user = database.prepare('SELECT id FROM users WHERE id = ?').get(userId);
+  if (!user) return undefined;
+  const fields = [];
+  const values = [];
+  if (updates.displayName !== undefined) { fields.push('display_name = ?'); values.push(updates.displayName); }
+  if (updates.email !== undefined) { fields.push('email = ?'); values.push(updates.email); }
+  if (updates.isActive !== undefined) { fields.push('is_active = ?'); values.push(updates.isActive ? 1 : 0); }
+  if (fields.length) {
+    fields.push('updated_at = ?'); values.push(new Date().toISOString()); values.push(userId);
+    database.prepare(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+  }
+  database.prepare('INSERT INTO authorization_audit_events (actor_subject, actor_provider, action, target_user_id, metadata) VALUES (?, ?, ?, ?, ?)').run(actor.subject, actor.provider, 'user_profile_updated', userId, JSON.stringify({ fields: Object.keys(updates).filter(key => updates[key] !== undefined) }));
+  return listRbacUsers().find(candidate => candidate.id === userId) || undefined;
 }
 
 function summarizeTasks(table) {
@@ -436,6 +452,7 @@ module.exports = {
   updateJourneyItem,
   getPrincipalBySubject,
   listRbacUsers,
+  updateUserProfile,
   getDashboardSummary,
   assignRbacRoles,
   getPublishedContent,

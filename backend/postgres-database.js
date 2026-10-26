@@ -218,6 +218,18 @@ async function listRbacUsers() {
   return result.rows;
 }
 
+async function updateUserProfile(userId, updates, actor) {
+  const entries = Object.entries({ displayName: updates.displayName, email: updates.email, isActive: updates.isActive }).filter(([, value]) => value !== undefined);
+  const user = await getPostgresPool().query('SELECT id FROM users WHERE id=$1', [userId]);
+  if (!user.rows[0]) return undefined;
+  const columns = { displayName: 'display_name', email: 'email', isActive: 'is_active' };
+  const values = entries.map(([, value]) => value);
+  const assignments = entries.map(([key], index) => `${columns[key]}=$${index + 1}`).join(', ');
+  if (assignments) await getPostgresPool().query(`UPDATE users SET ${assignments}, updated_at=NOW() WHERE id=$${values.length + 1}`, [...values, userId]);
+  await getPostgresPool().query('INSERT INTO authorization_audit_events (actor_subject,actor_provider,action,target_user_id,metadata) VALUES ($1,$2,$3,$4,$5)', [actor.subject, actor.provider, 'user_profile_updated', userId, JSON.stringify({ fields: entries.map(([key]) => key) })]);
+  return (await listRbacUsers()).find(candidate => String(candidate.id) === String(userId));
+}
+
 async function summarizeTasks(table) {
   const result = await getPostgresPool().query(`SELECT status, COUNT(*)::integer AS count FROM tasks WHERE task_type=$1 AND is_active=TRUE GROUP BY status`, [taskTypes[table]]);
   const counts = { 'Not Started': 0, 'In Progress': 0, Pending: 0, Completed: 0 };
@@ -266,4 +278,4 @@ async function assignRbacRoles(userId, roleKeys, actor) {
   } catch (error) { await client.query('ROLLBACK'); throw error; } finally { client.release(); }
 }
 
-module.exports = { createTask, getTasks, getProgress, updateTask, updateTaskStatus, getLeadership, updateLeadershipItem, getHomeSpotlight, updateHomeSpotlight, getAnnouncements, updateAnnouncement, getSongLinks, updateSongLink, getJourneyItems, updateJourneyItem, getPublishedContent, getDraftContent, previewContent, saveContentDraft, discardContentDraft, publishContent, listContentVersions, listContentAuditEvents, restoreContentVersion, getPrincipalBySubject, listRbacUsers, getDashboardSummary, assignRbacRoles, close: closePostgresPool };
+module.exports = { createTask, getTasks, getProgress, updateTask, updateTaskStatus, getLeadership, updateLeadershipItem, getHomeSpotlight, updateHomeSpotlight, getAnnouncements, updateAnnouncement, getSongLinks, updateSongLink, getJourneyItems, updateJourneyItem, getPublishedContent, getDraftContent, previewContent, saveContentDraft, discardContentDraft, publishContent, listContentVersions, listContentAuditEvents, restoreContentVersion, getPrincipalBySubject, listRbacUsers, updateUserProfile, getDashboardSummary, assignRbacRoles, close: closePostgresPool };

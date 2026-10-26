@@ -40,8 +40,20 @@ User administration has a clear landing page and API boundary separate from lead
 
 ## 2026-10-13 assessment amendment (status unchanged)
 
-Development identities defined by `ADR-0035` are fixtures, not production users. `/admin/users` must not create, edit, assign roles to, or promote development fixtures, and development fixtures must never be synchronized into a production identity store.
+Development identities defined by `ADR-0035` are fixtures, not production users. `/admin/users` must not create, assign roles to, promote, or synchronize development fixtures into a production identity store. The local disposable development database may exercise profile and active-status updates so the authorization boundary can be tested without Entra access; these changes are never a production identity-management mechanism.
 
 The user-administration design depends on normalized `roles`, `permissions`, `user_roles`, and `role_permissions`; the current single `users.role` column in `backend/migrations/005-relational-content.sql` and `backend/migrations-postgres/005-relational-content.sql` does not implement this ADR. Authoring roles and page-scoped permissions must use the same backend assignment model after stakeholder approval.
 
 Admin bootstrap and final-administrator recovery remain production decisions. Development Mode may exercise those flows with isolated test data, but it is not a production break-glass path and must not establish production authorization policy.
+
+## 2026-10-26 implementation amendment (status unchanged)
+
+The first functional User Management slice is implemented on `feature/user-management`:
+
+- `/admin/users` is exposed below Dashboard in the dashboard sidebar for authorized principals.
+- `GET /api/v1/rbac/users` provides the protected directory.
+- `PUT /api/v1/users/{userId}` updates display name, email and active state without changing roles or permissions.
+- Search and active/inactive filtering are client presentation features over the authorized directory result.
+- Profile/status changes create authorization audit events, reject duplicate email addresses, and prevent an administrator from deactivating their own account.
+
+Role assignment, permission administration, user creation, production Entra provisioning and final-administrator recovery remain deferred to the sign-in and identity work. Development fixtures remain isolated from production identity stores; local Development Mode may exercise profile/status updates against disposable fixture data only.
