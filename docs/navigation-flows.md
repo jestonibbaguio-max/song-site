@@ -4,11 +4,13 @@ These diagrams distinguish the authenticated `/dashboard` management shell from 
 
 ## Main site flow
 
-The sign-in page is `/`. After approved authentication, `/dashboard` is the Song Site management hub. Local development mode is isolated as defined by `ADR-0035`; it is not guest browsing.
+`/home` is the public landing page. `/` redirects to `/home` for compatibility, and Home links to the explicit `/signin` entry point. After approved authentication, `/dashboard` is the Song Site management hub and profile destination. The authenticated shell exposes a top-right account dropdown with the current user's first name, **Profile** → `/dashboard`, a separator, and **Sign off** → `/home`. Local development mode is isolated as defined by `ADR-0035`; it is not guest browsing.
 
 ```mermaid
 flowchart TD
-    START["Open Song Site"] --> SIGNIN["/ - Sign-in page"]
+    START["Open Song Site"] --> HOME["/home - Public Home"]
+    ROOT["/ - Compatibility redirect"] --> HOME
+    HOME --> SIGNIN["/signin - Sign-in page"]
     SIGNIN --> AUTH["Approved Entra sign-in or isolated local development sign-in"]
     AUTH --> DASH["/dashboard - Song Site management hub"]
     DASH --> STATUS["Server-derived status cards"]
@@ -30,7 +32,8 @@ flowchart TD
 
 ### Current main-flow notes
 
-- `/` is the sign-in entry point; there is no guest page.
+- `/home` is the public landing page and remains available without authentication.
+- `/` redirects to `/home`; `/signin` is the explicit sign-in entry point.
 - `/dashboard` is the authenticated Song Site management hub with status cards and a role-aware sidebar.
 - `/atcp-song` is a leadership/content page, not a separate admin surface.
 - `/contactus` is a general contact form, not user administration.
@@ -65,7 +68,7 @@ flowchart TD
 
 ### Planned admin boundaries
 
-- Dashboard entry: `/dashboard`; planned user-management route: `/admin/users`.
+- Dashboard entry after authentication: `/dashboard`; planned user-management route: `/admin/users`.
 - Current User Management APIs: `GET /api/v1/rbac/users` and `PUT /api/v1/users/:userId` for protected profile/status updates. User creation, user detail, and role-management APIs remain deferred.
 - Authorization must be enforced by the backend; Angular navigation is not a security boundary.
 - Role assignment and account-state changes require audit events.

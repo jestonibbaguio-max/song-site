@@ -32,6 +32,8 @@ The target integration must use:
 
 The temporary `X-Admin-Key` mutation bridge must be retired only after bearer-token validation, permission mapping, audit behavior, migration of callers, and negative authorization tests are verified. The API contract and deployment configuration must be updated before production promotion.
 
+The authenticated user experience includes a provider-backed account menu in the shared dashboard shell. It displays the current user's first name from the trusted session identity, provides **Profile** as a return to that user's role-scoped `/dashboard`, includes a visual separator, and provides **Sign off** to invalidate the active provider session and return to `/home`. The public landing page is `/home`; `/` redirects there and `/signin` is the explicit sign-in entry point. The menu is presentation only; it cannot select an identity, change permissions, or widen data scope.
+
 ## Consequences
 
 The frontend gains an explicit API token lifecycle and must handle consent, expiry, silent renewal failures, logout, and redirect behavior. The backend gains a security-critical token-validation boundary, identity reconciliation, role/permission mapping, audit requirements, and authorization middleware.
@@ -49,6 +51,7 @@ This ADR is documentation only. No MSAL configuration, HTTP interceptor, backend
 Implementation is complete only when tests demonstrate:
 
 - successful sign-in, redirect, logout, silent token acquisition, and interactive token fallback;
+- the authenticated shell displays the server-resolved user's first name, Profile returns to the current user's `/dashboard`, and Sign off invalidates the session and returns to `/home`;
 - API requests receive a token only for the approved API origin;
 - valid tokens are accepted for the intended tenant, audience, and scope;
 - invalid, expired, wrong-tenant, wrong-audience, malformed, and unmapped tokens are rejected;

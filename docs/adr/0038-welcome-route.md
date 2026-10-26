@@ -3,8 +3,8 @@
 - Status: Accepted for implementation
 - Date: 2026-10-21
 - Owner: To be assigned
-- Related work packages: `WP-001`, `WP-002`, `WP-009`, `WP-031`, `WP-042`
-- Related ADRs: `ADR-0001`, `ADR-0006`, `ADR-0022`, `ADR-0030`, `ADR-0035`
+- Related work packages: `WP-001`, `WP-002`, `WP-009`, `WP-031`, `WP-033`, `WP-041`, `WP-042`
+- Related ADRs: `ADR-0001`, `ADR-0006`, `ADR-0019`, `ADR-0022`, `ADR-0030`, `ADR-0032`, `ADR-0035`
 
 ## Context
 
@@ -12,11 +12,18 @@ The authenticated Song Site needs one consistent management hub after sign-in. T
 
 The dashboard must support different users without exposing tools they cannot use. It needs a sidebar that can expose tools such as user management, role and permission administration, templates, audit and settings when authorized. The sidebar must remain usable at narrow widths, support a collapsed icon-only mode, and inherit the existing Song Site theme rather than introducing a separate visual system.
 
-The sign-in page remains `/`. `/dashboard` is the authenticated destination and must remain stable for existing bookmarks and links.
+`/home` is the public Song Site landing page. The root URL `/` redirects to `/home` for compatibility, while `/signin` is the explicit sign-in entry point. `/dashboard` is the authenticated destination and must remain stable for existing bookmarks and links.
 
 ## Decision
 
-Keep `/dashboard` as the canonical authenticated Song Site management hub. Do not create or implement `/welcome` as a replacement route. The `/` route remains the sign-in page.
+Keep `/dashboard` as the canonical authenticated Song Site management hub and make `/home` the canonical public landing page. Do not create or implement `/welcome` as a replacement route. The root URL `/` redirects to `/home`; the sign-in page is reached through `/signin` and the Home page's Sign In action.
+
+The public Home page and authenticated Dashboard are intentionally separate:
+
+- **Home** (`/home`) is the public, read-only Song Site experience with the existing spotlight, announcements and public navigation.
+- **Sign In** (`/signin`) is the explicit provider-selection and local Development Mode entry point.
+- **Dashboard** (`/dashboard`) is the authenticated, role- and ownership-scoped management/profile destination.
+- The top-right **Profile** action returns to `/dashboard`; it does not make Dashboard the public landing page.
 
 The dashboard has four responsibilities:
 
@@ -25,11 +32,20 @@ The dashboard has four responsibilities:
 3. Provide a lower sidebar section separated from primary tools, with a settings icon as the entry point for user and application settings that the current principal may access.
 4. Provide the shared Song Site shell, including navigation, sign-out and theme inheritance, without owning the underlying domain state or authorization decisions.
 
+The authenticated shell also includes a top-right account dropdown. It displays the current user's first name from the server-resolved session identity. Its entries are:
+
+- **Profile** — navigates to the current user's role-scoped dashboard at `/dashboard`; it does not grant access to another user's data.
+- A visual separator.
+- **Sign off** — invokes the server-backed sign-out flow, clears the local session presentation state, and returns the user to `/home`.
+
+The account dropdown is not rendered as an authorization source. The displayed name, menu visibility and destination are derived from the trusted session response, while sign-out must invalidate the server session/token according to the active authentication provider. A visitor without a principal sees the public Home experience and its explicit Sign In action rather than a fabricated user name.
+
 Sidebar behavior is part of the dashboard contract:
 
 - The sidebar is expanded by default when the viewport and user preference allow it and can be collapsed without changing the current route.
 - Collapsed mode shows icons only; every icon has an accessible name and a tooltip or equivalent discoverable label.
 - The separator and settings control remain identifiable in expanded and collapsed modes.
+- The top-right account dropdown remains available in both expanded and collapsed sidebar modes for an authenticated principal.
 - The collapsed/expanded preference may be presentation state stored for the current browser, but it must not contain permissions or authoritative user state.
 - Items are rendered only when the server-resolved principal has the required permission, and every destination and mutation remains server-authorized.
 
@@ -37,13 +53,17 @@ The dashboard inherits the existing Song Site theme tokens, typography, spacing,
 
 ## Navigation and authorization
 
-The dashboard route is the common landing page once authentication is available. During the current bench phase it may also render public-safe overview cards before sign-in; member-specific, team-scoped and administrative data remain unavailable until the backend resolves an appropriate principal. The backend remains the security boundary; sidebar visibility does not grant access and route guards are not a substitute for API authorization.
+The dashboard route is the common authenticated destination once authentication is available, not the public landing page. `/home` remains available without authentication and may render public-safe content; member-specific, team-scoped and administrative data remain unavailable until the backend resolves an appropriate principal. The backend remains the security boundary; sidebar visibility does not grant access and route guards are not a substitute for API authorization.
+
+After sign-in, all users land on `/dashboard`, but the dashboard is principal-scoped rather than identical for every user. A regular member receives only their own data; a POC/lead receives only approved team or cohort scope; an administrator receives authorized operational and management data; and a Development Mode fixture receives only the permissions assigned to that fixture. The frontend can improve navigation by hiding unavailable tools, but the backend must enforce role, ownership and cohort scope for direct routes and API calls.
 
 The intended navigation is:
 
 ```mermaid
 flowchart TD
-    SIGNIN["/ - Sign-in page"] --> AUTH["Approved authentication"]
+    HOME["/home - Public Home"] --> SIGNIN["/signin - Sign-in page"]
+    ROOT["/ - Compatibility redirect"] --> HOME
+    SIGNIN --> AUTH["Approved authentication"]
     AUTH --> DASHBOARD["/dashboard - Song Site management hub"]
     DASHBOARD --> STATUS["Authorized status cards"]
     DASHBOARD --> SIDEBAR["Collapsible tool sidebar"]
@@ -56,7 +76,10 @@ flowchart TD
     SEPARATOR --> SETTINGS["Settings icon - Authorized settings"]
     DASHBOARD --> ANNOUNCEMENT["/announcement - Published announcements"]
     DASHBOARD --> RESOURCES["/resources - Resources"]
-    DASHBOARD --> HELP["/help - Help"]
+  DASHBOARD --> HELP["/help - Help"]
+  DASHBOARD --> ACCOUNT["Top-right account menu"]
+  ACCOUNT --> PROFILE["Profile -> /dashboard"]
+  ACCOUNT --> SIGNOUT["Separator -> Sign off -> /home"]
 ```
 
 ## Consequences
@@ -84,9 +107,12 @@ Costs and risks:
 5. Keep dashboard summaries read-only and derive them from domain APIs; never calculate authoritative status or permission decisions in Angular.
 6. Add two-user and role-specific tests proving that cards and tools are filtered without leaking inaccessible status data.
 7. Add Playwright coverage for expanded/collapsed navigation, persistence of presentation preference, keyboard access, responsive behavior and direct route authorization.
+8. Define the authenticated account-menu contract with the sign-in provider: server-resolved first name, Profile destination, separator, sign-out invalidation and return route.
 
 ## Verification requirements
 
+- `/home` is the public landing page and remains usable without authentication.
+- `/` redirects to `/home`, and Home provides the explicit Sign In action to `/signin`.
 - Approved sign-in and local development sign-in land on `/dashboard`.
 - `/dashboard` renders only status cards and tools authorized for the resolved principal.
 - Status cards show server-derived values and honest loading, empty, stale and failure states.
@@ -96,6 +122,9 @@ Costs and risks:
 - Keyboard navigation, focus order, responsive layout and inherited theme tokens are tested.
 - Direct navigation to an unauthorized tool is rejected by the backend and does not leak its status data.
 - Two different users with different permissions see correct, independent dashboard content.
+- An authenticated user sees their server-resolved first name in the top-right menu.
+- Profile returns to that user's dashboard; it cannot be used to select another identity.
+- Sign off invalidates the active session and returns to `/home`; the browser cannot continue using the previous authenticated session.
 
 ## Implementation update 2026 10 26
 
@@ -109,10 +138,11 @@ The first implementation slice is now in progress on `feature/dashboard-manageme
 - The summary now includes Journey and Training progress cards, announcement count, and status bar graphs derived from the existing task and announcement stores.
 - Public-safe Journey, Training and announcement aggregates are available without a session; administrator-only user and role cards remain filtered by the server-resolved principal.
 - User Management continues to use the existing backend-protected RBAC read route.
+- The top-right account dropdown is documented as the future authenticated shell contract: current user's first name, Profile → `/dashboard`, separator, and Sign off → `/home`.
 - Permissions administration, onboarding assignment/cohort analytics, resource monitoring, audit lookup, templates and production Entra qualification remain deferred; deferred destinations are not exposed as working navigation links.
 
 The sidebar uses local browser storage only for presentation preference. It does not store or grant authorization. Direct routes and API calls remain backend-controlled. This update does not change the accepted decision or silently approve the deferred Permissions capability.
 
 ## Implementation boundary
 
-This ADR records the `/dashboard` management-hub and shell contract. It does not claim that status aggregation, all sidebar tools, role/permission administration, settings, responsive collapse behavior or production authorization are implemented. Each tool remains subject to its own API, migration, authorization, test and runbook requirements.
+This ADR records the `/dashboard` management-hub and shell contract. It does not claim that status aggregation, all sidebar tools, role/permission administration, settings, the account dropdown, responsive collapse behavior or production authorization are implemented. Each tool remains subject to its own API, migration, authorization, test and runbook requirements.
