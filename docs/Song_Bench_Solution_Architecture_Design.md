@@ -887,6 +887,24 @@ This scope preserves the bench project's value while avoiding a full product pla
 6. Keep resource handling link-based until a separate monitoring decision is approved.
 7. Complete Announcement browser/PostgreSQL qualification and then reassess selected-page authoring.
 
+### 21.10 Dashboard implementation update 2026 10 26
+
+The first dashboard management slice is now being implemented on `feature/dashboard-management-hub`. The canonical `/dashboard` route renders the ADR-0038 management shell with a collapsible sidebar that reduces to accessible glyph-only navigation. The former spotlight and announcement Home experience is preserved at `/home`, so the route change does not remove the existing public experience.
+
+The implementation includes dedicated User Management, Roles and Settings routes and a server-derived `/api/v1/dashboard/summary` endpoint. The currently supported dashboard data is limited to public-safe Journey task progress, Training task progress, announcement count, and administrator-visible user and role counts. The dashboard also renders status bar graphs from those existing stores without requiring a session; user and role cards remain principal-filtered. The browser preference for expanded or collapsed navigation is presentation-only. Permissions administration, onboarding assignment/cohort analytics, resource monitoring, audit lookup, templates and production Entra qualification are not being represented as complete or exposed as working navigation links. Sign-in page redesign and authentication-flow changes are explicitly deferred.
+
+### 21.11 Common landing page and dashboard data scope
+
+The intended product model is one dashboard landing page for every user after authentication is available. Dashboard composition is role-aware, but the route is not role-specific:
+
+| Audience | Dashboard data scope | Examples |
+|---|---|---|
+| Regular member | Own member-owned assignment and task data only | Own progress, next action, blockers, required resources |
+| POC or lead | Approved team, cohort or named-assignment scope | Cohort progress, overdue members, blockers, pending reviews |
+| Administrator | Platform-wide data permitted by administrative policy | User/role counts, aggregate onboarding health, operational notices |
+
+The backend must resolve these scopes from identity, ownership and cohort relationships. A client-provided member, team or cohort filter can narrow a result but cannot expand it. Public-safe aggregate cards may be shown before sign-in while the sign-in experience is still being finalized; they must not expose member-specific, personnel-sensitive or administrative information.
+
 ## 22. New member onboarding slice
 
 This section makes the product meaning of onboarding explicit. The onboarding capability is for a **new Song member joining the bench**, not a generic resource monitor, HR system, or replacement for external learning and compliance systems.

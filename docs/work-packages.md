@@ -56,7 +56,7 @@ This inventory records what is already present in the repository and connects it
 | `WP-039` | Publication and recovery qualification | Conflict, atomic publish, failure, recovery, audit, retention, and operational verification | To be assigned | Proposed planning; not implemented | `ADR-0020`, `ADR-0021`, `ADR-0037` proposed |
 | `WP-040` | Leadership and selected-page authoring expansion | Leadership editor, source-of-truth reconciliation, org-chart cleanup, and product-approved page expansion | To be assigned | Proposed planning; not implemented | `ADR-0027`, `ADR-0029`, `ADR-0036`, `ADR-0037` proposed |
 | `WP-041` | Production Entra integration and release qualification | API token validation, claim/role mapping, identity lifecycle, protected deployment, and bypass retirement | To be assigned | Proposed planning; blocked on organizational Entra and ownership decisions | `ADR-0019`, `ADR-0032`, `ADR-0035` proposed |
-| `WP-042` | Song Site dashboard management shell | `/dashboard` status cards, role-aware tool sidebar, collapse/expand behavior, settings section, inherited theme and accessibility | To be assigned | Proposed planning; dashboard shell contract is defined by `ADR-0038`, while status aggregation, tool APIs, production authorization and release tests remain outstanding | `ADR-0005`, `ADR-0015`, `ADR-0021`, `ADR-0038` |
+| `WP-042` | Song Site dashboard management shell | `/dashboard` status cards, role-aware tool sidebar, collapse/expand behavior, settings section, inherited theme and accessibility | To be assigned | In progress locally; public-safe progress cards/graphs, `/dashboard`, `/home`, collapsible glyph sidebar, server-derived summary endpoint, User Management, Roles and Settings routes are implemented. Member self-scope, POC/lead cohort scope, onboarding/resource tools, Permissions administration, production authorization and browser qualification remain outstanding | `ADR-0005`, `ADR-0015`, `ADR-0021`, `ADR-0038` |
 | `WP-043` | New Member Onboarding Vertical Slice | Member-owned onboarding assignment, immutable template version, task events, coordinator-scoped verification, curated resources, OpenAPI and SQLite/PostgreSQL parity | To be assigned | Planned; new-member onboarding domain and assignment ownership are defined in `ADR-0039`, but tables, APIs, UI and acceptance evidence are not implemented | `ADR-0039`, `ADR-0038`, `ADR-0002`, `ADR-0003`, `ADR-0005`, `ADR-0006`, `ADR-0017`, `ADR-0028`, `ADR-0030`, `ADR-0035` |
 
 Detailed scope, non-goals, requirements, acceptance criteria, API/database work, security, tests, dependencies, and Definition of Done for `WP-035` through `WP-041` are in [Authoring and Development Identity Work Packages](work-packages/authoring-development-program.md).
@@ -64,6 +64,8 @@ Detailed scope, non-goals, requirements, acceptance criteria, API/database work,
 ## Definition of complete
 
 A work package is complete only when its OpenAPI contract, implementation, migration (if applicable), authorization rules, automated tests, and runbook are present. Existing UI or JSON endpoints alone are not sufficient.
+
+Detailed dashboard scope and evidence: [WP-042 Dashboard Management Hub](work-packages/dashboard-management-hub.md).
 
 ## Next sequence
 

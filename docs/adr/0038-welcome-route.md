@@ -37,7 +37,7 @@ The dashboard inherits the existing Song Site theme tokens, typography, spacing,
 
 ## Navigation and authorization
 
-The dashboard remains available only after the approved authentication flow, except for the isolated local development mode defined by `ADR-0035`. The backend remains the security boundary; sidebar visibility does not grant access and route guards are not a substitute for API authorization.
+The dashboard route is the common landing page once authentication is available. During the current bench phase it may also render public-safe overview cards before sign-in; member-specific, team-scoped and administrative data remain unavailable until the backend resolves an appropriate principal. The backend remains the security boundary; sidebar visibility does not grant access and route guards are not a substitute for API authorization.
 
 The intended navigation is:
 
@@ -96,6 +96,21 @@ Costs and risks:
 - Keyboard navigation, focus order, responsive layout and inherited theme tokens are tested.
 - Direct navigation to an unauthorized tool is rejected by the backend and does not leak its status data.
 - Two different users with different permissions see correct, independent dashboard content.
+
+## Implementation update 2026 10 26
+
+The first implementation slice is now in progress on `feature/dashboard-management-hub`.
+
+- `/dashboard` renders the new management shell with an expanded or glyph-only collapsible sidebar.
+- `/home` now preserves the former spotlight and announcement Home experience.
+- User Management, Roles and Settings have dedicated frontend routes.
+- `/api/v1/dashboard/summary` returns server-derived identity and permission-filtered summary cards.
+- The summary now includes Journey and Training progress cards, announcement count, and status bar graphs derived from the existing task and announcement stores.
+- Public-safe Journey, Training and announcement aggregates are available without a session; administrator-only user and role cards remain filtered by the server-resolved principal.
+- User Management continues to use the existing backend-protected RBAC read route.
+- Permissions administration, onboarding assignment/cohort analytics, resource monitoring, audit lookup, templates and production Entra qualification remain deferred; deferred destinations are not exposed as working navigation links.
+
+The sidebar uses local browser storage only for presentation preference. It does not store or grant authorization. Direct routes and API calls remain backend-controlled. This update does not change the accepted decision or silently approve the deferred Permissions capability.
 
 ## Implementation boundary
 

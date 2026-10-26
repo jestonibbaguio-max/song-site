@@ -1,0 +1,59 @@
+<div class="dashboard-shell" [class.sidebar-collapsed]="collapsed()">
+  <aside class="dashboard-sidebar" aria-label="Dashboard tools">
+    <a class="sidebar-brand" routerLink="/home" aria-label="Open Song Bench home">
+      <span class="brand-mark">&gt;</span>
+      <span class="brand-name">Song Bench</span>
+    </a>
+    <button class="collapse-button" type="button" (click)="toggleSidebar()" [attr.aria-expanded]="!collapsed()" aria-label="Toggle dashboard sidebar">
+      <span aria-hidden="true">{{ collapsed() ? '›' : '‹' }}</span><span class="collapse-label">Collapse</span>
+    </button>
+    <nav class="sidebar-nav">
+      @for (item of navItems; track item.route) {
+        @if (isVisible(item)) {
+          <a class="sidebar-link" [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [attr.title]="collapsed() ? item.label : null">
+            <span class="sidebar-glyph" aria-hidden="true">{{ item.glyph }}</span><span class="sidebar-label">{{ item.label }}</span>
+          </a>
+        }
+      }
+    </nav>
+    @if (session().identity) {
+      <div class="sidebar-footer"><span class="sidebar-glyph" aria-hidden="true">●</span><span class="sidebar-label">{{ session().identity?.displayName }}</span></div>
+    }
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-header">
+      <div><p class="eyebrow">{{ session().identity ? 'Management hub' : 'Song Bench overview' }}</p><h1>Dashboard</h1></div>
+      @if (session().mode === 'development' && session().identity) {
+        <div class="mode-chip dev">Development Mode</div>
+      }
+    </header>
+
+    @if (error()) { <div class="notice error" role="alert">{{ error() }}</div> }
+    <section class="welcome-panel">
+      <p class="eyebrow">{{ summary()?.identity?.role || 'public overview' }}</p>
+      <h2>Welcome{{ summary()?.identity?.displayName ? ', ' + summary()!.identity!.displayName : '' }}.</h2>
+      <p>{{ summary()?.identity ? 'Use the tools in the sidebar to manage your Song Bench workspace.' : 'Review current Journey, Training, and Announcement activity below. Sign in later to access authorized management tools.' }}</p>
+    </section>
+
+    <section class="stats-grid" aria-label="Dashboard statistics">
+      @for (card of summary()?.cards || []; track card.key) {
+        <article class="stat-card"><span class="stat-glyph" aria-hidden="true">{{ card.key === 'users' ? '♙' : card.key === 'announcements' ? '◈' : card.key.includes('training') ? '▤' : '◌' }}</span><p>{{ card.label }}</p><strong>{{ card.value }}</strong><small>{{ card.detail }}</small></article>
+      }
+      @if (!summary()?.cards?.length) { <article class="stat-card"><span class="stat-glyph" aria-hidden="true">◌</span><p>Workspace</p><strong>Ready</strong><small>Public browsing remains available.</small></article> }
+    </section>
+
+    <section class="charts-grid" aria-label="Dashboard graphs">
+      @for (chart of summary()?.charts || []; track chart.key) {
+        <article class="chart-card"><h2>{{ chart.title }}</h2><div class="bar-chart">@for (segment of chart.segments; track segment.label) { <div class="bar-row"><div class="bar-label"><span>{{ segment.label }}</span><strong>{{ segment.value }}</strong></div><div class="bar-track"><span [style.width]="segmentWidth(segment.value, chart.segments)"></span></div></div> }</div></article>
+      }
+    </section>
+
+    <section class="tool-grid">
+      <a class="tool-card" routerLink="/admin/users" *ngIf="isVisible({adminOnly: true})"><span class="tool-glyph" aria-hidden="true">♙</span><span><strong>User Management</strong><small>Review users and assigned roles.</small></span></a>
+      <a class="tool-card" routerLink="/admin/roles" *ngIf="isVisible({adminOnly: true})"><span class="tool-glyph" aria-hidden="true">◇</span><span><strong>Roles</strong><small>Review role coverage without editing permissions.</small></span></a>
+      <a class="tool-card" routerLink="/home"><span class="tool-glyph" aria-hidden="true">⌂</span><span><strong>Open Home</strong><small>Visit the original Song Bench experience.</small></span></a>
+      <a class="tool-card" routerLink="/settings"><span class="tool-glyph" aria-hidden="true">⚙</span><span><strong>Settings</strong><small>Review your current access mode.</small></span></a>
+    </section>
+  </main>
+</div>

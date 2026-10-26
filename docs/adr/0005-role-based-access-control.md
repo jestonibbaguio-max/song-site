@@ -26,6 +26,8 @@ Initial roles should be confirmed with stakeholders, but can begin with `member`
 
 Resource ownership and team scope must be evaluated after the role check. A role alone must not grant access to every user’s Journey data unless that is explicitly intended.
 
+The dashboard is the common landing page for all authenticated users. Dashboard data is scoped by the backend principal: a regular member may read only their own member-owned onboarding and task data; a lead or POC may read only the approved team, cohort or assignment scope; an administrator may read platform-wide operational data. Public-safe aggregate cards may be available before sign-in, but they must not reveal member-specific or administrative data.
+
 ## Consequences
 
 Permissions make policy testable and adaptable, but require a user/role/permission model, authenticated identity claims, audit logging for sensitive actions, and negative authorization tests.
@@ -41,3 +43,7 @@ The original proposal does not cover managed-content authoring or the distinctio
 Guest, Development, and Production modes must all produce the same backend authorization decision shape. Guest Mode has no mutation permissions. Development Mode resolves only server-owned fixtures under `ADR-0035`. Production Mode resolves Entra identities under `ADR-0019` and `ADR-0032`. A frontend role, route, environment variable, `Skip SSO`, request header, or hidden control is never an authorization source.
 
 Editing and publishing are separate enforcement units even if an approved initial role contains both. Product-owner approval is required for role bundles, page scope, self-publishing, team scope, and administrative override. This amendment clarifies the proposal and does not mark RBAC implemented or accepted.
+
+## 2026-10-26 dashboard data-scope amendment (status unchanged)
+
+Every dashboard API must resolve scope from the server-side principal and an explicit ownership or cohort relationship. Client-supplied member, team or cohort identifiers are filters only and cannot broaden access. This amendment records the planned member, POC/lead and administrator dashboard model; it does not approve final role names or production identity configuration.

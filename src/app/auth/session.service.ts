@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 export type DevFixture = { name: string; displayName: string; role: string; permissions: string[] };
-export type SessionInfo = { mode: string; authenticated: boolean; identity: { displayName: string; role: string; permissions: string[] } | null; developmentFixtures: DevFixture[]; csrfToken?: string };
+export type SessionInfo = { mode: string; authenticated: boolean; identity: { displayName: string; email?: string; role: string; permissions: string[] } | null; developmentFixtures: DevFixture[]; csrfToken?: string };
 
 @Injectable({ providedIn: 'root' })
 export class SessionService {

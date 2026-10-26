@@ -3,7 +3,7 @@
     <div class="eyebrow">SSO-LOCAL</div>
     <h1>Welcome to Song Site</h1>
     <p class="lede">
-      Sign in with Microsoft Entra to continue, or skip SSO and open the dashboard immediately.
+      Sign in with Microsoft Entra to open the management dashboard, or continue to the public Home page without signing in.
     </p>
 
     @if (isAuthenticated()) {
@@ -24,7 +24,7 @@
       </button>
 
       <button class="secondary-action" type="button" (click)="skipSso()">
-        Skip SSO
+        Continue to Home
       </button>
     </div>
 

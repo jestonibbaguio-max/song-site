@@ -374,6 +374,32 @@ function listRbacUsers() {
     GROUP BY u.id ORDER BY u.display_name`).all().map(row => ({ ...row, isActive: Boolean(row.isActive), roles: row.roles ? row.roles.split(',') : [] }));
 }
 
+function summarizeTasks(table) {
+  const rows = database.prepare(`SELECT status FROM ${table}`).all();
+  const counts = { 'Not Started': 0, 'In Progress': 0, Pending: 0, Completed: 0 };
+  for (const row of rows) counts[row.status] = (counts[row.status] || 0) + 1;
+  const score = rows.reduce((total, row) => total + ({ Completed: 1, 'In Progress': 0.5, Pending: 0.25 }[row.status] || 0), 0);
+  return { total: rows.length, completed: counts.Completed, inProgress: counts['In Progress'], pending: counts.Pending, notStarted: counts['Not Started'], progress: rows.length ? Math.round((score / rows.length) * 100) : 0 };
+}
+
+function getDashboardSummary(principal) {
+  const journey = summarizeTasks('tasks');
+  const training = summarizeTasks('training_tasks');
+  const cards = [
+    { key: 'journey-progress', label: 'Journey progress', value: `${journey.progress}%`, detail: `${journey.completed} of ${journey.total} tasks completed` },
+    { key: 'training-progress', label: 'Training progress', value: `${training.progress}%`, detail: `${training.completed} of ${training.total} tasks completed` },
+    { key: 'announcements', label: 'Announcements', value: database.prepare('SELECT COUNT(*) AS count FROM announcements').get().count, detail: 'Published public notices' },
+  ];
+  if (principal?.permissions?.includes('rbac:users:read')) {
+    cards.push({ key: 'users', label: 'Users', value: database.prepare('SELECT COUNT(*) AS count FROM users').get().count, detail: 'Identities visible to your role' });
+    cards.push({ key: 'roles', label: 'Roles', value: database.prepare('SELECT COUNT(*) AS count FROM rbac_roles').get().count, detail: 'Defined role assignments' });
+  }
+  return { identity: principal ? { displayName: principal.displayName, email: principal.email, role: principal.role, mode: principal.provider } : null, cards, charts: [
+    { key: 'journey-status', title: 'Journey task status', segments: [{ label: 'Completed', value: journey.completed }, { label: 'In Progress', value: journey.inProgress }, { label: 'Pending', value: journey.pending }, { label: 'Not Started', value: journey.notStarted }] },
+    { key: 'training-status', title: 'Training task status', segments: [{ label: 'Completed', value: training.completed }, { label: 'In Progress', value: training.inProgress }, { label: 'Pending', value: training.pending }, { label: 'Not Started', value: training.notStarted }] },
+  ] };
+}
+
 function assignRbacRoles(userId, roleKeys, actor) {
   const roles = [...new Set(roleKeys)];
   const placeholders = roles.map(() => '?').join(',');
@@ -410,6 +436,7 @@ module.exports = {
   updateJourneyItem,
   getPrincipalBySubject,
   listRbacUsers,
+  getDashboardSummary,
   assignRbacRoles,
   getPublishedContent,
   getDraftContent,
