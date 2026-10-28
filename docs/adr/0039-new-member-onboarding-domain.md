@@ -31,7 +31,7 @@ Each active assignment references exactly one published template version. Templa
 
 The member-facing entry point is the authenticated dashboard and a dedicated onboarding view. The no-assignment state is explicit. The dashboard consumes server-derived summaries and does not own onboarding state.
 
-The dashboard is the common landing page for members, POCs/leads and administrators. A member summary is restricted to the caller's own assignment. A POC/lead summary is restricted to the caller's approved cohort or team scope. An administrator summary may include platform-wide onboarding statistics. These scopes are enforced by the backend assignment and membership relationships, not by dashboard navigation or client filters.
+The dashboard is the common authenticated destination for members, POCs/leads and administrators after sign-in; `/home` remains the public landing page. A member summary is restricted to the caller's own assignment. A POC/lead summary is restricted to the caller's approved cohort or team scope. An administrator summary may include platform-wide onboarding statistics. These scopes are enforced by the backend assignment and membership relationships, not by dashboard navigation or client filters.
 
 ## API boundary
 

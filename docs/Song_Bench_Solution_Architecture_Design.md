@@ -82,7 +82,7 @@ This section records repository evidence as of 23 October 2026. It is not a stat
 
 | Area | Current evidence | Status against this SAD |
 |---|---|---|
-| Landing and dashboard | `/` provides sign-in entry; `/dashboard` loads `src/app/home/home.component.ts` with spotlight, quick announcements, navbar and footer | Implemented as a shared content hub; the ADR-0038 sidebar/status-card management hub and assignment-aware summary are not implemented |
+| Landing and dashboard | `/home` loads `src/app/home/home.component.ts` with spotlight, quick announcements, navbar and footer; `/dashboard` is the authenticated management/profile hub | Public Home is implemented as a shared content hub; the ADR-0038 sidebar/status-card management hub and assignment-aware summary are not fully implemented |
 | About Us | `/aboutus` renders hardcoded information cards | Implemented static content; authoring is not in the onboarding MVP unless approved |
 | My Journey | `/my-journey` reads and mutates the legacy `tasks` resource through `/api/tasks*` | Implemented partial experience; no member/assignment ownership model is present |
 | Training Tracker | `/training-tracker` is a separate API-backed `training_tasks` experience | Implemented partial experience; not an onboarding stage with assignment-specific state |
@@ -180,11 +180,24 @@ These stages are **starter content for review by actual bench owners**, not asse
 
 No stage should be renamed to imply that the portal certifies external-system completion.
 
+### 5.3 Multi-access Sign In
+
+Not every intended user is assumed to have organizational Microsoft Entra access. `/home` is the public landing page, `/` redirects to `/home` for compatibility, and `/signin` is the explicit Sign In page. The Sign In page has provider-specific paths with explicit boundaries:
+
+- Microsoft Entra SSO is the approved Production Mode path for organizational users.
+- An approved external identity provider may be added for users without organizational SSO, but only after project-owner approval of provider, claims, invitation or registration, account linking, recovery, support, privacy and retention decisions. It is not selected or enabled by this SAD.
+- Local Development Mode is available only on the local development server through the server-controlled fixtures in ADR-0035. It is not a production login and is rejected in public deployments.
+- Public visitors may use approved read-only pages without an authenticated principal; this does not grant dashboard or mutation access.
+
+The proposed screen and authenticated account-menu wireframe are in [Sign In Multi-Access Mockup](mockups/sign-in-multi-access.md). The account menu displays the current user's first name, provides Profile → `/dashboard`, a separator, and Sign off → `/home`. The name, provider availability and authorization state come from the backend session/me contract; the browser cannot select a role or create a principal.
+
+All authenticated users land on the same `/dashboard` route after sign-in. `/dashboard` is the authenticated profile/management destination, not the public landing page. Dashboard behavior is role- and scope-aware: regular members see only their own onboarding/task data; POCs/leads see only approved team or cohort data; administrators see authorized operational and management data; and local Development Mode identities receive only their fixture permissions. The backend resolves and enforces these scopes. Role labels, sidebar visibility and client filters cannot expand access. The current bench implementation provides the shared shell and limited server-derived summary cards; full member, POC/lead and administrator dashboard datasets remain implementation work.
+
 # 6. User experience and end-to-end process flows
 
 ## 6.1 Global navigation
 
-- **Member:** Dashboard → My Onboarding → Task Detail → Resources & Help → Profile/Sign Out.
+- **Member:** Dashboard → My Onboarding → Task Detail → Resources & Help → top-right account menu: current first name → Profile (their dashboard) → separator → Sign off.
 - **Coordinator:** Coordinator Dashboard → Members → Member Onboarding → Verify/Resolve → Assignment Management.
 - **Administrator:** Templates → Draft/Edit → Preview → Publish → Resources → Audit.
 - Visible options follow roles, while the backend remains the actual security boundary.
@@ -199,7 +212,9 @@ decision only; every destination remains server-authorized.
 
 ```mermaid
 flowchart TD
-  START["Open Song Bench"] --> SIGNIN["/ - Sign-in page"]
+  START["Open Song Bench"] --> HOME["/home - Public Home"]
+  ROOT["/ - Compatibility redirect"] --> HOME
+  HOME --> SIGNIN["/signin - Sign-in page"]
   SIGNIN --> AUTH["Enterprise sign-in or approved local development mode"]
   AUTH --> AUTHORIZED{"Authentication accepted?"}
   AUTHORIZED -- No --> SIGNIN_ERROR["Safe sign-in error and support path"]
@@ -213,6 +228,9 @@ flowchart TD
   DASH --> HELP["/help - Help and coordinator contact"]
   DASH --> ANNOUNCEMENT["/announcement - Published announcements"]
   DASH --> PROFILE["Profile and sign out"]
+  DASH --> ACCOUNT["Top-right account dropdown: current first name"]
+  ACCOUNT --> PROFILE_MENU["Profile -> current user's /dashboard"]
+  ACCOUNT --> SIGNOFF["Separator -> Sign off -> /home"]
 
   DASH --> COORD["/coordinator - Coordinator dashboard"]
   COORD --> MEMBERS["/coordinator/members - Scoped member roster"]
@@ -388,8 +406,10 @@ Draft → edit stages/tasks/dependencies/instructions → validate (required fie
 
 | Route (proposed) | Screen | Primary functions | Access |
 |---|---|---|---|
-| `/` | Sign-in page | Enterprise sign-in, approved local development sign-in, safe support/error path | Unauthenticated entry only |
-| `/dashboard` | Song Site management hub | Site navigation, spotlight, announcements, onboarding summary and role-specific workspace entry points | Authenticated user |
+| `/home` | Public Song Site landing page | Spotlight, announcements, public navigation and explicit Sign In action | Public/read-only |
+| `/` | Compatibility redirect | Redirects to `/home` | Public |
+| `/signin` | Sign-in page | Entra sign-in, approved future external-provider sign-in, local-only Development Mode, safe support/error path | Unauthenticated entry only; multi-access provider selection and production qualification remain under WP-044/WP-041 |
+| `/dashboard` | Song Site management hub and profile destination | Server-derived status, role-aware navigation and authorized workspace entry points | Authenticated user |
 | `/onboarding` | My plan | Ordered stages, filters, status | Member |
 | `/onboarding/tasks/:id` | Task details | Instructions, links, state change, request help | Owner |
 | `/resources` | Resource directory | Curated links, owner, review date | Authenticated |
@@ -409,7 +429,8 @@ The following routes are current product surfaces or compatibility paths. They a
 
 | Existing route | Current purpose | Target disposition | MVP decision required |
 |---|---|---|---|
-| `/dashboard` | Authenticated Song Site home with shared spotlight, announcements and navigation | Retain as the canonical Song Site management hub; add assignment-aware onboarding summary without making it the task-detail surface | Define role-specific cards, data loading boundaries and empty/no-assignment behavior |
+| `/home` | Public Song Site landing page with shared spotlight and announcements | Retain as the public landing page and add an explicit Sign In action; preserve read-only behavior | Define public content and sign-in CTA |
+| `/dashboard` | Authenticated Song Site management hub and profile destination | Retain as the canonical authenticated management hub; add assignment-aware onboarding summary without making it the task-detail surface | Define role-specific cards, data loading boundaries and empty/no-assignment behavior |
 | `/aboutus` | Static corporate information cards | Retain as informational page outside onboarding workflow | Confirm content owner and whether updates require authoring |
 | `/my-journey` | Current member-looking Journey task grid | Redirect to `/onboarding` after assignment APIs are qualified | Define legacy read-only period |
 | `/training-tracker` | Separate training task grid and completion view | Consolidate as a stage/category within `/onboarding` | Define parent-task and history migration |
@@ -788,7 +809,7 @@ The highest-risk misunderstanding is treating the existing Journey, Training Tra
 | Capability | Evidence reviewed | Finding | Priority |
 |---|---|---|---|
 | Sign-in entry | `src/app/app.routes.ts`, `src/app/index/`, `backend/auth/` | Entry route and local development identity exist. Production Entra qualification is separate. | Medium |
-| Authenticated dashboard | `src/app/home/home.component.*`, `src/app/app.routes.ts` | `/dashboard` is the current Home content hub, not the accepted ADR-0038 management hub. | High |
+| Authenticated dashboard | `src/app/dashboard/`, `src/app/app.routes.ts` | `/dashboard` is the authenticated management/profile hub; `/home` is the public content hub. Runtime route alignment with `/signin` and the root redirect remains outstanding. | High |
 | Onboarding assignment | `backend/server.js`, `backend/migrations-postgres/`, route inventory | No assignment, cohort, template-version, or member-owned task-instance runtime exists. | Critical for onboarding claim |
 | Member progress | `/api/tasks*`, `/api/training-tasks*`, task-grid components | Shared task tables and legacy mutations exist; progress is not proven to be isolated per member. | Critical |
 | Coordinator monitoring | Route inventory and backend endpoints | No coordinator dashboard, member roster, scoped assignment query, blocker queue, or closeout API exists. | Critical |
@@ -872,7 +893,7 @@ This scope preserves the bench project's value while avoiding a full product pla
 1. Is the intended release a true member-owned onboarding checklist, or only a shared/individual-looking task site?
 2. Is the Asset Tracker only an external link, or must Song Site own resource status and reconciliation?
 3. Who is the coordinator, and what is the smallest authorized scope: all bench members, cohort, or named assignment?
-4. Should `/dashboard` be implemented now as ADR-0038 specifies, or remain the current Home content hub until onboarding APIs exist?
+4. Should `/dashboard` be implemented now as ADR-0038 specifies, or remain the current Home content hub until onboarding APIs exist? **Resolved:** `/home` is the public content hub and `/dashboard` is the authenticated management/profile hub; runtime `/signin` and root-redirect alignment remains to be implemented.
 5. Which existing pages are in the bench MVP, and which are explicitly informational or retired?
 6. Is the Announcement authoring slice still in scope for the same release as onboarding?
 7. What retention and privacy rules apply to task history, assignments and coordinator views?
@@ -889,9 +910,9 @@ This scope preserves the bench project's value while avoiding a full product pla
 
 ### 21.10 Dashboard implementation update 2026 10 26
 
-The first dashboard management slice is now implemented on `feature/dashboard-management-hub`. The canonical `/dashboard` route renders the ADR-0038 management shell with a collapsible sidebar that reduces to accessible glyph-only navigation. The former spotlight and announcement Home experience is preserved at `/home`, so the route change does not remove the existing public experience.
+The first dashboard management slice is now implemented on `feature/dashboard-management-hub`. The canonical `/dashboard` route renders the ADR-0038 management shell with a collapsible sidebar that reduces to accessible glyph-only navigation. The former spotlight and announcement Home experience is preserved at `/home` as the public landing page, while `/dashboard` remains the authenticated management/profile destination. The root URL `/` and the explicit `/signin` route require final runtime alignment with this documented navigation decision.
 
-The implementation includes dedicated User Management, Roles and Settings routes and a server-derived `/api/v1/dashboard/summary` endpoint. The currently supported dashboard data is limited to public-safe Journey task progress, Training task progress, announcement count, and administrator-visible user and role counts. The dashboard also renders status bar graphs from those existing stores without requiring a session; user and role cards remain principal-filtered. User Management is now a functional protected directory with search/filtering, profile/status updates and audit events; role/permission editing remains deferred. The browser preference for expanded or collapsed navigation is presentation-only. Onboarding assignment/cohort analytics, resource monitoring, audit lookup, templates and production Entra qualification are not being represented as complete or exposed as working navigation links. Sign-in page redesign and authentication-flow changes are explicitly deferred.
+The implementation includes dedicated User Management, Roles and Settings routes and a server-derived `/api/v1/dashboard/summary` endpoint. The currently supported dashboard data is limited to public-safe Journey task progress, Training task progress, announcement count, and administrator-visible user and role counts. The dashboard also renders status bar graphs from those existing stores without requiring a session; user and role cards remain principal-filtered. User Management is now a functional protected directory with search/filtering, profile/status updates and audit events; role/permission editing remains deferred. The browser preference for expanded or collapsed navigation is presentation-only. The target authenticated shell includes a top-right dropdown showing the server-resolved user's first name, Profile returning to that user's `/dashboard`, a separator, and Sign off returning to `/home`; this menu is documented but not yet implemented. The multi-access Sign In design is documented under ADR-0040/WP-044, but no additional production provider has been selected or enabled. Onboarding assignment/cohort analytics, resource monitoring, audit lookup, templates and production Entra qualification are not being represented as complete or exposed as working navigation links.
 
 #### 21.12 User Management implementation slice
 
@@ -901,7 +922,7 @@ User creation, role assignment, permission administration, Entra provisioning, s
 
 ### 21.11 Common landing page and dashboard data scope
 
-The intended product model is one dashboard landing page for every user after authentication is available. Dashboard composition is role-aware, but the route is not role-specific:
+The intended product model is one public Home landing page for visitors and one role-aware Dashboard destination for every authenticated user. Dashboard composition is role-aware, but the route is not role-specific:
 
 | Audience | Dashboard data scope | Examples |
 |---|---|---|

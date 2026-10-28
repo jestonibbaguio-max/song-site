@@ -26,7 +26,7 @@ Initial roles should be confirmed with stakeholders, but can begin with `member`
 
 Resource ownership and team scope must be evaluated after the role check. A role alone must not grant access to every user’s Journey data unless that is explicitly intended.
 
-The dashboard is the common landing page for all authenticated users. Dashboard data is scoped by the backend principal: a regular member may read only their own member-owned onboarding and task data; a lead or POC may read only the approved team, cohort or assignment scope; an administrator may read platform-wide operational data. Public-safe aggregate cards may be available before sign-in, but they must not reveal member-specific or administrative data.
+The dashboard is the common authenticated destination for all users after sign-in; it is not the public landing page. The public landing page is `/home`. Dashboard data is scoped by the backend principal: a regular member may read only their own member-owned onboarding and task data; a lead or POC may read only the approved team, cohort or assignment scope; an administrator may read platform-wide operational data. Public-safe aggregate cards may be available on approved public pages, but they must not reveal member-specific or administrative data.
 
 ## Consequences
 

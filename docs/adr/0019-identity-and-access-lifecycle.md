@@ -21,6 +21,8 @@ Microsoft Entra is the candidate production identity provider, subject to owner 
 - Define role-change propagation, deprovisioning, token revocation limitations, admin bootstrap, and break-glass recovery.
 - Record administrative role and account-state changes in the audit trail.
 
+The shared authenticated shell must obtain the current user's display identity from the trusted backend session/me contract. It may show the user's first name in the top-right account menu and provide Profile → `/dashboard` and Sign off → `/home`, but these controls never establish identity or authorization. The public landing page is `/home`; `/` redirects there and `/signin` is the explicit sign-in entry point.
+
 Angular guards remain navigation aids only. No frontend state, route, or hidden link may grant access.
 
 ## Consequences

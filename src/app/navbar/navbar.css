@@ -88,6 +88,27 @@
   overflow-wrap: anywhere;
 }
 
+.profile-menu-link {
+  display: block;
+  margin-top: 12px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #460073;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.profile-menu-link:hover {
+  background: #f3eafa;
+}
+
+.profile-menu-separator {
+  height: 1px;
+  margin: 8px 0 0;
+  background: rgba(70, 0, 115, 0.14);
+}
+
 .user-avatar {
   width: 40px;
   height: 40px;
@@ -135,6 +156,17 @@
 
    .header nav a:hover {
     color: #f0f0f0;
+   }
+
+   .header nav a.signin-link {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 700;
+   }
+
+   .header nav a.signin-link:hover {
+    background: rgba(255, 255, 255, 0.12);
    }
 
    /* Ensure spacing when other elements are present */

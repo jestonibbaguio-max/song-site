@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Navbar } from '../navbar/navbar';
 import { Footer } from '../footer/footer';
+import { AuthService } from '../auth/auth.service';
 import { HomeService, SpotlightData, Announcement } from './home.service';
 
 const CAROUSEL_INTERVAL_MS = 5000;
@@ -22,9 +24,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private carouselTimer: ReturnType<typeof setInterval> | null = null;
 
-  constructor(private homeService: HomeService) {}
+  constructor(
+    private homeService: HomeService,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
+    void this.authService.initialize().then(() => {
+      if (this.authService.isAuthenticated()) {
+        void this.router.navigateByUrl('/dashboard');
+      }
+    });
+
     this.homeService.getSpotlight().subscribe((data) => {
       this.spotlight.set(data);
       if (data && data.persons.length > 1) {
