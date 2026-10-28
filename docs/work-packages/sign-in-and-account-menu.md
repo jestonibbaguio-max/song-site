@@ -1,23 +1,22 @@
 # WP-033 — Sign-in and Account Menu
 
-Status: Planned; production Entra access and owner decisions required
+Status: Planned; access policy superseded by ADR-0040 and WP-044
 
 ## Scope
 
 Implement the provider-backed sign-in entry and authenticated account menu for the shared Song Site shell:
 
-- `/home` is the public landing page and `/` redirects to `/home` for compatibility.
-- `/signin` is the explicit Sign In entry point.
+- `/signin` is the only unauthenticated portal page; `/` redirects to `/signin`.
 - Approved Entra sign-in lands on `/dashboard`.
 - Local Development Mode remains available only through the isolated server-controlled development flow defined by ADR-0035.
 - The authenticated top-right menu displays the current user's first name from the trusted session/me response.
 - **Profile** returns to the current user's role-scoped `/dashboard`.
 - A visual separator distinguishes navigation from session action.
-- **Sign off** invalidates the provider/session state and returns to `/home`.
+- **Sign off** invalidates the provider/session state and returns to `/signin`.
 
 ## Non-goals
 
-This work package does not implement role or permission administration, user creation, tenant-specific Entra configuration, or frontend-controlled authorization. `Skip SSO` remains a public/read-only path where explicitly supported; it must not create an authenticated principal.
+This work package does not implement role or permission administration, user creation, tenant-specific Entra configuration, or frontend-controlled authorization. Its earlier public Home and `Skip SSO` language is superseded: there is no guest-browsing path.
 
 ## References
 
@@ -35,7 +34,7 @@ This work package does not implement role or permission administration, user cre
 4. Profile navigates to `/dashboard` without changing identity or scope.
 5. Sign off invalidates the active local or Entra session according to the active provider and navigates to `/home`.
 6. Direct navigation after sign-out cannot reuse the previous authenticated session.
-7. Guest/public reads remain available only where separately approved and never imply management authorization.
+7. All portal data reads require a backend-authenticated session; `/api/v1/session` exposes session status only.
 
 ## Security requirements
 
@@ -46,13 +45,13 @@ This work package does not implement role or permission administration, user cre
 
 ## Acceptance criteria
 
-- [ ] Unauthenticated users see the public landing page at `/home`.
-- [ ] `/` redirects to `/home`, and Home exposes the Sign In action at `/signin`.
+- [ ] `/signin` is the only unauthenticated portal route.
+- [ ] `/` redirects to `/signin`, and all other routes/APIs are protected.
 - [ ] Approved authenticated users land on `/dashboard`.
 - [ ] The top-right menu shows the current user's first name.
 - [ ] Profile returns to that user's dashboard.
 - [ ] The separator is present and accessible.
-- [ ] Sign off invalidates the session and returns to `/home`.
+- [ ] Sign off invalidates the session and returns to `/signin`.
 - [ ] An inactive or unmapped identity cannot access protected dashboard data.
 - [ ] Development Mode continues to work locally without Entra credentials and is unavailable in production.
 - [ ] Browser, backend, token-validation, and logout negative tests pass.

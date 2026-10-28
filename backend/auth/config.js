@@ -1,4 +1,5 @@
 const net = require('node:net');
+const { getFixtureNames } = require('./development');
 
 function isLoopbackHost(host) {
   return host === '127.0.0.1' || host === '::1' || host === 'localhost';
@@ -16,6 +17,8 @@ function createAuthConfig(environment = process.env) {
   const authMode = String(environment.AUTH_MODE || (nodeEnv === 'production' ? 'guest' : 'guest')).toLowerCase();
   const host = environment.HOST || (nodeEnv === 'development' ? '127.0.0.1' : '0.0.0.0');
   const sessionSecret = environment.DEV_SESSION_SECRET || '';
+  const defaultDevelopmentFixture = String(environment.DEV_DEFAULT_FIXTURE || '').trim();
+  const defaultDevelopmentEmail = String(environment.DEV_DEFAULT_EMAIL || '').trim().toLowerCase();
   const backendPort = Number(environment.PORT || 5001);
   const configuredOrigins = parseAllowedOrigins(environment.DEV_ALLOWED_ORIGINS);
   const deploymentMarker = environment.DEPLOYMENT_ENV || environment.WEBSITE_HOSTNAME || environment.CONTAINER_APP_NAME || '';
@@ -41,6 +44,16 @@ function createAuthConfig(environment = process.env) {
     }
   }
 
+  if (defaultDevelopmentFixture && !isDevelopmentAuth) {
+    throw new Error('DEV_DEFAULT_FIXTURE requires AUTH_MODE=development');
+  }
+  if (defaultDevelopmentFixture && !getFixtureNames().includes(defaultDevelopmentFixture)) {
+    throw new Error('DEV_DEFAULT_FIXTURE must name a configured development identity fixture');
+  }
+  if (defaultDevelopmentEmail && (!defaultDevelopmentFixture || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(defaultDevelopmentEmail))) {
+    throw new Error('DEV_DEFAULT_EMAIL requires a default development fixture and a valid email address');
+  }
+
   if (authMode === 'entra' && nodeEnv !== 'test') {
     throw new Error('AUTH_MODE=entra requires the tenant-specific Entra verifier implementation before startup');
   }
@@ -49,6 +62,8 @@ function createAuthConfig(environment = process.env) {
     authMode,
     host,
     isDevelopmentAuth,
+    defaultDevelopmentFixture,
+    defaultDevelopmentEmail,
     sessionSecret,
     allowedOrigins,
     deploymentMarker: Boolean(deploymentMarker),

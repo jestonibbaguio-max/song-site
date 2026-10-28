@@ -158,17 +158,6 @@
     color: #f0f0f0;
    }
 
-   .header nav a.signin-link {
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 999px;
-    padding: 8px 14px;
-    font-weight: 700;
-   }
-
-   .header nav a.signin-link:hover {
-    background: rgba(255, 255, 255, 0.12);
-   }
-
    /* Ensure spacing when other elements are present */
    .header nav > *:not(:last-child) {
      margin-right: 15px; /* Spacing for all direct children of nav */

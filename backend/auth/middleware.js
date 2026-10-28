@@ -1,8 +1,6 @@
 const {
   COOKIE_NAME,
   createDevelopmentSession,
-  getFixtureNames,
-  getPublicFixture,
   parseCookieHeader,
   verifyDevelopmentSession,
 } = require('./development');
@@ -17,7 +15,8 @@ function createAuthService(authConfig, identityStore) {
     if (!session || !identityStore?.getPrincipalBySubject) return session;
     const principal = await identityStore.getPrincipalBySubject(session.principal.subject, 'development');
     if (!principal) return null;
-    return { ...session, principal };
+    session.principal = principal;
+    return applyDefaultDevelopmentEmail(session);
   }
 
   async function attachPrincipal(req, _res, next) {
@@ -56,6 +55,19 @@ function createAuthService(authConfig, identityStore) {
     };
   }
 
+  function requireAuthenticated(req, res, next) {
+    if (!req.principal) return res.status(401).json({ error: 'Authentication is required' });
+    if (!req.principal.isActive) return res.status(403).json({ error: 'The authenticated identity is inactive' });
+    next();
+  }
+
+  function applyDefaultDevelopmentEmail(session) {
+    if (session && session.fixtureName === authConfig.defaultDevelopmentFixture && authConfig.defaultDevelopmentEmail) {
+      session.principal = { ...session.principal, email: authConfig.defaultDevelopmentEmail };
+    }
+    return session;
+  }
+
   async function createSession(fixtureName) {
     const session = createDevelopmentSession(fixtureName, authConfig.sessionSecret);
     if (!session) return null;
@@ -63,8 +75,14 @@ function createAuthService(authConfig, identityStore) {
       session.principal = await identityStore.getPrincipalBySubject(session.principal.subject, 'development');
       if (!session.principal || !session.principal.isActive) return null;
     }
+    applyDefaultDevelopmentEmail(session);
     sessions.set(session.sessionId, session);
     return session;
+  }
+
+  async function createDefaultSession(req) {
+    if (!authConfig.isDevelopmentAuth || !authConfig.defaultDevelopmentFixture || !isLoopbackRequest(req)) return null;
+    return createSession(authConfig.defaultDevelopmentFixture);
   }
 
   function revokeSession(req) {
@@ -87,18 +105,17 @@ function createAuthService(authConfig, identityStore) {
           }
         : null,
       ...(req.authSession?.csrfToken ? { csrfToken: req.authSession.csrfToken } : {}),
-      developmentFixtures: authConfig.isDevelopmentAuth
-        ? getFixtureNames().map(getPublicFixture)
-        : [],
     };
   }
 
   return {
     attachPrincipal,
     createSession,
+    createDefaultSession,
     getSessionFromRequest,
     isLoopbackRequest,
     requireCsrf,
+    requireAuthenticated,
     requirePermission,
     revokeSession,
     sessionSummary,

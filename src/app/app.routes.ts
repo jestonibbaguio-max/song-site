@@ -1,16 +1,7 @@
 import { Routes } from '@angular/router';
+import { requireSignIn } from './auth/require-sign-in.guard';
 
-export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'home'
-  },
-  {
-    path: 'signin',
-    loadComponent: () =>
-      import('./index/index.component').then(m => m.IndexComponent)
-  },
+const protectedRoutes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
@@ -181,4 +172,21 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./atcp-song-links/atcp-song-links').then(m => m.AtcpSongLinks)
   }
+];
+
+export const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'signin'
+  },
+  {
+    path: 'signin',
+    loadComponent: () =>
+      import('./index/index.component').then(m => m.IndexComponent)
+  },
+  ...protectedRoutes.map(route =>
+    route.redirectTo ? route : { ...route, canActivate: [requireSignIn] }
+  ),
+  { path: '**', redirectTo: 'signin' },
 ];

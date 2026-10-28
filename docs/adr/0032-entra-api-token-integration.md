@@ -51,7 +51,7 @@ This ADR is documentation only. No MSAL configuration, HTTP interceptor, backend
 Implementation is complete only when tests demonstrate:
 
 - successful sign-in, redirect, logout, silent token acquisition, and interactive token fallback;
-- the authenticated shell displays the server-resolved user's first name, Profile returns to the current user's `/dashboard`, and Sign off invalidates the session and returns to `/home`;
+- the authenticated shell displays the server-resolved user's first name, Profile returns to the current user's `/dashboard`, and Sign off invalidates the session and returns to `/signin` (updated by ADR-0040);
 - API requests receive a token only for the approved API origin;
 - valid tokens are accepted for the intended tenant, audience, and scope;
 - invalid, expired, wrong-tenant, wrong-audience, malformed, and unmapped tokens are rejected;

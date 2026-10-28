@@ -2,15 +2,18 @@ openapi: 3.0.3
 info:
   title: Song Site API
   version: 0.1.0
-  description: OpenAPI-first contract for public reads, backend-authenticated mutations, and page authoring. Guest reads are public; mutations require a server-resolved principal.
+  description: OpenAPI-first contract for sign-in-only portal access. All portal data APIs require a server-authenticated session; the session status endpoint is public and returns no portal data. Production Entra verification is not yet implemented.
 servers:
   - url: http://localhost:5001
     description: Local backend
+security:
+  - developmentSession: []
 paths:
   /api/v1/session:
     get:
       operationId: getSession
       summary: Get effective access mode and identity summary
+      security: []
       responses:
         '200':
           description: Session summary
@@ -20,20 +23,22 @@ paths:
   /api/v1/dev/session:
     post:
       operationId: startDevelopmentSession
+      security: []
       requestBody:
         required: true
         content: { application/json: { schema: { type: object, required: [fixture], properties: { fixture: { type: string, enum: [developer, author, publisher, administrator] } } } } }
       responses: { '200': { description: Local session created }, '404': { $ref: '#/components/responses/NotFound' } }
     delete:
       operationId: endDevelopmentSession
-      security: [{ developmentSession: [] }]
+      security: []
       responses: { '204': { description: Local session ended } }
   /api/v1/dashboard/summary:
     get:
       operationId: getDashboardSummary
-      summary: Get server-derived public and authorized dashboard summary
+      summary: Get server-derived authorized dashboard summary
       responses:
         '200': { description: Summary filtered by the effective principal, content: { application/json: { schema: { $ref: '#/components/schemas/DashboardSummary' } } } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
   /api/v1/rbac/users:
     get:
       operationId: listRbacUsers
@@ -497,7 +502,7 @@ components:
       type: apiKey
       in: cookie
       name: song_site_dev_session
-      description: Local-only HttpOnly session. Production uses the Entra provider instead.
+      description: Local-only HttpOnly session for the implemented Development Mode. Production Entra verification remains unimplemented.
   parameters:
     TaskId:
       name: id
@@ -613,12 +618,12 @@ components:
         body: { type: string }
     SessionSummary:
       type: object
-      required: [mode, authenticated, developmentFixtures]
+      required: [mode, authenticated]
       properties:
         mode: { type: string, enum: [guest, development, entra] }
         authenticated: { type: boolean }
         identity: { type: object, nullable: true }
-        developmentFixtures: { type: array, items: { type: object } }
+        csrfToken: { type: string }
     RbacUser:
       type: object
       required: [id, email, displayName, provider, subject, isActive, roles]

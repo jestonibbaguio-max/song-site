@@ -16,7 +16,7 @@ Developers do not have reliable access to the organization's Entra configuration
 
 Define three user access modes over one backend authorization policy:
 
-1. **Guest Mode** is unauthenticated and read-only. `Skip SSO` enters Guest Mode and never grants an authoring or administrative permission.
+1. **Guest Mode** represents an unauthenticated session only. Under ADR-0040, it has no portal data access and no `Skip SSO` or guest-browsing action is presented.
 2. **Development Mode** uses a server-controlled local identity provider and the same permission checks used by production routes.
 3. **Production Mode** uses Microsoft Entra access tokens and the claim-to-user/role mapping governed by `ADR-0019` and `ADR-0032`.
 
@@ -50,7 +50,7 @@ The UI must label a development identity prominently and distinguish it from an 
 
 ## Consequences
 
-Local authoring and authorization tests can proceed without Entra. Guest behavior remains available, and production authentication is preserved. The backend gains a provider abstraction, session/CSRF responsibilities for local mode, startup guards, and negative tests proving the development provider cannot be enabled publicly.
+Local authoring and authorization tests can proceed without Entra. Unauthenticated session status remains available, but portal data is protected. Production authentication is preserved as an unimplemented integration. The backend gains a provider abstraction, session/CSRF responsibilities for local mode, startup guards, and negative tests proving the development provider cannot be enabled publicly.
 
 Development Mode is not a production fallback, emergency login, or substitute for Entra. No development session or fixture is accepted when `AUTH_MODE=entra`.
 
@@ -64,7 +64,7 @@ Development Mode is not a production fallback, emergency login, or substitute fo
 
 ## Verification requirements
 
-- Guest requests can read approved public content and receive `401` on protected mutations.
+- Unauthenticated requests can read only session status/bootstrap and receive `401` for portal data APIs.
 - Read-only and unauthorized development fixtures receive `403` without data changes.
 - Authorized development fixtures receive only their configured permissions and are attributed in audit records.
 - Client-supplied roles, permissions, subjects, emails, or headers cannot elevate access.

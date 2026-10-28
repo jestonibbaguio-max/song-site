@@ -26,6 +26,10 @@ app.use(cors({
 }));
 app.use(express.json({ limit: "256kb" }));
 app.use(auth.attachPrincipal);
+app.use('/api', (req, res, next) => {
+  if (req.path === '/v1/session' || req.path === '/v1/dev/session') return next();
+  return auth.requireAuthenticated(req, res, next);
+});
 
 app.get("/health/live", (_req, res) => {
   res.status(200).json({ status: "ok" });
@@ -83,7 +87,18 @@ if (swaggerEnabled) {
   }));
 }
 
-app.get("/api/v1/session", (req, res) => {
+app.get("/api/v1/session", async (req, res, next) => {
+  if (!req.principal && config.auth.defaultDevelopmentFixture) {
+    try {
+      const session = await auth.createDefaultSession(req);
+      if (!session) return res.status(503).json({ error: "The configured local development identity is unavailable" });
+      req.authSession = session;
+      req.principal = session.principal;
+      res.set("Set-Cookie", serializeCookie(COOKIE_NAME, session.cookieValue, 1800));
+    } catch (error) {
+      return next(error);
+    }
+  }
   res.json(auth.sessionSummary(req));
 });
 

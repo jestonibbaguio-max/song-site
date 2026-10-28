@@ -4,14 +4,14 @@ These diagrams distinguish the authenticated `/dashboard` management shell from 
 
 ## Main site flow
 
-`/home` is the public landing page. `/` redirects to `/home` for compatibility, and Home links to the explicit `/signin` entry point. After approved authentication, `/dashboard` is the Song Site management hub and profile destination. The authenticated shell exposes a top-right account dropdown with the current user's first name, **Profile** → `/dashboard`, a separator, and **Sign off** → `/home`. Local development mode is isolated as defined by `ADR-0035`; it is not guest browsing.
+`/signin` is the only unauthenticated portal page. `/` redirects to `/signin`; every other portal route and data API requires a backend-authenticated session. After approved authentication, `/dashboard` is the role-appropriate Song Site dashboard. The authenticated shell has no Sign In button. Its top-right account button displays only the signed-in user's name; **Profile** appears only as a dropdown option, alongside **Logout** → invalidate the session and return to `/signin`. Profile opens `/dashboard` for every authenticated role: administrators receive their authorized management view, while members receive a limited, member-scoped view. Local development mode is isolated as defined by `ADR-0035`; it is not guest browsing.
 
 ```mermaid
 flowchart TD
-    START["Open Song Site"] --> HOME["/home - Public Home"]
-    ROOT["/ - Compatibility redirect"] --> HOME
-    HOME --> SIGNIN["/signin - Sign-in page"]
-    SIGNIN --> AUTH["Approved Entra sign-in or isolated local development sign-in"]
+    START["Open Song Site"] --> SIGNIN["/signin - Only public portal page"]
+    ROOT["/ - Redirect"] --> SIGNIN
+    SIGNIN --> AUTH["Entra sign-in or isolated local development sign-in"]
+    SIGNIN --> EMAIL["Email one-time code - Disabled until delivery is configured"]
     AUTH --> DASH["/dashboard - Song Site management hub"]
     DASH --> STATUS["Server-derived status cards"]
     DASH --> SIDEBAR["Collapsible authorized tool sidebar"]
@@ -32,9 +32,11 @@ flowchart TD
 
 ### Current main-flow notes
 
-- `/home` is the public landing page and remains available without authentication.
-- `/` redirects to `/home`; `/signin` is the explicit sign-in entry point.
+- `/signin` is the only unauthenticated portal page; `/` redirects to `/signin`.
+- Every other portal route and data API requires a backend-authenticated session.
+- Email one-time-code sign-in is selected but unavailable until delivery, verification, activation, and authorization policy are implemented.
 - `/dashboard` is the authenticated Song Site management hub with status cards and a role-aware sidebar.
+- The authenticated header account button displays only the user's trusted name; **Profile** and **Logout** are dropdown options for all authenticated roles, and the dashboard is role-scoped.
 - `/atcp-song` is a leadership/content page, not a separate admin surface.
 - `/contactus` is a general contact form, not user administration.
 - The classic `/journey` route remains a separate legacy Journey experience and is not yet the shared database-backed workflow.
@@ -80,7 +82,7 @@ flowchart TD
 
 | Flow | Status | Source |
 | --- | --- | --- |
-| Sign-in and dashboard shell | Implemented locally; management-shell contract planned | `src/app/app.routes.ts`, `src/app/navbar/navbar.html`, `ADR-0038`, `WP-042` |
+| Sign-in and dashboard shell | Sign-in-only route protection implemented locally; management-shell contract planned | `src/app/app.routes.ts`, `src/app/auth/require-sign-in.guard.ts`, `ADR-0040`, `WP-044` |
 | Main content API integration | Implemented locally | `backend/server.js`, `backend/database.js` |
 | Dashboard administration tools | Planned | `ADR-0015`, `ADR-0038`, `WP-016`, `WP-042` |
 | Production authorization | Planned | `ADR-0005`, `ADR-0017`, `WP-018` |

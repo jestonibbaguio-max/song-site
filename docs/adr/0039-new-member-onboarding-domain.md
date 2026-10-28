@@ -98,7 +98,7 @@ Rejected for the bench project. Use curated resource links and explicit verifica
 - Task and assignment history remains append-only and actor-attributed.
 - Duplicate assignment, stale revision and unauthorized access produce tested errors.
 - SQLite and PostgreSQL enforce equivalent ownership and lifecycle rules.
-- Guest browsing remains read-only and existing Skip SSO behavior does not grant member access.
+- Unauthenticated users can access only `/signin`; portal onboarding reads and mutations require an authenticated, authorized principal.
 
 ## Implementation boundary
 

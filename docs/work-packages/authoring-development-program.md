@@ -12,7 +12,7 @@ These packages decompose the proposed decisions in `ADR-0035`, `ADR-0036`, and `
 
 ### Scope and non-goals
 
-Implement the local-only authentication provider, fixed identity fixtures, session lifecycle, startup safeguards, and visible development-identity state. Preserve `Skip SSO` as Guest Mode. This package does not validate Entra tokens, create production users, or grant permissions through the frontend.
+Implement the local-only authentication provider, fixed identity fixtures, session lifecycle, startup safeguards, and visible development-identity state. Unauthenticated users have no portal-data access; `/signin` is the only public portal page under ADR-0040. This package does not validate Entra tokens, create production users, or grant permissions through the frontend.
 
 ### Referenced ADRs
 
@@ -20,7 +20,7 @@ Implement the local-only authentication provider, fixed identity fixtures, sessi
 
 ### Functional and technical requirements
 
-- Add explicit `AUTH_MODE` selection with guest/public behavior, `development`, and `entra` provider boundaries.
+- Add explicit `AUTH_MODE` selection with unauthenticated session status, `development`, and `entra` provider boundaries.
 - Define fixed author, publisher, read-only, inactive, and denied fixtures in backend-owned local/test configuration.
 - Issue an opaque signed `HttpOnly`, `SameSite=Strict` local session and support expiry, logout, and fixture switching.
 - Add `GET /api/v1/session` and local-only session start/end operations OpenAPI-first.
@@ -29,7 +29,7 @@ Implement the local-only authentication provider, fixed identity fixtures, sessi
 
 ### Acceptance criteria
 
-- Guest Skip SSO remains read-only.
+- Unauthenticated data API requests receive `401`; only session status/bootstrap remains available.
 - An authorized fixture can establish a local session; denied fixtures cannot perform protected mutations.
 - The backend refuses unsafe production, deployment, listener, origin, or signing-key configurations.
 - No client-provided identity field, role, permission, or arbitrary header grants access.

@@ -52,15 +52,6 @@
     ATCP Song Links
   </a>
 
-  @if (!account()) {
-    <a
-      class="signin-link"
-      routerLink="/signin"
-      routerLinkActive="active">
-      Sign In
-    </a>
-  }
-
     <div class="nav__search">
       <button class="navbar__search-btn" (click)="toggleSearch()" aria-label="Search">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -81,27 +72,25 @@
 
   </nav>
 
-  <div class="profile-dropdown" [class.open]="isProfileOpen">
-    <button type="button" class="profile-trigger" (click)="toggleProfile()" aria-label="User profile menu">
-      <span class="user-avatar">{{ account() ? userInitials() : 'SSO' }}</span>
-      <span class="profile-trigger-label">{{ account() ? displayName() : 'Profile' }}</span>
-      <svg class="profile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
+  @if (account()) {
+    <div class="profile-dropdown" [class.open]="isProfileOpen">
+      <button type="button" class="profile-trigger" (click)="toggleProfile()" aria-label="User profile menu">
+        <span class="user-avatar">{{ userInitials() }}</span>
+        <span class="profile-trigger-label">{{ displayName() }}</span>
+        <svg class="profile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
 
-    <div class="profile-menu">
-      <div class="profile-menu-name">{{ account() ? displayName() : 'Signed out' }}</div>
-      <div class="profile-menu-email">{{ account() ? userEmail() : 'Use SSO login to sign in' }}</div>
-      @if (account()) {
+      <div class="profile-menu">
+        <div class="profile-menu-name">{{ displayName() }}</div>
+        <div class="profile-menu-email">{{ userEmail() }}</div>
         <a class="profile-menu-link" routerLink="/dashboard" (click)="isProfileOpen = false">Profile</a>
         <div class="profile-menu-separator" role="separator"></div>
-      } @else {
-        <a class="profile-menu-link" routerLink="/signin" (click)="isProfileOpen = false">Sign in</a>
-      }
-      <button type="button" class="logout-button" (click)="logout()" [disabled]="!account()">Sign off</button>
+        <button type="button" class="logout-button" (click)="logout()">Sign off</button>
+      </div>
     </div>
-  </div>
+  }
 </div>
 
 </header>

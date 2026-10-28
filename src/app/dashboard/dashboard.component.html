@@ -23,7 +23,7 @@
 
   <main class="dashboard-main">
     <header class="dashboard-header">
-      <div><p class="eyebrow">{{ session().identity ? 'Management hub' : 'Song Bench overview' }}</p><h1>Dashboard</h1></div>
+      <div><p class="eyebrow">Management hub</p><h1>Dashboard</h1></div>
       @if (session().mode === 'development' && session().identity) {
         <div class="mode-chip dev">Development Mode</div>
       }
@@ -31,16 +31,15 @@
 
     @if (error()) { <div class="notice error" role="alert">{{ error() }}</div> }
     <section class="welcome-panel">
-      <p class="eyebrow">{{ summary()?.identity?.role || 'public overview' }}</p>
-      <h2>Welcome{{ summary()?.identity?.displayName ? ', ' + summary()!.identity!.displayName : '' }}.</h2>
-      <p>{{ summary()?.identity ? 'Use the tools in the sidebar to manage your Song Bench workspace.' : 'Review current Journey, Training, and Announcement activity below. Sign in later to access authorized management tools.' }}</p>
+      <p class="eyebrow">{{ session().identity?.role || 'Authorized workspace' }}</p>
+      <h2>Welcome{{ session().identity?.displayName ? ', ' + session().identity?.displayName : '' }}.</h2>
+      <p>Use the tools in the sidebar to manage your Song Bench workspace.</p>
     </section>
 
     <section class="stats-grid" aria-label="Dashboard statistics">
       @for (card of summary()?.cards || []; track card.key) {
         <article class="stat-card"><span class="stat-glyph" aria-hidden="true">{{ card.key === 'users' ? '♙' : card.key === 'announcements' ? '◈' : card.key.includes('training') ? '▤' : '◌' }}</span><p>{{ card.label }}</p><strong>{{ card.value }}</strong><small>{{ card.detail }}</small></article>
       }
-      @if (!summary()?.cards?.length) { <article class="stat-card"><span class="stat-glyph" aria-hidden="true">◌</span><p>Workspace</p><strong>Ready</strong><small>Public browsing remains available.</small></article> }
     </section>
 
     <section class="charts-grid" aria-label="Dashboard graphs">

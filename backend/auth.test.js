@@ -18,3 +18,37 @@ test('development authentication rejects production and non-loopback deployment 
   assert.throws(() => createAuthConfig({ AUTH_MODE: 'development', NODE_ENV: 'development', DEV_SESSION_SECRET: 'short' }), /32 characters/);
   assert.doesNotThrow(() => createAuthConfig({ AUTH_MODE: 'development', NODE_ENV: 'development', HOST: '0.0.0.0', DEV_AUTH_BIND_HOST: '0.0.0.0', DEV_AUTH_CONTAINER_OVERRIDE: 'true', DEV_SESSION_SECRET: 'a'.repeat(32) }));
 });
+
+test('default development identity requires a valid development-only fixture', () => {
+  const config = createAuthConfig({
+    AUTH_MODE: 'development',
+    NODE_ENV: 'development',
+    HOST: '127.0.0.1',
+    DEV_SESSION_SECRET: 'a'.repeat(32),
+    DEV_DEFAULT_FIXTURE: 'administrator',
+  });
+  assert.equal(config.defaultDevelopmentFixture, 'administrator');
+  const emailConfig = createAuthConfig({
+    AUTH_MODE: 'development',
+    NODE_ENV: 'development',
+    HOST: '127.0.0.1',
+    DEV_SESSION_SECRET: 'a'.repeat(32),
+    DEV_DEFAULT_FIXTURE: 'administrator',
+    DEV_DEFAULT_EMAIL: 'admin@example.test',
+  });
+  assert.equal(emailConfig.defaultDevelopmentEmail, 'admin@example.test');
+  assert.throws(() => createAuthConfig({ AUTH_MODE: 'guest', DEV_DEFAULT_FIXTURE: 'administrator' }), /requires AUTH_MODE=development/);
+  assert.throws(() => createAuthConfig({
+    AUTH_MODE: 'development',
+    NODE_ENV: 'development',
+    DEV_SESSION_SECRET: 'a'.repeat(32),
+    DEV_DEFAULT_FIXTURE: 'admin',
+  }), /configured development identity fixture/);
+  assert.throws(() => createAuthConfig({
+    AUTH_MODE: 'development',
+    NODE_ENV: 'development',
+    DEV_SESSION_SECRET: 'a'.repeat(32),
+    DEV_DEFAULT_FIXTURE: 'administrator',
+    DEV_DEFAULT_EMAIL: 'not-an-email',
+  }), /valid email address/);
+});

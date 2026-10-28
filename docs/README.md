@@ -42,6 +42,8 @@ This directory contains architecture decision records (ADRs), API contracts, and
 - [ADR-0036: Page Authoring Architecture](adr/0036-page-authoring-architecture.md) - Accepted for implementation
 - [ADR-0037: Content Versioning and Publication Lifecycle](adr/0037-content-versioning-and-publication-lifecycle.md) - Accepted for implementation
 - [ADR-0038: Song Site Dashboard Management Hub](adr/0038-welcome-route.md) - Accepted for implementation
+- [ADR-0039: New Member Onboarding Domain and Assignment Ownership](adr/0039-new-member-onboarding-domain.md) - Proposed for product-owner and security approval
+- [ADR-0040: Sign-In-Only Portal Access](adr/0040-multi-access-sign-in.md) - Accepted for current access policy; production authentication remains incomplete
 
 ## Ownership
 

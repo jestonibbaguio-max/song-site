@@ -1,12 +1,16 @@
 <main class="landing-shell">
   <section class="landing-card">
-    <div class="eyebrow">SSO-LOCAL</div>
+    <div class="eyebrow">SONG SITE ACCESS</div>
     <h1>Welcome to Song Site</h1>
     <p class="lede">
-      Sign in with Microsoft Entra to open the management dashboard, or continue to the public Home page without signing in.
+      Sign in to access the Song Site portal.
     </p>
 
-    @if (isAuthenticated()) {
+    @if (session().mode === 'development' && session().authenticated) {
+      <div class="status-banner success">
+        Local Development Mode is active for <strong>{{ session().identity?.displayName }}</strong>.
+      </div>
+    } @else if (isAuthenticated()) {
       <div class="status-banner success">
         Signed in as <strong>{{ displayName() }}</strong>. Redirecting to the dashboard.
       </div>
@@ -19,26 +23,17 @@
         @if (isBusy()) {
           Signing in...
         } @else {
-          Sign in with SSO
+          Sign in with Microsoft SSO
         }
-      </button>
-
-      <button class="secondary-action" type="button" (click)="skipSso()">
-        Continue to Home
       </button>
     </div>
 
-    @if (session().mode === 'development') {
-      <section class="dev-auth-panel">
-        <p><strong>Local Development Mode</strong> — Guest remains read-only.</p>
-        @if (session().authenticated) { <p>Active identity: <strong>{{ session().identity?.displayName }}</strong> ({{ session().identity?.role }})</p> }
-        <div class="actions">
-          @for (fixture of session().developmentFixtures; track fixture.name) {
-            <button class="secondary-action" type="button" (click)="useDevelopmentFixture(fixture.name)">{{ fixture.displayName }}</button>
-          }
-          @if (session().authenticated) { <button class="secondary-action" type="button" (click)="endDevelopmentSession()">End local session</button> }
-        </div>
-      </section>
-    }
+    <section class="email-sign-in" aria-labelledby="email-sign-in-title">
+      <h2 id="email-sign-in-title">Sign in with email</h2>
+      <p>Email one-time-code sign-in is unavailable until email delivery is configured.</p>
+      <label for="email-address">Email address</label>
+      <input id="email-address" type="email" autocomplete="email" placeholder="you@example.com" disabled>
+      <button class="secondary-action" type="button" disabled>Email sign-in unavailable</button>
+    </section>
   </section>
 </main>

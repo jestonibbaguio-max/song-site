@@ -11,6 +11,8 @@ process.env.DATABASE_PATH = path.join(directory, 'server.sqlite');
 process.env.AUTH_MODE = 'development';
 process.env.NODE_ENV = 'test';
 process.env.DEV_SESSION_SECRET = 'server-test-secret-that-is-at-least-32-characters';
+process.env.DEV_DEFAULT_FIXTURE = '';
+process.env.DEV_DEFAULT_EMAIL = '';
 process.env.DEV_ALLOWED_ORIGINS = 'http://localhost:4200';
 process.env.HOST = '127.0.0.1';
 
@@ -28,14 +30,27 @@ async function request(method, url, body, cookie, csrf) {
 before(async () => { server = http.createServer(app); await new Promise(resolve => server.listen(0, '127.0.0.1', resolve)); baseUrl = `http://127.0.0.1:${server.address().port}`; });
 after(async () => { await new Promise(resolve => server.close(resolve)); database.close(); fs.rmSync(directory, { recursive: true, force: true }); });
 
-test('guest cannot mutate and author cannot publish, while publisher can publish', async () => {
+test('only session bootstrap is public; data reads and mutations require authentication', async () => {
+  let result = await request('GET', '/api/v1/session');
+  assert.equal(result.response.status, 200);
+  assert.equal(result.json.authenticated, false);
+
+  result = await request('GET', '/api/v1/dashboard/summary');
+  assert.equal(result.response.status, 401);
+  result = await request('GET', '/api/v1/content/pages/announcement-page');
+  assert.equal(result.response.status, 401);
+  result = await request('GET', '/api/tasks');
+  assert.equal(result.response.status, 401);
+});
+
+test('author cannot publish, while publisher can publish', async () => {
   let result = await request('PUT', '/api/v1/authoring/pages/announcement-page/draft', { payload });
   assert.equal(result.response.status, 401);
   result = await request('POST', '/api/v1/dev/session', { fixture: 'author' });
   assert.equal(result.response.status, 200);
   const cookie = result.cookie.split(';')[0];
   const csrf = result.json.csrfToken;
-  const published = await request('GET', '/api/v1/content/pages/announcement-page');
+  const published = await request('GET', '/api/v1/content/pages/announcement-page', undefined, cookie);
   result = await request('PUT', '/api/v1/authoring/pages/announcement-page/draft', { payload, expectedVersion: published.json.version }, cookie, csrf);
   assert.equal(result.response.status, 200);
   const draftVersion = result.json.version;
@@ -105,16 +120,18 @@ test('user management protects profile/status updates and records an audit event
   assert.equal(result.response.status, 200);
 });
 
-test('non-admin Journey users can start and complete tasks with CSRF protection', async () => {
+test('non-admin Journey users can read, start, and complete tasks with CSRF protection', async () => {
   let result = await request('GET', '/api/tasks');
-  assert.equal(result.response.status, 200);
-  const task = result.json.find(candidate => candidate.status === 'Not Started');
-  assert.ok(task);
+  assert.equal(result.response.status, 401);
 
   result = await request('POST', '/api/v1/dev/session', { fixture: 'developer' });
   assert.equal(result.response.status, 200);
   const developerCookie = result.cookie.split(';')[0];
   const developerCsrf = result.json.csrfToken;
+  result = await request('GET', '/api/tasks', undefined, developerCookie);
+  assert.equal(result.response.status, 200);
+  const task = result.json.find(candidate => candidate.status === 'Not Started');
+  assert.ok(task);
 
   result = await request('PUT', `/api/tasks/${task.id}/status`, { action: 'start' }, developerCookie);
   assert.equal(result.response.status, 403);

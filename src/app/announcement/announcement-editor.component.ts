@@ -24,6 +24,7 @@ export class AnnouncementEditorComponent implements OnInit {
   readonly version = signal(0);
   readonly loading = signal(false);
   readonly dirty = signal(false);
+  readonly hasSavedDraft = signal(false);
   readonly previewing = signal(false);
   readonly message = signal('');
   readonly error = signal('');
@@ -36,6 +37,7 @@ export class AnnouncementEditorComponent implements OnInit {
     try {
       const [draft, versions] = await Promise.all([this.service.getDraft(), this.service.getVersions()]);
       this.versions.set(versions);
+      this.hasSavedDraft.set(draft !== null);
       const source = draft ?? versions.find(item => item.state === 'published');
       if (source) { this.draft.set(copy(source.payload)); this.version.set(source.version); }
       this.message.set(draft ? `Editing draft v${draft.version}` : 'Editing a new draft from the published content');
@@ -50,11 +52,11 @@ export class AnnouncementEditorComponent implements OnInit {
   move(list: 'carousel' | 'trainings' | 'notices', index: number, direction: -1 | 1): void { const items = this.draft()![list]; const next = index + direction; if (next < 0 || next >= items.length) return; [items[index], items[next]] = [items[next], items[index]]; this.renumber(list); this.markDirty(); }
   private renumber(list: 'carousel' | 'trainings' | 'notices'): void { this.draft()![list].forEach((item, index) => item.order = index); }
 
-  async save(): Promise<void> { if (!this.draft()) return; await this.run(async () => { const result = await this.service.saveDraft(this.draft()!, this.version()); this.draft.set(copy(result.payload)); this.version.set(result.version); this.dirty.set(false); this.message.set(`Draft saved as v${result.version}`); await this.refreshVersions(); }); }
+  async save(): Promise<void> { if (!this.draft()) return; await this.run(async () => { const result = await this.service.saveDraft(this.draft()!, this.version()); this.draft.set(copy(result.payload)); this.version.set(result.version); this.dirty.set(false); this.hasSavedDraft.set(true); this.message.set(`Draft saved as v${result.version}`); await this.refreshVersions(); }); }
   async preview(): Promise<void> { if (!this.draft()) return; await this.run(async () => { await this.service.preview(this.draft()!); this.previewing.set(true); this.message.set('Preview validated. This content is not published.'); }); }
-  async publish(): Promise<void> { if (!this.draft() || this.dirty() || !this.canPublish()) return; await this.run(async () => { const result = await this.service.publish(this.version()); this.version.set(result.version); this.draft.set(copy(result.payload)); this.message.set(`Published v${result.version}`); await this.refreshVersions(); }); }
-  async discard(): Promise<void> { if (!confirm('Discard the saved draft? Published history will remain available.')) return; await this.run(async () => { await this.service.discard(this.version()); this.previewing.set(false); this.dirty.set(false); this.message.set('Draft discarded.'); await this.load(); }); }
-  async restore(item: ContentVersion): Promise<void> { if (!confirm(`Restore version ${item.version} as a new draft?`)) return; await this.run(async () => { const result = await this.service.restore(item.id, this.version()); this.draft.set(copy(result.payload)); this.version.set(result.version); this.dirty.set(false); this.message.set(`Restored v${item.version} as draft v${result.version}`); await this.refreshVersions(); }); }
+  async publish(): Promise<void> { if (!this.draft() || !this.hasSavedDraft() || this.dirty() || !this.canPublish()) return; await this.run(async () => { const result = await this.service.publish(this.version()); this.version.set(result.version); this.draft.set(copy(result.payload)); this.hasSavedDraft.set(false); this.message.set(`Published v${result.version}`); await this.refreshVersions(); }); }
+  async discard(): Promise<void> { if (!confirm('Discard the saved draft? Published history will remain available.')) return; await this.run(async () => { await this.service.discard(this.version()); this.previewing.set(false); this.dirty.set(false); this.hasSavedDraft.set(false); this.message.set('Draft discarded.'); await this.load(); }); }
+  async restore(item: ContentVersion): Promise<void> { if (!confirm(`Restore version ${item.version} as a new draft?`)) return; await this.run(async () => { const result = await this.service.restore(item.id, this.version()); this.draft.set(copy(result.payload)); this.version.set(result.version); this.dirty.set(false); this.hasSavedDraft.set(true); this.message.set(`Restored v${item.version} as draft v${result.version}`); await this.refreshVersions(); }); }
   close(): void { if (this.dirty() && !confirm('Discard unsaved browser changes?')) return; this.cancel.emit(); }
 
   private async refreshVersions(): Promise<void> { this.versions.set(await this.service.getVersions()); }

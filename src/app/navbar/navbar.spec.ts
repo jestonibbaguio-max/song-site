@@ -20,4 +20,11 @@ describe('NavbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('does not expose a sign-in link in the portal header', () => {
+    const header = fixture.nativeElement.querySelector('header');
+
+    expect(header.querySelector('a[href="/signin"]')).toBeNull();
+    expect(header.textContent).not.toContain('Sign In');
+  });
 });

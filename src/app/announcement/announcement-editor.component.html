@@ -1,7 +1,7 @@
 <section class="authoring-shell" aria-label="Announcement editor">
   <header class="editor-header">
     <div><span class="mode-label">EDIT MODE</span><h2>Announcement content</h2><p>{{ session().identity?.displayName }} · {{ session().identity?.role }} · version {{ version() }}</p></div>
-    <div class="editor-actions"><button type="button" (click)="preview()" [disabled]="loading()">Preview</button><button type="button" (click)="save()" [disabled]="loading() || !dirty()">Save Draft</button><button type="button" class="publish" (click)="publish()" [disabled]="loading() || dirty() || !canPublish()">Publish</button><button type="button" (click)="discard()" [disabled]="loading()">Discard</button><button type="button" (click)="close()">Cancel</button></div>
+    <div class="editor-actions"><button type="button" (click)="preview()" [disabled]="loading()">Preview</button><button type="button" (click)="save()" [disabled]="loading() || !dirty()">Save Draft</button><button type="button" class="publish" (click)="publish()" [disabled]="loading() || dirty() || !hasSavedDraft() || !canPublish()">Publish</button><button type="button" (click)="discard()" [disabled]="loading()">Discard</button><button type="button" (click)="close()">Cancel</button></div>
   </header>
   @if (message()) { <p class="editor-message">{{ message() }}</p> }
   @if (error()) { <p class="editor-error" role="alert">{{ error() }}</p> }

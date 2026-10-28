@@ -4,7 +4,7 @@
 - Date: 2026-10-21
 - Owner: To be assigned
 - Related work packages: `WP-001`, `WP-002`, `WP-009`, `WP-031`, `WP-033`, `WP-041`, `WP-042`
-- Related ADRs: `ADR-0001`, `ADR-0006`, `ADR-0019`, `ADR-0022`, `ADR-0030`, `ADR-0032`, `ADR-0035`
+- Related ADRs: `ADR-0001`, `ADR-0006`, `ADR-0019`, `ADR-0022`, `ADR-0030`, `ADR-0032`, `ADR-0035`, `ADR-0040`
 
 ## Context
 
@@ -12,16 +12,16 @@ The authenticated Song Site needs one consistent management hub after sign-in. T
 
 The dashboard must support different users without exposing tools they cannot use. It needs a sidebar that can expose tools such as user management, role and permission administration, templates, audit and settings when authorized. The sidebar must remain usable at narrow widths, support a collapsed icon-only mode, and inherit the existing Song Site theme rather than introducing a separate visual system.
 
-`/home` is the public Song Site landing page. The root URL `/` redirects to `/home` for compatibility, while `/signin` is the explicit sign-in entry point. `/dashboard` is the authenticated destination and must remain stable for existing bookmarks and links.
+The earlier `/home` public landing-page decision is superseded by ADR-0040: `/signin` is now the only unauthenticated portal page, `/` redirects to `/signin`, and all other routes require authentication. `/dashboard` remains the canonical authenticated management destination.
 
 ## Decision
 
-Keep `/dashboard` as the canonical authenticated Song Site management hub and make `/home` the canonical public landing page. Do not create or implement `/welcome` as a replacement route. The root URL `/` redirects to `/home`; the sign-in page is reached through `/signin` and the Home page's Sign In action.
+Keep `/dashboard` as the canonical authenticated Song Site management hub. Do not create or implement `/welcome` as a replacement route. ADR-0040 supersedes the earlier public `/home` decision: `/` redirects to `/signin`, which is the only unauthenticated portal route.
 
-The public Home page and authenticated Dashboard are intentionally separate:
+The authenticated Dashboard remains distinct from the existing Home content route:
 
-- **Home** (`/home`) is the public, read-only Song Site experience with the existing spotlight, announcements and public navigation.
-- **Sign In** (`/signin`) is the explicit provider-selection and local Development Mode entry point.
+- **Home** (`/home`) retains existing Song Site content but is not public; route and API access require an authenticated session.
+- **Sign In** (`/signin`) is the only unauthenticated entry point, with Microsoft SSO and a disabled email one-time-code option until delivery is configured.
 - **Dashboard** (`/dashboard`) is the authenticated, role- and ownership-scoped management/profile destination.
 - The top-right **Profile** action returns to `/dashboard`; it does not make Dashboard the public landing page.
 
@@ -36,9 +36,9 @@ The authenticated shell also includes a top-right account dropdown. It displays 
 
 - **Profile** — navigates to the current user's role-scoped dashboard at `/dashboard`; it does not grant access to another user's data.
 - A visual separator.
-- **Sign off** — invokes the server-backed sign-out flow, clears the local session presentation state, and returns the user to `/home`.
+- **Sign off** — invokes the server-backed sign-out flow, clears the local session presentation state, and returns the user to `/signin`.
 
-The account dropdown is not rendered as an authorization source. The displayed name, menu visibility and destination are derived from the trusted session response, while sign-out must invalidate the server session/token according to the active authentication provider. A visitor without a principal sees the public Home experience and its explicit Sign In action rather than a fabricated user name.
+The account dropdown is not rendered as an authorization source. The displayed name, menu visibility and destination are derived from the trusted session response, while sign-out must invalidate the server session/token according to the active authentication provider. A visitor without a principal is directed to `/signin`; no public Home experience or fabricated user name is shown.
 
 Sidebar behavior is part of the dashboard contract:
 
@@ -53,7 +53,7 @@ The dashboard inherits the existing Song Site theme tokens, typography, spacing,
 
 ## Navigation and authorization
 
-The dashboard route is the common authenticated destination once authentication is available, not the public landing page. `/home` remains available without authentication and may render public-safe content; member-specific, team-scoped and administrative data remain unavailable until the backend resolves an appropriate principal. The backend remains the security boundary; sidebar visibility does not grant access and route guards are not a substitute for API authorization.
+The dashboard route is the common authenticated destination once authentication is available, not the public landing page. `/home` requires authentication, as do all other portal routes and data APIs. The backend remains the security boundary; sidebar visibility does not grant access and route guards are not a substitute for API authorization.
 
 After sign-in, all users land on `/dashboard`, but the dashboard is principal-scoped rather than identical for every user. A regular member receives only their own data; a POC/lead receives only approved team or cohort scope; an administrator receives authorized operational and management data; and a Development Mode fixture receives only the permissions assigned to that fixture. The frontend can improve navigation by hiding unavailable tools, but the backend must enforce role, ownership and cohort scope for direct routes and API calls.
 
@@ -111,8 +111,8 @@ Costs and risks:
 
 ## Verification requirements
 
-- `/home` is the public landing page and remains usable without authentication.
-- `/` redirects to `/home`, and Home provides the explicit Sign In action to `/signin`.
+- `/signin` is the only unauthenticated portal page.
+- `/` redirects to `/signin`; `/home` and every other portal route require authentication.
 - Approved sign-in and local development sign-in land on `/dashboard`.
 - `/dashboard` renders only status cards and tools authorized for the resolved principal.
 - Status cards show server-derived values and honest loading, empty, stale and failure states.
@@ -124,7 +124,11 @@ Costs and risks:
 - Two different users with different permissions see correct, independent dashboard content.
 - An authenticated user sees their server-resolved first name in the top-right menu.
 - Profile returns to that user's dashboard; it cannot be used to select another identity.
-- Sign off invalidates the active session and returns to `/home`; the browser cannot continue using the previous authenticated session.
+- Sign off invalidates the active session and returns to `/signin`; the browser cannot continue using the previous authenticated session.
+
+## 2026-10-28 access-policy amendment
+
+ADR-0040 supersedes this ADR's earlier public-Home and root-redirect details. `/home` remains an authenticated content route; it is not publicly accessible. The sign-in-only rule applies to portal routes and data APIs, and email one-time-code sign-in remains disabled until its delivery and verification flow is implemented.
 
 ## Implementation update 2026 10 26
 
@@ -136,7 +140,7 @@ The first implementation slice is now in progress on `feature/dashboard-manageme
 - User Management appears immediately below Dashboard and supports protected profile/status administration; role and permission editing remain deferred.
 - `/api/v1/dashboard/summary` returns server-derived identity and permission-filtered summary cards.
 - The summary now includes Journey and Training progress cards, announcement count, and status bar graphs derived from the existing task and announcement stores.
-- Public-safe Journey, Training and announcement aggregates are available without a session; administrator-only user and role cards remain filtered by the server-resolved principal.
+- Journey, Training and announcement aggregates require an authenticated session; administrator-only user and role cards remain filtered by the server-resolved principal.
 - User Management continues to use the existing backend-protected RBAC read route.
 - The top-right account dropdown is documented as the future authenticated shell contract: current user's first name, Profile → `/dashboard`, separator, and Sign off → `/home`.
 - Permissions administration, onboarding assignment/cohort analytics, resource monitoring, audit lookup, templates and production Entra qualification remain deferred; deferred destinations are not exposed as working navigation links.

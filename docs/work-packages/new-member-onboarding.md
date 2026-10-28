@@ -67,7 +67,7 @@ Planned. This work package requires product-owner, security/privacy and coordina
 
 - Two new-member fixtures can be assigned the same template and complete tasks independently.
 - Member A cannot read or mutate Member B's assignment, including by changing path IDs or request bodies.
-- Guest/Skip SSO can browse approved public pages but receives `401` or `403` for protected onboarding mutations.
+- Unauthenticated users can access only `/signin` and receive `401` or `403` for onboarding reads and mutations.
 - Author/member permissions cannot assign, verify or publish.
 - Coordinator permissions are limited to configured scope.
 - Duplicate assignment, stale revision and invalid transition cases return documented errors.
