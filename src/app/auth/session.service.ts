@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
-export type SessionInfo = { mode: string; authenticated: boolean; identity: { displayName: string; email?: string; role: string | null; permissions: string[] } | null; csrfToken?: string };
+export type SessionInfo = { mode: string; authenticated: boolean; identity: { provider?: string; subject?: string; displayName: string; email?: string; role: string | null; roles?: string[]; permissions: string[] } | null; csrfToken?: string };
 
 @Injectable({ providedIn: 'root' })
 export class SessionService {
@@ -27,7 +27,7 @@ export class SessionService {
   async endDevelopmentSession(): Promise<void> {
     await firstValueFrom(this.http.delete(this.api('/v1/dev/session'), { withCredentials: true }));
     this.csrfToken = '';
-    await this.refresh();
+    this.sessionSignal.set({ mode: 'guest', authenticated: false, identity: null });
   }
 
   get csrf(): string { return this.csrfToken; }

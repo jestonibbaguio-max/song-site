@@ -7,8 +7,8 @@ const YAML = require("yaml");
 const fs = require("fs");
 const config = require("./config");
 const { checkPostgresConnection } = require("./postgres");
-const { clearCookie, createAuthService, serializeCookie } = require("./auth/middleware");
-const { COOKIE_NAME } = require("./auth/development");
+const { createAuthService, serializeCookie } = require("./auth/middleware");
+const { COOKIE_NAME, SIGNED_OUT_SESSION_COOKIE_VALUE, parseCookieHeader } = require("./auth/development");
 const database = config.databaseDriver === "postgres"
   ? require("./postgres-database")
   : require("./database");
@@ -88,7 +88,8 @@ if (swaggerEnabled) {
 }
 
 app.get("/api/v1/session", async (req, res, next) => {
-  if (!req.principal && config.auth.defaultDevelopmentFixture) {
+  const sessionCookieValue = parseCookieHeader(req.get("cookie"))[COOKIE_NAME];
+  if (!req.principal && sessionCookieValue !== SIGNED_OUT_SESSION_COOKIE_VALUE && config.auth.defaultDevelopmentFixture) {
     try {
       const session = await auth.createDefaultSession(req);
       if (!session) return res.status(503).json({ error: "The configured local development identity is unavailable" });
@@ -155,7 +156,7 @@ app.delete("/api/v1/dev/session", (req, res) => {
     return res.status(404).json({ error: "Development authentication is unavailable" });
   }
   auth.revokeSession(req);
-  res.set("Set-Cookie", clearCookie(COOKIE_NAME));
+  res.set("Set-Cookie", serializeCookie(COOKIE_NAME, SIGNED_OUT_SESSION_COOKIE_VALUE, 86400));
   res.status(204).end();
 });
 

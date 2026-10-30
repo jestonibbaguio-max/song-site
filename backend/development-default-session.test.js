@@ -65,4 +65,15 @@ test('configured local administrator is established by the backend without a rol
 
   const deniedUpdate = await request('PUT', '/api/v1/users/dev-author', { displayName: 'Temporary' }, cookie);
   assert.equal(deniedUpdate.response.status, 403);
+
+  const signedOut = await request('DELETE', '/api/v1/dev/session', undefined, cookie);
+  assert.equal(signedOut.response.status, 204);
+  const signedOutCookie = signedOut.cookie.split(';')[0];
+  const signInPageSession = await request('GET', '/api/v1/session', undefined, signedOutCookie);
+  assert.equal(signInPageSession.response.status, 200);
+  assert.equal(signInPageSession.json.authenticated, false);
+
+  const signedInAgain = await request('POST', '/api/v1/dev/session', { fixture: 'administrator' }, signedOutCookie);
+  assert.equal(signedInAgain.response.status, 200);
+  assert.equal(signedInAgain.json.authenticated, true);
 });

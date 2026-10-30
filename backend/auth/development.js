@@ -1,6 +1,7 @@
 const crypto = require('node:crypto');
 
 const COOKIE_NAME = 'song_site_dev_session';
+const SIGNED_OUT_SESSION_COOKIE_VALUE = 'signed-out';
 const SESSION_TTL_SECONDS = 30 * 60;
 
 const FIXTURES = Object.freeze({
@@ -144,6 +145,7 @@ function getPublicFixture(fixtureName) {
 module.exports = {
   COOKIE_NAME,
   FIXTURES,
+  SIGNED_OUT_SESSION_COOKIE_VALUE,
   SESSION_TTL_SECONDS,
   createDevelopmentSession,
   getFixtureNames,

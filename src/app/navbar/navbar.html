@@ -72,9 +72,9 @@
 
   </nav>
 
-  @if (account()) {
+  @if (isAuthenticated()) {
     <div class="profile-dropdown" [class.open]="isProfileOpen">
-      <button type="button" class="profile-trigger" (click)="toggleProfile()" aria-label="User profile menu">
+      <button type="button" class="profile-trigger" (click)="toggleProfile()" aria-label="User profile menu" [attr.aria-expanded]="isProfileOpen">
         <span class="user-avatar">{{ userInitials() }}</span>
         <span class="profile-trigger-label">{{ displayName() }}</span>
         <svg class="profile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -90,6 +90,9 @@
         <button type="button" class="logout-button" (click)="logout()">Sign off</button>
       </div>
     </div>
+  }
+  @if (logoutError()) {
+    <p class="logout-error" role="alert">{{ logoutError() }}</p>
   }
 </div>
 

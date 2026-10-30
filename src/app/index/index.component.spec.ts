@@ -54,7 +54,7 @@ describe('IndexComponent', () => {
     expect(text).toContain('Email one-time-code sign-in is unavailable');
     expect(text).not.toContain('Local Administrator');
     expect(text).not.toContain('Local Author');
-    expect(fixture.nativeElement.querySelector('.secondary-action').disabled).toBe(true);
+    expect(fixture.nativeElement.querySelector('.email-sign-in .secondary-action').disabled).toBe(true);
   });
 
   it('starts the Microsoft SSO flow from its sign-in button', () => {
@@ -63,7 +63,7 @@ describe('IndexComponent', () => {
     expect(authService.login).toHaveBeenCalledOnce();
   });
 
-  it('sends an already authenticated local development identity to the dashboard', async () => {
+  it('keeps an already authenticated local development identity on sign-in until it continues', async () => {
     const router = TestBed.inject(Router);
     const navigate = vi.spyOn(router, 'navigateByUrl');
     sessionState.set({
@@ -75,6 +75,9 @@ describe('IndexComponent', () => {
     fixture = TestBed.createComponent(IndexComponent);
     fixture.detectChanges();
     await fixture.whenStable();
-    await vi.waitFor(() => expect(navigate).toHaveBeenCalledWith('/dashboard'));
+    expect(navigate).not.toHaveBeenCalled();
+
+    (fixture.nativeElement.querySelector('.continue-action') as HTMLButtonElement).click();
+    expect(navigate).toHaveBeenCalledWith('/dashboard');
   });
 });

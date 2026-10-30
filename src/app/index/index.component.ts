@@ -48,14 +48,14 @@ export class IndexComponent implements OnInit {
     }
 
     await this.authService.initialize();
-    if (this.session().authenticated) {
+    if (this.session().authenticated && this.session().mode !== 'development') {
       void this.goToDashboard();
     } else if (this.authService.isAuthenticated()) {
       this.sessionError.set('Microsoft sign-in succeeded, but portal access is not available until backend identity verification is configured.');
     }
   }
 
-  private goToDashboard(): void {
+  goToDashboard(): void {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
     const destination =
       returnUrl?.startsWith('/') && !returnUrl.startsWith('//') && !returnUrl.startsWith('/signin')

@@ -19,6 +19,11 @@
     }
 
     <div class="actions">
+      @if (session().mode === 'development' && session().authenticated) {
+        <button class="secondary-action continue-action" type="button" (click)="goToDashboard()">
+          Continue to dashboard
+        </button>
+      }
       <button class="primary-action" type="button" [disabled]="isBusy()" (click)="signIn()">
         @if (isBusy()) {
           Signing in...

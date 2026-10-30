@@ -147,6 +147,12 @@
   transform: none;
 }
 
+.logout-error {
+  color: #fff;
+  font-size: 12px;
+  max-width: 240px;
+}
+
    .header nav a, .dropbtn {
     color: white;
     text-decoration: none;

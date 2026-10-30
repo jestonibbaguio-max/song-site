@@ -103,4 +103,4 @@ The selected provider contract, session/me and sign-out APIs, UI states, accessi
 - Portal routes are guarded by backend session status, and unauthenticated portal data API requests are rejected. `/api/v1/session` remains available for status/local bootstrap only.
 - This is not a production-ready SSO integration: the frontend can start Microsoft sign-in, but the backend Entra token validation/API authorization path remains unimplemented under `WP-041`.
 - Email one-time-code sign-in is not implemented; its UI stays disabled until delivery, verification and account authorization are available.
-- Account menu, provider sign-out, role-scoped member/lead/admin dashboard data, and browser qualification remain outstanding.
+- The account menu and local Development Mode sign-out are implemented. Production provider sign-out, role-scoped member/lead/admin dashboard data, and browser qualification remain outstanding.
