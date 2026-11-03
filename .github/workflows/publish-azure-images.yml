@@ -102,7 +102,7 @@ jobs:
           candidates=()
           for subscription_id in "${subscriptions[@]}"; do
             apps_json="$(az containerapp list --subscription "$subscription_id" --output json)"
-            web_matches="$(jq -c --arg name "$WEB_APP_NAME" --arg fqdn "$WEB_APP_FQDN" '[.[] | select(.name == $name and .properties.configuration.ingress.fqdn == $fqdn) | {name: .name, resourceGroup: .resourceGroup}]' <<< "$apps_json")"
+            web_matches="$(jq -c --arg name "$WEB_APP_NAME" --arg fqdn "$WEB_APP_FQDN" '[.[] | select(.name == $name and ((.properties.configuration.ingress.fqdn // .configuration.ingress.fqdn // "") | ascii_downcase) == ($fqdn | ascii_downcase)) | {name: .name, resourceGroup: .resourceGroup}]' <<< "$apps_json")"
             api_matches="$(jq -c --arg name "$API_APP_NAME" '[.[] | select(.name == $name) | {name: .name, resourceGroup: .resourceGroup}]' <<< "$apps_json")"
             web_count="$(jq 'length' <<< "$web_matches")"
             api_count="$(jq 'length' <<< "$api_matches")"
@@ -118,6 +118,10 @@ jobs:
 
           if [[ ${#candidates[@]} -ne 1 ]]; then
             echo "Expected one existing preview app pair matching ${WEB_APP_FQDN}; found ${#candidates[@]}." >&2
+            echo "Visible Container Apps (name | fqdn):" >&2
+            for subscription_id in "${subscriptions[@]}"; do
+              az containerapp list --subscription "$subscription_id" --query "[].join(' | ', [name, properties.configuration.ingress.fqdn || ''])" --output tsv >&2 || true
+            done
             echo "Check the Azure OIDC identity's subscription access and the existing Container App names." >&2
             exit 1
           fi
