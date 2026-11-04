@@ -66,7 +66,7 @@ describe('IndexComponent', () => {
 
     await component.signInWithPassword(' user@example.com ', 'secret');
     expect(sessionLogin).toHaveBeenCalledWith('user@example.com', 'secret');
-    expect(navigate).toHaveBeenCalledWith('/dashboard');
+    expect(navigate).toHaveBeenCalledWith('/home');
 
     sessionLogin.mockRejectedValueOnce({ status: 401 });
     await component.signInWithPassword('user@example.com', 'wrong');
