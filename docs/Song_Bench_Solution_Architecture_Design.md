@@ -2,7 +2,7 @@
 ## Solution Architecture Design (SAD)
 
 **Document ID:** SONG-SAD-001  
-**Version:** 1.1 (Principal Architect Review)
+**Version:** 1.2 (Principal Architect Review)
 **Status:** Proposed bench-project baseline — requires product-owner and security approval
 **Date:** 23 October 2026
 **System:** Song Bench Onboarding Portal  
@@ -29,6 +29,7 @@
 |---|---|---|
 | 1.0 | 2026-10-20 | Reconstructed product-first architecture baseline from current repository and proposed target state |
 | 1.1 | 2026-10-23 | Principal architect review of onboarding, dashboard, resource tracking, database/API evidence, ADRs and work packages; reduced scope to a bench-project MVP and recorded verified gaps |
+| 1.2 | 2026-11-06 | Reconciled the target with current sign-in code and recorded self-service registration, verification, eligibility, activation and recovery as a prerequisite capability (`ADR-0041`, `WP-045`) |
 
 ### Reading guide
 - **Current-state observation:** directly indicated by source files or existing documents.
@@ -935,6 +936,12 @@ The backend must resolve these scopes from identity, ownership and cohort relati
 ## 22. New member onboarding slice
 
 This section makes the product meaning of onboarding explicit. The onboarding capability is for a **new Song member joining the bench**, not a generic resource monitor, HR system, or replacement for external learning and compliance systems.
+
+### 22.0 Self-service entry prerequisite
+
+The current UI has a sign-in entry and protected route guard, but it is not a self-service onboarding entry point. There is no registration request, verification secret, eligibility decision, activation state, recovery flow or automatic first-assignment path in the runtime. The email one-time-code/self-registration direction is documented but disabled. `ADR-0041` defines the proposed request → verify → eligibility → activate sequence, and `WP-045` must be completed before the product is described as self-service. `WP-043` begins after an active member principal exists and owns the assignment/task lifecycle.
+
+Self-service must not grant a role, coordinator scope or access from an email address alone. Pending, ineligible, suspended and expired requests must fail closed and must not disclose account existence.
 
 ### 22.1 Member onboarding screen mockup
 

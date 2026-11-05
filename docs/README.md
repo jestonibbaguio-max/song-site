@@ -44,6 +44,7 @@ This directory contains architecture decision records (ADRs), API contracts, and
 - [ADR-0038: Song Site Dashboard Management Hub](adr/0038-welcome-route.md) - Accepted for implementation
 - [ADR-0039: New Member Onboarding Domain and Assignment Ownership](adr/0039-new-member-onboarding-domain.md) - Proposed for product-owner and security approval
 - [ADR-0040: Sign-In-Only Portal Access](adr/0040-multi-access-sign-in.md) - Accepted for current access policy; production authentication remains incomplete
+- [ADR-0041: Self-Service Member Entry and Onboarding Activation](adr/0041-self-service-member-entry.md) - Proposed; sign-up, verification, eligibility and activation are not implemented
 
 ## Ownership
 
@@ -93,3 +94,4 @@ Local environment variables are documented in [Local development](runbooks/local
 4. Which status transitions are allowed, and who may perform each transition?
 5. Which existing JSON data must be migrated into the database?
 6. Is SQLite only for developer convenience, or must it also support offline/demo deployments?
+7. What is the approved self-service eligibility source, email delivery provider, retention policy and support/recovery owner?

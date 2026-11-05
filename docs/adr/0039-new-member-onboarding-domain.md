@@ -1,10 +1,10 @@
 # ADR-0039: New Member Onboarding Domain and Assignment Ownership
 
-- Status: Proposed for product-owner and security approval
+- Status: Proposed for product-owner and security approval; assignment domain only, not self-service entry
 - Date: 2026-10-23
 - Owner: To be assigned
 - Related work packages: `WP-043`
-- Related ADRs: `ADR-0002`, `ADR-0003`, `ADR-0005`, `ADR-0006`, `ADR-0011`, `ADR-0017`, `ADR-0020`, `ADR-0022`, `ADR-0028`, `ADR-0030`, `ADR-0035`, `ADR-0038`
+- Related ADRs: `ADR-0002`, `ADR-0003`, `ADR-0005`, `ADR-0006`, `ADR-0011`, `ADR-0017`, `ADR-0020`, `ADR-0022`, `ADR-0028`, `ADR-0030`, `ADR-0035`, `ADR-0038`, `ADR-0041`
 
 ## Context
 
@@ -103,3 +103,5 @@ Rejected for the bench project. Use curated resource links and explicit verifica
 ## Implementation boundary
 
 This ADR defines the onboarding domain and authorization boundary. It does not claim that the routes, tables, UI or migrations currently exist. Implementation is planned under `WP-043`.
+
+It also assumes that the caller already has a trusted, eligible member principal. Public registration, email verification, eligibility resolution, activation and recovery are outside this ADR and are defined by `ADR-0041`/`WP-045`.

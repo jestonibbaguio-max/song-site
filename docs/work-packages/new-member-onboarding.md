@@ -2,13 +2,14 @@
 
 ## Status
 
-Planned. This work package requires product-owner, security/privacy and coordinator approval before implementation. It is a bench-project slice, not a commitment to build a full product platform.
+Planned. This work package requires product-owner, security/privacy and coordinator approval before implementation. It assumes a trusted, eligible principal; public sign-up and activation are tracked separately in `WP-045`. It is a bench-project slice, not a commitment to build a full product platform.
 
 ## Scope and non-goals
 
 ### Scope
 
 - Implement one new-member onboarding assignment flow.
+- Start only after self-service identity verification and eligibility resolution have produced an active member principal.
 - Provide member-owned task instances from an immutable published template version.
 - Provide member task reads, self-completion/help events and clear no-assignment behavior.
 - Provide a minimal coordinator view for scoped members, assignment and verification.
@@ -51,6 +52,7 @@ Planned. This work package requires product-owner, security/privacy and coordina
 7. The system computes completion from required task state and coordinator closure, not a manually entered percentage.
 8. Administrators can list, validate and publish template versions.
 9. Public/guest browsing remains read-only.
+10. Public registration, verification, eligibility and account recovery are not delivered by this work package.
 
 ## Technical requirements
 
@@ -121,6 +123,7 @@ Add portable migrations and adapters for `members`, `cohorts`, `templates`, `tem
 ## Dependencies
 
 - Approval of `ADR-0039` and coordinator scope.
+- Approval and implementation of `ADR-0041`/`WP-045` for self-service entry, or an explicitly approved pre-provisioned identity process.
 - `WP-035` and `WP-036` secure development and permission enforcement.
 - `WP-017` and `WP-029` PostgreSQL compatibility/test gates.
 - `WP-031` Journey source-of-truth consolidation and compatibility route decisions.

@@ -1,6 +1,6 @@
 # WP-044 — Multi-Access Sign In and Account Menu
 
-Status: In progress locally; sign-in-only access policy accepted, production authentication providers remain incomplete
+Status: In progress locally; sign-in-only route policy is implemented locally, but self-service sign-up, production providers and activation remain incomplete
 
 ## Scope
 
@@ -9,6 +9,7 @@ Define and implement the sign-in-only portal access experience:
 - `/signin` as the only unauthenticated portal page; `/` redirects to `/signin`.
 - Microsoft Entra SSO as the intended Production Mode path, with backend verification still outstanding.
 - Email one-time-code sign-in with self-registration as the selected non-SSO direction; keep its form disabled until delivery and verification are implemented.
+- Self-service entry is a separate release dependency: request, verification, eligibility, activation and recovery must be implemented before the Bench can be described as self-service.
 - Local-only Development Mode using the server-controlled fixtures from ADR-0035.
 - Authentication on every other portal route and data API; no public Home or guest-browsing path.
 - No Sign In button or link in the authenticated portal header; `/signin` is the only unauthenticated portal page.
@@ -22,6 +23,7 @@ Define and implement the sign-in-only portal access experience:
 - No role/permission selection in the browser.
 - No production Entra token-validation implementation; that remains in WP-041.
 - No email delivery, OTP verification, or email-user activation implementation in this slice.
+- No onboarding assignment is created by sign-in alone; activation must produce an eligible backend principal before `WP-043` can assign or expose onboarding data.
 
 ## References
 
@@ -43,6 +45,7 @@ Define and implement the sign-in-only portal access experience:
 7. The account dropdown contains Profile for every authenticated role. It opens `/dashboard` without changing identity or scope, and the dashboard content remains role-scoped.
 8. Logout invalidates the provider/local session and returns to `/signin`.
 9. Every authenticated identity lands on `/dashboard`; dashboard data and tools are filtered by backend-resolved role, ownership and approved cohort scope. `/dashboard` is not the public landing page.
+10. A verified email identity is not automatically authorized. The backend must resolve eligibility and activation state before protected Bench access.
 
 ## Post-login dashboard behavior
 
@@ -90,6 +93,7 @@ The frontend may hide unavailable navigation for usability, but the backend rema
 - Which Entra tenant, claims mapping, provisioning and administrator recovery rules apply.
 - Which email-delivery service and verification/retention policy support one-time-code sign-in.
 - What activation and authorization policy applies to self-registered email users; self-registration must not grant a role.
+- What approved eligibility source, delivery provider, retention policy and support/recovery owner will enable `WP-045`.
 
 ## Definition of Done
 
