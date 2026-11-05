@@ -67,6 +67,8 @@ See [API and data inventory](api-data-inventory.md) for the complete site review
 
 See [Navigation flows](navigation-flows.md) for the authenticated dashboard management flow and planned administration tools.
 
+See [Self-Service Sign-Up and Bench Onboarding Plan](work-packages/self-service-sign-up-and-onboarding.md) for the implementation sequence from registration through first onboarding access.
+
 ## Engineering handbooks
 
 - [FED Handbook](handbooks/fed-handbook.md) - Angular frontend development, SSO-safe UI, unit tests, and Playwright guidance.

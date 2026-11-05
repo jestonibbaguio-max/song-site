@@ -12,6 +12,12 @@ flowchart TD
     ROOT["/ - Redirect"] --> SIGNIN
     SIGNIN --> AUTH["Entra sign-in or isolated local development sign-in"]
     SIGNIN --> EMAIL["Self-service email entry - Disabled until verification and activation are configured"]
+    EMAIL --> REQUEST["Request access - Generic response"]
+    REQUEST --> VERIFY["Verify one-time code or link"]
+    VERIFY --> ELIGIBILITY{"Eligibility decision"}
+    ELIGIBILITY -->|Active| DASH
+    ELIGIBILITY -->|Pending review| REVIEW["Review/support state"]
+    ELIGIBILITY -->|Ineligible or suspended| DENIED["Safe denial state"]
     AUTH --> DASH["/dashboard - Song Site management hub"]
     DASH --> STATUS["Server-derived status cards"]
     DASH --> SIDEBAR["Collapsible authorized tool sidebar"]
@@ -36,6 +42,7 @@ flowchart TD
 - Every other portal route and data API requires a backend-authenticated session.
 - Email one-time-code sign-in is selected but unavailable until delivery, verification, activation, and authorization policy are implemented.
 - Self-service is not complete: the repository has no registration request, verification, eligibility, activation, recovery or first-assignment flow. Track this work in `WP-045` and `ADR-0041`.
+- The target self-service sequence is request → verify → eligibility → activate → assigned/no-assignment onboarding; implementation phases and release gates are in [WP-045](work-packages/self-service-sign-up-and-onboarding.md).
 - `/dashboard` is the authenticated Song Site management hub with status cards and a role-aware sidebar.
 - The authenticated header account button displays only the user's trusted name; **Profile** and **Logout** are dropdown options for all authenticated roles, and the dashboard is role-scoped.
 - `/atcp-song` is a leadership/content page, not a separate admin surface.

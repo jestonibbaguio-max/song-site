@@ -75,6 +75,8 @@ Detailed sign-in and account-menu scope: [WP-033 Sign-in and Account Menu](work-
 
 Detailed multi-access Sign In scope: [WP-044 Multi-Access Sign In and Account Menu](work-packages/multi-access-sign-in.md).
 
+Detailed self-service sign-up and onboarding plan: [WP-045 Self-Service Sign-Up and Bench Onboarding Plan](work-packages/self-service-sign-up-and-onboarding.md).
+
 ## Next sequence
 
 1. Complete `WP-018` security, contract, persistence, lifecycle, and verification gates before calling the local API production-ready.

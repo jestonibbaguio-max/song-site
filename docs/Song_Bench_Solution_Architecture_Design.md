@@ -943,6 +943,8 @@ The current UI has a sign-in entry and protected route guard, but it is not a se
 
 Self-service must not grant a role, coordinator scope or access from an email address alone. Pending, ineligible, suspended and expired requests must fail closed and must not disclose account existence.
 
+The implementation sequence is defined in [WP-045 Self-Service Sign-Up and Bench Onboarding Plan](work-packages/self-service-sign-up-and-onboarding.md): decisions and contracts, public verification, identity/eligibility activation, onboarding handoff, then recovery and release qualification.
+
 ### 22.1 Member onboarding screen mockup
 
 The first member-facing screen should answer three questions immediately: who the member is onboarding as, what must happen next, and where to get help. It should not show a misleading percentage when no assignment exists.

@@ -6,6 +6,8 @@
 - Related work packages: `WP-043`, `WP-044`, `WP-045`
 - Related ADRs: `ADR-0019`, `ADR-0032`, `ADR-0035`, `ADR-0039`, `ADR-0040`
 
+Implementation plan: [WP-045 Self-Service Sign-Up and Bench Onboarding Plan](../work-packages/self-service-sign-up-and-onboarding.md)
+
 ## Context
 
 The current Song Bench runtime has a sign-in page and protected routes, but it does not provide a self-service path for a person who is not already provisioned. `SessionService` exposes sign-in and password change only. The sign-in UI has Microsoft SSO and a local email/password form, while the intended email one-time-code/self-registration path remains disabled. No registration request, email verification, activation, eligibility check, recovery flow or onboarding assignment is implemented.
